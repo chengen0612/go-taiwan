@@ -1,12 +1,5 @@
-import Fake from "#/components/Fake"
-
 function App() {
-  return (
-    <div>
-      Hi
-      <Fake />
-    </div>
-  );
+  return <div>Hi</div>;
 }
 
-export default App
+export default App;
