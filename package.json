@@ -12,6 +12,9 @@
     "perf": "yarn format && yarn lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/material": "^5.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
