@@ -1,0 +1,42 @@
+/* Global Setup */
+/* Noto Sans Traditional Chinese */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
+
+/* Noto Serig JP Latin/Japanese - 200 */
+@font-face {
+  font-family: "Noto Serif JP";
+  font-style: normal;
+  font-weight: 200;
+  src: local(""),
+    url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-200.woff2")
+      format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-200.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* Noto Serig JP Latin/Japanese - regular */
+@font-face {
+  font-family: "Noto Serif JP";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""),
+    url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-regular.woff2")
+      format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-regular.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* Noto Serig JP Latin/Japanese - 700 */
+@font-face {
+  font-family: "Noto Serif JP";
+  font-style: normal;
+  font-weight: 700;
+  src: local(""),
+    url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-700.woff2")
+      format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-700.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
