@@ -40,3 +40,23 @@
       url("src/assets/fonts/noto-serif-jp-v21-latin_japanese/noto-serif-jp-700.woff")
       format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
+/* Search Input */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  position: absolute;
+  right: 1.25rem;
+  height: 20px;
+  width: 20px;
+  background-image: url("./src/assets/icons/xmark.svg");
+  background-repeat: no-repeat;
+  filter: invert(47%) sepia(1%) saturate(0%) hue-rotate(23deg) brightness(96%)
+    contrast(92%);
+}
+
+/* Mui Dropdown Menu*/
+.MuiPaper-root.MuiMenu-paper {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  translate: 0 0.25rem;
+}

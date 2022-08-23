@@ -31,3 +31,38 @@ export const globalTheme = createTheme({
     },
   },
 });
+
+export const searchFormTheme = createTheme(
+  {
+    components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            height: "3.25rem",
+            borderRadius: 40,
+            backgroundColor: theme.palette.common.white,
+          }),
+        },
+      },
+      MuiSelect: {
+        styleOverrides: {
+          icon: {
+            height: "1.75rem",
+            width: "1.75rem",
+            translate: "-1rem 0.125rem",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            height: "3.25rem",
+            borderRadius: 40,
+            color: theme.palette.common.white,
+          }),
+        },
+      },
+    },
+  },
+  globalTheme
+);
