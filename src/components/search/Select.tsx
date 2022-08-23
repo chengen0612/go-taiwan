@@ -1,20 +1,22 @@
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import type { SelectProps } from "@mui/material";
 
-import { Option } from "#/utils/constants/search";
+import type { Option } from "#/utils/constants/search";
 
 interface StyledSelectProps {
   name: string;
+  value: string;
   options: Option[];
-  onChange?: () => void;
+  onChange: SelectProps["onChange"];
 }
 
-function StyledSelect({ name, options, onChange }: StyledSelectProps) {
+function StyledSelect({ name, value, options, onChange }: StyledSelectProps) {
   return (
     <Select
       name={name}
-      defaultValue={options[0].value}
+      value={value}
       IconComponent={ExpandMoreIcon}
       onChange={onChange}
     >
