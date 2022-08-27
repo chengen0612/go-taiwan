@@ -21,7 +21,7 @@ function StyledSelect({ name, value, options, onChange }: StyledSelectProps) {
       onChange={onChange}
     >
       {options.map((item) => (
-        <MenuItem key={item.key} value={item.value}>
+        <MenuItem key={item.key} value={item.key}>
           {item.value}
         </MenuItem>
       ))}

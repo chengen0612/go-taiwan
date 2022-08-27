@@ -7,49 +7,41 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import type { FormEvent, ChangeEventHandler } from "react";
-import type { SelectProps } from "@mui/material";
 
-import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
+import { useAppDispatch } from "#/utils/hooks/store";
 import {
-  selectSearchByCity,
-  selectSearchByGenre,
+  selectSearchCity,
+  selectSearchKind,
   setSearch,
-  SetSearchAction,
+  SetSearchPayload,
 } from "#/store/slices/search";
+import { queryTourismData } from "#/store/slices/entities";
 
-import Select from "#/components/search/Select";
+import SelectConnector from "#/components/search/SelectConnector";
 
 import { searchFormTheme } from "#/services/mui/theme";
-import { CITIES, GENRES, FieldName } from "#/utils/constants/search";
+import { SearchProperty, CITY, KIND } from "#/utils/constants/search";
 
 function SearchForm() {
   const appDispatch = useAppDispatch();
 
-  const handleSelectChange = useCallback<NonNullable<SelectProps["onChange"]>>(
+  const handleKeywordChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
-      const { name, value } = event.target as SetSearchAction["payload"];
-      appDispatch(setSearch({ name, value }));
+      const { name: searchProperty, value } = event.target;
+      const payload = { searchProperty, value } as SetSearchPayload;
+
+      appDispatch(setSearch(payload));
     },
     [appDispatch]
   );
 
-  const handleQueryChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (event) => {
-      const { name, value } = event.target as SetSearchAction["payload"];
-      appDispatch(setSearch({ name, value }));
+  const handleSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
+      appDispatch(queryTourismData());
     },
     [appDispatch]
   );
-
-  const handleSubmit = useCallback((event: FormEvent) => {
-    event.preventDefault();
-
-    const formNode = event.target as HTMLFormElement;
-    const formData = new FormData(formNode);
-    console.log(formData.get(FieldName.City));
-    console.log(formData.get(FieldName.Genre));
-    console.log(formData.get(FieldName.Query));
-  }, []);
 
   return (
     <ThemeProvider theme={searchFormTheme}>
@@ -80,25 +72,23 @@ function SearchForm() {
           sx={{ marginTop: "1.25rem" }}
           onSubmit={handleSubmit}
         >
-          <Select
-            name={FieldName.City}
-            value={useAppSelector(selectSearchByCity)}
-            options={Object.values(CITIES)}
-            onChange={handleSelectChange}
+          <SelectConnector
+            name={SearchProperty.City}
+            options={CITY.all}
+            selector={selectSearchCity}
           />
-          <Select
-            name={FieldName.Genre}
-            value={useAppSelector(selectSearchByGenre)}
-            options={Object.values(GENRES)}
-            onChange={handleSelectChange}
+          <SelectConnector
+            name={SearchProperty.Kind}
+            options={KIND.all}
+            selector={selectSearchKind}
           />
           <TextField
             type="search"
-            name={FieldName.Query}
+            name={SearchProperty.Keyword}
             placeholder="輸入關鍵字..."
             autoComplete="off"
             inputProps={{ sx: { paddingLeft: "1.5rem" } }}
-            onChange={handleQueryChange}
+            onChange={handleKeywordChange}
           />
           <Button
             type="submit"
