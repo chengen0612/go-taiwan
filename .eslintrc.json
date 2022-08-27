@@ -5,25 +5,32 @@
     "es2021": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "react-hooks", "jsx-a11y", "@typescript-eslint"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "extends": [
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb",
     "prettier"
   ],
   "overrides": [],
   "rules": {
+    "@typescript-eslint/no-shadow": 2,
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
+    "no-unused-vars": 0,
+    "no-shadow": 0, // Avoid incorrect error reports
     "react/jsx-filename-extension": 0,
     "react/require-default-props": 0,
-    "react/react-in-jsx-scope": 0
+    "react/react-in-jsx-scope": 0,
+    "react-hooks/exhaustive-deps": 1, // Remind missing dependencies of hooks
+    "react-hooks/rules-of-hooks": 2
   }
 }
