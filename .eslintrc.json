@@ -20,17 +20,23 @@
   ],
   "overrides": [],
   "rules": {
+    "@typescript-eslint/lines-between-class-members": 1,
+    "@typescript-eslint/no-dupe-class-members": 2,
+    "@typescript-eslint/no-redeclare": 2,
     "@typescript-eslint/no-shadow": 2,
+    "lines-between-class-members": 0, // Avoids incorrect error reports on class method overloads
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
+    "no-dupe-class-members": 0, // Avoids incorrect error reports on class method overloads
+    "no-redeclare": 0, // Avoids incorrect error reports on function overloads
+    "no-shadow": 0, // Avoids incorrect error reports on Enum type
     "no-unused-vars": 0,
-    "no-shadow": 0, // Avoid incorrect error reports
     "react/jsx-filename-extension": 0,
     "react/require-default-props": 0,
     "react/react-in-jsx-scope": 0,
-    "react-hooks/exhaustive-deps": 1, // Remind missing dependencies of hooks
+    "react-hooks/exhaustive-deps": 1, // Reminds missing dependencies
     "react-hooks/rules-of-hooks": 2
   }
 }
