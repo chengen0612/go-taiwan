@@ -12,9 +12,13 @@ export interface SearchState {
   [SearchProperty.Keyword]: string;
 }
 
-export interface QueryOption extends SearchState {
-  [SearchProperty.Kind]: Exclude<SearchKind, "all">;
-}
+export type TourismQueryKind = Exclude<SearchKind, "all">;
+
+export type TourismQueryOption<T extends TourismQueryKind> = {
+  [U in keyof SearchState]: U extends SearchProperty.Kind ? T : SearchState[U];
+};
+
+export type TourismQueryAllOption = Omit<SearchState, "kind">;
 
 export interface SetSearchPayload {
   searchProperty: SearchProperty;
@@ -49,7 +53,9 @@ const searchSlice = createSlice({
           break;
 
         default:
-          throw new Error(`Unknown search type ${searchProperty}`);
+          throw new Error(
+            `SearchSlice update failed because of unknown search property ${searchProperty}`
+          );
       }
 
       return state;
