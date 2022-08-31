@@ -7,11 +7,7 @@ import {
   parseActivity,
 } from "./parser";
 
-import type {
-  TourismQueryKind,
-  TourismQueryOption,
-  TourismQueryAllOption,
-} from "#/store/slices/search";
+import type { SearchOption } from "#/store/slices/search";
 
 import type {
   TDXScenicSpot,
@@ -19,14 +15,16 @@ import type {
   TDXHotel,
   TDXActivity,
 } from "#/utils/models/tdx";
-import { CITY } from "#/utils/constants/search";
+import { CITY, SearchKind } from "#/utils/constants/search";
+
+type AllessSearchKind = Exclude<SearchKind, "all">;
 
 interface Params {
   [key: string]: string | number;
 }
 
 /** Map kind property to pathname of TDX tourism services. */
-const kindPathnameMap: Record<TourismQueryKind, string> = {
+const kindPathnameMap: Record<AllessSearchKind, string> = {
   attraction: "ScenicSpot",
   food: "Restaurant",
   hotel: "Hotel",
@@ -44,7 +42,7 @@ export class TDXService {
    * Handle each kind of tourism queries by dynamically constructing
    * the url and query string.
    */
-  private query<T>(options: TourismQueryOption<TourismQueryKind>): Promise<T> {
+  private query<T>(options: SearchOption<AllessSearchKind>): Promise<T> {
     const { kind, city, keyword } = options;
 
     const pathname = kindPathnameMap[kind];
@@ -87,36 +85,36 @@ export class TDXService {
     });
   }
 
-  queryScenicSpot = async (options: TourismQueryOption<"attraction">) => {
+  queryScenicSpot = async (options: SearchOption<"attraction">) => {
     const data = await this.query<TDXScenicSpot[]>(options);
 
     return parseScenicSpot(data);
   };
 
-  queryRestaurant = async (options: TourismQueryOption<"food">) => {
+  queryRestaurant = async (options: SearchOption<"food">) => {
     const data = await this.query<TDXRestaurant[]>(options);
 
     return parseRestaurant(data);
   };
 
-  queryHotel = async (options: TourismQueryOption<"hotel">) => {
+  queryHotel = async (options: SearchOption<"hotel">) => {
     const data = await this.query<TDXHotel[]>(options);
 
     return parseHotel(data);
   };
 
-  queryActivity = async (options: TourismQueryOption<"activity">) => {
+  queryActivity = async (options: SearchOption<"activity">) => {
     const data = await this.query<TDXActivity[]>(options);
 
     return parseActivity(data);
   };
 
-  queryAll = async (options: TourismQueryAllOption) => {
+  queryAll = async (options: SearchOption<"all">) => {
     const data = await Promise.all([
-      this.queryScenicSpot({ kind: "attraction", ...options }),
-      this.queryRestaurant({ kind: "food", ...options }),
-      this.queryHotel({ kind: "hotel", ...options }),
-      this.queryActivity({ kind: "activity", ...options }),
+      this.queryScenicSpot({ ...options, kind: "attraction" }),
+      this.queryRestaurant({ ...options, kind: "food" }),
+      this.queryHotel({ ...options, kind: "hotel" }),
+      this.queryActivity({ ...options, kind: "activity" }),
     ]);
 
     return {

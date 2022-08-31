@@ -6,19 +6,15 @@ import type { CityName, SearchKind } from "#/utils/constants/search";
 import type { RootState } from "#/store";
 
 /* Main */
-export interface SearchState {
+interface SearchState {
   [SearchProperty.Kind]: SearchKind;
   [SearchProperty.City]: CityName;
   [SearchProperty.Keyword]: string;
 }
 
-export type TourismQueryKind = Exclude<SearchKind, "all">;
-
-export type TourismQueryOption<T extends TourismQueryKind> = {
-  [U in keyof SearchState]: U extends SearchProperty.Kind ? T : SearchState[U];
+export type SearchOption<T extends SearchKind> = {
+  [U in keyof SearchState]: U extends "kind" ? T : SearchState[U];
 };
-
-export type TourismQueryAllOption = Omit<SearchState, "kind">;
 
 export interface SetSearchPayload {
   searchProperty: SearchProperty;
@@ -57,8 +53,6 @@ const searchSlice = createSlice({
             `SearchSlice update failed because of unknown search property ${searchProperty}`
           );
       }
-
-      return state;
     },
   },
 });
@@ -68,7 +62,8 @@ export default searchSlice.reducer;
 export const { setSearch } = searchSlice.actions;
 
 /* Selector */
-export const selectSearch = (store: RootState) => store.search;
+export const selectSearch = <T extends SearchKind>(store: RootState) =>
+  store.search as SearchOption<T>;
 
 export const selectSearchCity = createSelector(
   selectSearch,

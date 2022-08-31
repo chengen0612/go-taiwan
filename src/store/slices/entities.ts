@@ -3,11 +3,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TDXService } from "#/services/tdx";
-import { selectSearchKind, selectSearch } from "#/store/slices/search";
+import { selectSearchKind, selectSearch } from "./search";
 
-import { SearchKind } from "#/utils/constants/search";
 import type { AppThunk } from "#/store";
-import type { TourismQueryOption } from "#/store/slices/search";
+import { SearchKind } from "#/utils/constants/search";
 import type {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -28,19 +27,19 @@ interface EntitiesState {
   activity: AnyEntities<ActivityEntity>;
 }
 
-const initialState: EntitiesState = {
-  attraction: { byID: {}, allIDs: [] },
-  food: { byID: {}, allIDs: [] },
-  hotel: { byID: {}, allIDs: [] },
-  activity: { byID: {}, allIDs: [] },
-};
-
 interface SetAllPayload {
   attraction: ScenicSpotEntity[];
   food: RestaurantEntity[];
   hotel: HotelEntity[];
   activity: ActivityEntity[];
 }
+
+const initialState: EntitiesState = {
+  attraction: { byID: {}, allIDs: [] },
+  food: { byID: {}, allIDs: [] },
+  hotel: { byID: {}, allIDs: [] },
+  activity: { byID: {}, allIDs: [] },
+};
 
 const entitiesToState = <T extends { id: string }>(items: T[]) =>
   items.reduce<AnyEntities<T>>(
@@ -81,7 +80,6 @@ const entitiesSlice = createSlice({
 
     setAll(state, action: PayloadAction<SetAllPayload>) {
       const { attraction, food, hotel, activity } = action.payload;
-
       state.attraction = entitiesToState(attraction);
       state.food = entitiesToState(food);
       state.hotel = entitiesToState(hotel);
@@ -97,7 +95,7 @@ const { setAttraction, setFood, setHotel, setActivity, setAll } =
 
 /* Thunk */
 const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch(getState()) as TourismQueryOption<"attraction">;
+  const options = selectSearch<"attraction">(getState());
 
   const tdx = new TDXService();
 
@@ -108,7 +106,7 @@ const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
 };
 
 const queryRestaurant = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch(getState()) as TourismQueryOption<"food">;
+  const options = selectSearch<"food">(getState());
 
   const tdx = new TDXService();
 
@@ -119,7 +117,7 @@ const queryRestaurant = (): AppThunk => (dispatch, getState) => {
 };
 
 const queryHotel = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch(getState()) as TourismQueryOption<"hotel">;
+  const options = selectSearch<"hotel">(getState());
 
   const tdx = new TDXService();
 
@@ -130,7 +128,7 @@ const queryHotel = (): AppThunk => (dispatch, getState) => {
 };
 
 const queryActivity = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch(getState()) as TourismQueryOption<"activity">;
+  const options = selectSearch<"activity">(getState());
 
   const tdx = new TDXService();
 
@@ -141,13 +139,12 @@ const queryActivity = (): AppThunk => (dispatch, getState) => {
 };
 
 const queryAll = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch(getState());
+  const options = selectSearch<"all">(getState());
 
-  const { kind, ...rest } = options;
   const tdx = new TDXService();
 
   tdx
-    .queryAll(rest)
+    .queryAll(options)
     .then((result) => dispatch(setAll(result)))
     .catch((error) => alert(error.message));
 };
@@ -170,6 +167,7 @@ const tourismQueryMap: TourismQueryMap = {
  */
 export const queryTourismData = (): AppThunk => (dispatch, getState) => {
   const kind = selectSearchKind(getState());
+
   const queryThunk = tourismQueryMap[kind];
 
   dispatch(queryThunk());
