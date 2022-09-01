@@ -1,12 +1,14 @@
 /* eslint-disable no-param-reassign */
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import TDX from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
 import type { AppThunk } from "#/store";
-import { SearchKind } from "#/utils/constants/searchKind";
+import type {
+  SearchKind,
+  AllessSearchKind,
+} from "#/utils/constants/searchKind";
 import type {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -20,12 +22,14 @@ interface AnyEntities<T> {
   allIDs: string[];
 }
 
-interface EntitiesState {
-  attraction: AnyEntities<ScenicSpotEntity>;
-  food: AnyEntities<RestaurantEntity>;
-  hotel: AnyEntities<HotelEntity>;
-  activity: AnyEntities<ActivityEntity>;
-}
+type EntitiesState = {
+  [T in AllessSearchKind]: {
+    attraction: AnyEntities<ScenicSpotEntity>;
+    food: AnyEntities<RestaurantEntity>;
+    hotel: AnyEntities<HotelEntity>;
+    activity: AnyEntities<ActivityEntity>;
+  }[T];
+};
 
 type SetAllPayload = Awaited<ReturnType<typeof TDX.queryAll>>;
 
@@ -129,11 +133,7 @@ const queryAll = (): AppThunk => (dispatch, getState) => {
     .catch((error) => alert(error.message));
 };
 
-type TourismQueryMap = {
-  [Property in SearchKind]: () => AppThunk;
-};
-
-const tourismQueryMap: TourismQueryMap = {
+const tourismQueryMap: Record<SearchKind, () => AppThunk> = {
   attraction: queryScenicSpot,
   food: queryRestaurant,
   hotel: queryHotel,

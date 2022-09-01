@@ -8,6 +8,8 @@ const SEARCH_KIND_TABLE = {
 
 export type SearchKind = keyof typeof SEARCH_KIND_TABLE;
 
+export type AllessSearchKind = Exclude<SearchKind, "all">;
+
 export const SEARCH_KIND = {
   byIndex: SEARCH_KIND_TABLE,
   all: Object.values(SEARCH_KIND_TABLE),

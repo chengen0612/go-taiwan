@@ -1,3 +1,5 @@
+import { AllessSearchKind } from "#/utils/constants/searchKind";
+
 export interface EntityPicture {
   url: string;
   description?: string;
@@ -9,16 +11,8 @@ export interface EntityPosition {
   geohash: string;
 }
 
-/* An annotation for typescript to identify different kind of Entities. */
-export enum EntityKind {
-  Attraction = "attraction",
-  Food = "food",
-  Hotel = "hotel",
-  Activity = "activity",
-}
-
 interface AnyEntity {
-  kind: EntityKind;
+  kind: AllessSearchKind;
   id: string;
   name: string;
   address?: string;
@@ -32,22 +26,22 @@ interface AnyEntity {
 }
 
 export interface ScenicSpotEntity extends AnyEntity {
-  kind: EntityKind.Attraction;
+  kind: "attraction";
   openTime?: string; // unformatted data
 }
 
 export interface RestaurantEntity extends AnyEntity {
-  kind: EntityKind.Food;
+  kind: "food";
   openTime?: string; // unformatted data
 }
 
 export interface HotelEntity extends AnyEntity {
-  kind: EntityKind.Hotel;
+  kind: "hotel";
   parkingInfo?: string;
 }
 
 export interface ActivityEntity extends AnyEntity {
-  kind: EntityKind.Activity;
+  kind: "activity";
   organizer: string;
   startTime: string;
   endTime: string;

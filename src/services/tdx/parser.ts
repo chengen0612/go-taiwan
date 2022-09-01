@@ -7,7 +7,6 @@ import type {
   TDXActivity,
 } from "#/utils/models/tdx";
 
-import { EntityKind } from "#/utils/types/entity";
 import type {
   EntityPicture,
   EntityPosition,
@@ -53,7 +52,7 @@ const parseClasses = (...args: (string | undefined)[]) =>
 
 const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
   items.map((item) => ({
-    kind: EntityKind.Attraction,
+    kind: "attraction",
     id: item.ScenicSpotID,
     name: item.ScenicSpotName,
     address: item.Address,
@@ -69,7 +68,7 @@ const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
 
 const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
   items.map((item) => ({
-    kind: EntityKind.Food,
+    kind: "food",
     id: item.RestaurantID,
     name: item.RestaurantName,
     address: item.Address,
@@ -85,7 +84,7 @@ const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
 
 const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
   items.map((item) => ({
-    kind: EntityKind.Hotel,
+    kind: "hotel",
     id: item.HotelID,
     name: item.HotelName,
     address: item.Address,
@@ -101,7 +100,7 @@ const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
 
 const parseActivity = (items: TDXActivity[]): ActivityEntity[] =>
   items.map((item) => ({
-    kind: EntityKind.Activity,
+    kind: "activity",
     id: item.ActivityID,
     name: item.ActivityName,
     address: item.Address || item.Location,

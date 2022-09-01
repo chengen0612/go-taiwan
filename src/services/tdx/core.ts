@@ -16,9 +16,7 @@ import type {
   TDXActivity,
 } from "#/utils/models/tdx";
 import { CITY } from "#/utils/constants/city";
-import { SearchKind } from "#/utils/constants/searchKind";
-
-type AllessSearchKind = Exclude<SearchKind, "all">;
+import { AllessSearchKind } from "#/utils/constants/searchKind";
 
 interface Params {
   [key: string]: string | number;
