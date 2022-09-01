@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { SelectProps } from "@mui/material";
 
-import type { Option } from "#/utils/constants/search";
+import type { Option } from "#/utils/types/search";
 
 interface StyledSelectProps {
   name: string;

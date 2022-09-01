@@ -9,6 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import type { FormEvent, ChangeEventHandler } from "react";
 
 import { useAppDispatch } from "#/utils/hooks/store";
+import { searchFormTheme } from "#/services/mui/theme";
 import {
   selectSearchCity,
   selectSearchKind,
@@ -19,8 +20,9 @@ import { queryTourismData } from "#/store/slices/entities";
 
 import SelectConnector from "#/components/search/SelectConnector";
 
-import { searchFormTheme } from "#/services/mui/theme";
-import { SearchProperty, CITY, KIND } from "#/utils/constants/search";
+import { CITY } from "#/utils/constants/city";
+import { SEARCH_KIND } from "#/utils/constants/searchKind";
+import { SearchProperty } from "#/utils/types/search";
 
 function SearchForm() {
   const appDispatch = useAppDispatch();
@@ -79,7 +81,7 @@ function SearchForm() {
           />
           <SelectConnector
             name={SearchProperty.Kind}
-            options={KIND.all}
+            options={SEARCH_KIND.all}
             selector={selectSearchKind}
           />
           <TextField

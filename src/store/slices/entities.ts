@@ -2,11 +2,11 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { TDXService } from "#/services/tdx";
+import TDX from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
 import type { AppThunk } from "#/store";
-import { SearchKind } from "#/utils/constants/search";
+import { SearchKind } from "#/utils/constants/searchKind";
 import type {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -27,12 +27,7 @@ interface EntitiesState {
   activity: AnyEntities<ActivityEntity>;
 }
 
-interface SetAllPayload {
-  attraction: ScenicSpotEntity[];
-  food: RestaurantEntity[];
-  hotel: HotelEntity[];
-  activity: ActivityEntity[];
-}
+type SetAllPayload = Awaited<ReturnType<typeof TDX.queryAll>>;
 
 const initialState: EntitiesState = {
   attraction: { byID: {}, allIDs: [] },
@@ -97,10 +92,7 @@ const { setAttraction, setFood, setHotel, setActivity, setAll } =
 const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
   const options = selectSearch<"attraction">(getState());
 
-  const tdx = new TDXService();
-
-  tdx
-    .queryScenicSpot(options)
+  TDX.queryScenicSpot(options)
     .then((result) => dispatch(setAttraction(result)))
     .catch((error) => alert(error.message));
 };
@@ -108,10 +100,7 @@ const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
 const queryRestaurant = (): AppThunk => (dispatch, getState) => {
   const options = selectSearch<"food">(getState());
 
-  const tdx = new TDXService();
-
-  tdx
-    .queryRestaurant(options)
+  TDX.queryRestaurant(options)
     .then((result) => dispatch(setFood(result)))
     .catch((error) => alert(error.message));
 };
@@ -119,10 +108,7 @@ const queryRestaurant = (): AppThunk => (dispatch, getState) => {
 const queryHotel = (): AppThunk => (dispatch, getState) => {
   const options = selectSearch<"hotel">(getState());
 
-  const tdx = new TDXService();
-
-  tdx
-    .queryHotel(options)
+  TDX.queryHotel(options)
     .then((result) => dispatch(setHotel(result)))
     .catch((error) => alert(error.message));
 };
@@ -130,10 +116,7 @@ const queryHotel = (): AppThunk => (dispatch, getState) => {
 const queryActivity = (): AppThunk => (dispatch, getState) => {
   const options = selectSearch<"activity">(getState());
 
-  const tdx = new TDXService();
-
-  tdx
-    .queryActivity(options)
+  TDX.queryActivity(options)
     .then((result) => dispatch(setActivity(result)))
     .catch((error) => alert(error.message));
 };
@@ -141,10 +124,7 @@ const queryActivity = (): AppThunk => (dispatch, getState) => {
 const queryAll = (): AppThunk => (dispatch, getState) => {
   const options = selectSearch<"all">(getState());
 
-  const tdx = new TDXService();
-
-  tdx
-    .queryAll(options)
+  TDX.queryAll(options)
     .then((result) => dispatch(setAll(result)))
     .catch((error) => alert(error.message));
 };

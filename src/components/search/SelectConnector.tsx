@@ -5,9 +5,11 @@ import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 
 import Select from "#/components/search/Select";
 
-import type { AppSelector } from "#/store";
 import { setSearch, SetSearchPayload } from "#/store/slices/search";
-import { SearchProperty, Option } from "#/utils/constants/search";
+import { SearchProperty } from "#/utils/types/search";
+
+import type { AppSelector } from "#/store";
+import type { Option } from "#/utils/types/search";
 
 interface SelectConnectorProps {
   name: SearchProperty;

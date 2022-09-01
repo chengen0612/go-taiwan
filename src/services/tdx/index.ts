@@ -1,2 +1,3 @@
-export * from "./service";
-export * from "./parser";
+import { TDXService } from "./core";
+
+export default new TDXService();
