@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import type { SelectProps } from "@mui/material";
+import type { SxProps, Theme, SelectProps } from "@mui/material";
 
+import { setSearch, SetSearchPayload } from "#/store/slices/search";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 
 import Select from "#/components/search/Select";
 
-import { setSearch, SetSearchPayload } from "#/store/slices/search";
 import { SearchProperty } from "#/utils/types/search";
 
 import type { AppSelector } from "#/store";
@@ -15,10 +15,11 @@ interface SelectConnectorProps {
   name: SearchProperty;
   options: Option[];
   selector: AppSelector<string>;
+  sx?: SxProps<Theme>;
 }
 
 function SelectConnector(props: SelectConnectorProps) {
-  const { name, options, selector } = props;
+  const { name, options, selector, sx } = props;
 
   const state = useAppSelector(selector);
   const appDispatch = useAppDispatch();
@@ -39,6 +40,7 @@ function SelectConnector(props: SelectConnectorProps) {
       value={state}
       options={options}
       onChange={handleChange}
+      sx={sx}
     />
   );
 }

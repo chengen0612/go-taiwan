@@ -40,6 +40,10 @@ function SearchForm() {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
+      // TODO:
+      // Instead of query data on submit event,
+      // redirect with search properties and let search page
+      // handling the query
       appDispatch(queryTourismData());
     },
     [appDispatch]
