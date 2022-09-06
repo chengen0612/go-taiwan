@@ -1,14 +1,18 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-export const globalTheme = createTheme({
+// eslint-disable-next-line import/no-mutable-exports
+let globalTheme = createTheme({
   breakpoints: {
     values: {
+      xs: 0,
       sm: 480,
     },
   },
   typography: {
     fontFamily: "'Roboto', sans-serif",
-    fontSize: 18,
+    body1: {
+      fontSize: "1.125rem",
+    },
   },
   palette: {
     primary: {
@@ -30,39 +34,58 @@ export const globalTheme = createTheme({
       dark: "#D32F2F",
     },
   },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: (theme) => ({
+        body: {
+          backgroundColor: theme.palette.grey["50"],
+        },
+      }),
+    },
+  },
 });
 
-export const searchFormTheme = createTheme(
-  {
-    components: {
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: ({ theme }) => ({
-            height: "3.25rem",
-            borderRadius: 40,
-            backgroundColor: theme.palette.common.white,
-          }),
-        },
+globalTheme = createTheme(globalTheme, {
+  palette: {
+    kind: {
+      attraction: globalTheme.palette.primary.main,
+      food: "#FF6F6E",
+      hotel: globalTheme.palette.secondary.main,
+      activity: "#7879F1",
+    },
+  },
+});
+
+export { globalTheme };
+
+export const searchFormTheme = createTheme(globalTheme, {
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          height: "3.25rem",
+          borderRadius: 40,
+          backgroundColor: theme.palette.common.white,
+        }),
       },
-      MuiSelect: {
-        styleOverrides: {
-          icon: {
-            height: "1.75rem",
-            width: "1.75rem",
-            translate: "-1rem 0.125rem",
-          },
-        },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: ({ theme }) => ({
-            height: "3.25rem",
-            borderRadius: 40,
-            color: theme.palette.common.white,
-          }),
+    },
+    MuiSelect: {
+      styleOverrides: {
+        icon: {
+          height: "1.75rem",
+          width: "1.75rem",
+          translate: "-1rem 0.125rem",
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          height: "3.25rem",
+          borderRadius: 40,
+          color: theme.palette.common.white,
+        }),
+      },
+    },
   },
-  globalTheme
-);
+} as ThemeOptions);
