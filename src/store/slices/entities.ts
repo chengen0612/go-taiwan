@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import TDX from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
-import type { AppThunk } from "#/store";
+import type { AppThunk, RootState } from "#/store";
 import type {
   SearchKind,
   AllessSearchKind,
@@ -91,6 +91,34 @@ export default entitiesSlice.reducer;
 
 const { setAttraction, setFood, setHotel, setActivity, setAll } =
   entitiesSlice.actions;
+
+/* Selector */
+/* Return an object with the search kind as key and the ids as value. */
+export const selectEntitiesIDsBySearchKind =
+  (kind: SearchKind) => (store: RootState) => {
+    const { entities } = store;
+
+    if (kind !== "all") {
+      return { [kind]: entities[kind].allIDs };
+    }
+
+    return Object.entries(entities).reduce<Record<AllessSearchKind, string[]>>(
+      (acc, [searchKind, data]) => ({ ...acc, [searchKind]: data.allIDs }),
+      { attraction: [], food: [], hotel: [], activity: [] }
+    );
+  };
+
+export const selectAttractionById = (id: string) => (store: RootState) =>
+  store.entities.attraction.byID[id];
+
+export const selectFoodById = (id: string) => (store: RootState) =>
+  store.entities.food.byID[id];
+
+export const selectHotelById = (id: string) => (store: RootState) =>
+  store.entities.hotel.byID[id];
+
+export const selectActivityById = (id: string) => (store: RootState) =>
+  store.entities.activity.byID[id];
 
 /* Thunk */
 const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
