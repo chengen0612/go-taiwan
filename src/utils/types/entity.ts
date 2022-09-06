@@ -2,7 +2,7 @@ import { AllessSearchKind } from "#/utils/constants/searchKind";
 
 export interface EntityPicture {
   url: string;
-  description?: string;
+  description: string;
 }
 
 export interface EntityPosition {
@@ -11,10 +11,10 @@ export interface EntityPosition {
   geohash: string;
 }
 
-interface AnyEntity {
+export interface AnyEntity {
   kind: AllessSearchKind;
   id: string;
-  name: string;
+  title: string;
   address?: string;
   description?: string;
   pictures: EntityPicture[];

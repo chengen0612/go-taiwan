@@ -54,7 +54,7 @@ const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
   items.map((item) => ({
     kind: "attraction",
     id: item.ScenicSpotID,
-    name: item.ScenicSpotName,
+    title: item.ScenicSpotName,
     address: item.Address,
     description: item.DescriptionDetail || item.Description,
     pictures: parsePictures(item.Picture),
@@ -70,7 +70,7 @@ const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
   items.map((item) => ({
     kind: "food",
     id: item.RestaurantID,
-    name: item.RestaurantName,
+    title: item.RestaurantName,
     address: item.Address,
     description: item.Description,
     pictures: parsePictures(item.Picture),
@@ -86,7 +86,7 @@ const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
   items.map((item) => ({
     kind: "hotel",
     id: item.HotelID,
-    name: item.HotelName,
+    title: item.HotelName,
     address: item.Address,
     description: item.Description,
     pictures: parsePictures(item.Picture),
@@ -102,7 +102,7 @@ const parseActivity = (items: TDXActivity[]): ActivityEntity[] =>
   items.map((item) => ({
     kind: "activity",
     id: item.ActivityID,
-    name: item.ActivityName,
+    title: item.ActivityName,
     address: item.Address || item.Location,
     description: item.Description,
     pictures: parsePictures(item.Picture),
