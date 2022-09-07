@@ -13,6 +13,7 @@ import Graphic from "#/components/layout/Graphic";
 import CardInfo from "./CardInfo";
 
 import { AnyEntity } from "#/utils/types/entity";
+import { AllessSearchKind } from "#/utils/constants/searchKind";
 import { ReactComponent as Logo } from "#/assets/images/logo.svg";
 
 const PRIMARY_COLOR = "#00BBF0";
@@ -118,4 +119,14 @@ function ActivityCard({ id }: AnyCardProps) {
   );
 }
 
-export { AttractionCard, FoodCard, HotelCard, ActivityCard };
+const kindCardMap: Record<
+  AllessSearchKind,
+  (props: AnyCardProps) => JSX.Element
+> = {
+  attraction: AttractionCard,
+  food: FoodCard,
+  hotel: HotelCard,
+  activity: ActivityCard,
+};
+
+export { AttractionCard, FoodCard, HotelCard, ActivityCard, kindCardMap };
