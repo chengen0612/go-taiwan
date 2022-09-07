@@ -8,22 +8,28 @@ import type { SearchProperty } from "#/utils/types/search";
 import type { RootState } from "#/store";
 
 /* Main */
+interface ValueMap {
+  kind: SearchKind;
+  city: CityName;
+  keyword: string;
+}
+
 type SearchState = {
-  [T in SearchProperty]: {
-    [SearchProperty.Kind]: SearchKind;
-    [SearchProperty.City]: CityName;
-    [SearchProperty.Keyword]: string;
-  }[T];
+  [T in SearchProperty]: ValueMap[T];
 };
 
 export type SearchOptions<T extends SearchKind> = {
   [U in keyof SearchState]: U extends "kind" ? T : SearchState[U];
 };
 
-export interface SetSearchPayload {
-  searchProperty: SearchProperty;
-  value: CityName | SearchKind | string;
-}
+export type SetSearchPayload =
+  | { searchProperty: SearchProperty.City; value: CityName }
+  | { searchProperty: SearchProperty.Kind; value: SearchKind }
+  | { searchProperty: SearchProperty.Keyword; value: string };
+
+type ReplaceSearchPayload = {
+  [T in keyof SearchState]?: SearchState[T] | null;
+};
 
 const initialState: SearchState = {
   kind: SEARCH_KIND.byIndex.all.key,
@@ -41,11 +47,11 @@ const searchSlice = createSlice({
 
       switch (searchProperty) {
         case "kind":
-          state.kind = value as SearchKind;
+          state.kind = value;
           break;
 
         case "city":
-          state.city = value as CityName;
+          state.city = value;
           break;
 
         case "keyword":
@@ -58,12 +64,21 @@ const searchSlice = createSlice({
           );
       }
     },
+    replaceSearch(state, action: PayloadAction<ReplaceSearchPayload>) {
+      const { kind, city, keyword } = action.payload;
+
+      return {
+        kind: kind ?? state.kind,
+        city: city ?? state.city,
+        keyword: keyword ?? state.keyword,
+      };
+    },
   },
 });
 
 export default searchSlice.reducer;
 
-export const { setSearch } = searchSlice.actions;
+export const { setSearch, replaceSearch } = searchSlice.actions;
 
 /* Selector */
 export const selectSearch = <T extends SearchKind>(store: RootState) =>

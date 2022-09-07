@@ -16,7 +16,7 @@ import {
   setSearch,
   SetSearchPayload,
 } from "#/store/slices/search";
-import { queryTourismData } from "#/store/slices/entities";
+import { useOnSearchStart } from "#/utils/hooks/search";
 
 import SelectConnector from "#/components/search/SelectConnector";
 
@@ -26,6 +26,7 @@ import { SearchProperty } from "#/utils/types/search";
 
 function SearchForm() {
   const appDispatch = useAppDispatch();
+  const onSearchStart = useOnSearchStart();
 
   const handleKeywordChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
@@ -40,13 +41,9 @@ function SearchForm() {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-      // TODO:
-      // Instead of query data on submit event,
-      // redirect with search properties and let search page
-      // handling the query
-      appDispatch(queryTourismData());
+      onSearchStart();
     },
-    [appDispatch]
+    [onSearchStart]
   );
 
   return (

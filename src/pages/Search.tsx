@@ -1,21 +1,32 @@
-// TODO:
-// Update search properties and query data using parameters in the url.
-// Redirect to homepage if search parameters not exist!
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 
 import CardList from "#/components/entity/CardList";
 
-import { useAppSelector } from "#/utils/hooks/store";
-import { selectSearchKind } from "#/store/slices/search";
+import { useOnSearchEnd } from "#/utils/hooks/search";
 
-import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
-
-// Get search kind from url params.
-// Get entities ids by search kind.
-// Decide which card component to use.
+import {
+  SEARCH_KIND,
+  SearchKind,
+  AllessSearchKind,
+} from "#/utils/constants/searchKind";
 
 function Search() {
-  const searchKind = useAppSelector(selectSearchKind);
+  const [searchParams] = useSearchParams();
+  // Using query string to decide which kind of data to display.
+  const searchKind = searchParams.get("kind") as SearchKind;
+
+  const onSearchEnd = useOnSearchEnd();
+
+  const [didMount, setDidMount] = useState(false);
+
+  useEffect(() => setDidMount(true), []);
+
+  // Query data.
+  useEffect(() => {
+    if (didMount) onSearchEnd();
+  }, [didMount, onSearchEnd]);
 
   return (
     <Container component="main" sx={{ p: "0 1.5rem 3.5rem" }}>

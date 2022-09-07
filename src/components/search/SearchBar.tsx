@@ -8,12 +8,12 @@ import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useAppDispatch } from "#/utils/hooks/store";
+import { useOnSearchStart } from "#/utils/hooks/search";
 import {
   selectSearchKind,
   setSearch,
   SetSearchPayload,
 } from "#/store/slices/search";
-import { queryTourismData } from "#/store/slices/entities";
 
 import SelectConnector from "#/components/search/SelectConnector";
 
@@ -56,15 +56,14 @@ function SearchInput() {
 
 /* Search bar for mobile devices. */
 function SearchBar() {
-  const appDispatch = useAppDispatch();
+  const onSearchStart = useOnSearchStart();
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-
-      appDispatch(queryTourismData());
+      onSearchStart();
     },
-    [appDispatch]
+    [onSearchStart]
   );
 
   return (
