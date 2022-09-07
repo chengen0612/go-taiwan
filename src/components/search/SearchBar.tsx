@@ -7,10 +7,11 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { useAppDispatch } from "#/utils/hooks/store";
+import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { useOnSearchStart } from "#/utils/hooks/search";
 import {
   selectSearchKind,
+  selectSearchKeyword,
   setSearch,
   SetSearchPayload,
 } from "#/store/slices/search";
@@ -30,6 +31,7 @@ const getTheme = (outerTheme: Theme) =>
   });
 
 function SearchInput() {
+  const keyword = useAppSelector(selectSearchKeyword);
   const appDispatch = useAppDispatch();
 
   const handleChange = useCallback<FocusEventHandler<HTMLInputElement>>(
@@ -46,6 +48,7 @@ function SearchInput() {
     <InputBase
       type="search"
       name={SearchProperty.Keyword}
+      value={keyword}
       placeholder="輸入關鍵字..."
       autoComplete="off"
       fullWidth
