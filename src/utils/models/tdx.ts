@@ -56,8 +56,8 @@ export interface TDXActivity extends AnyTDXItem {
   ActivityName: string;
   Location: string; // venue
   Organizer: string;
-  StartTime: string;
-  EndTime: string;
+  StartTime: string; // date string
+  EndTime: string; // date string
   Cycle?: string /* The property itself is a flag that represent the regular event,
   it provide extra information about open time. */;
   Class1?: string; // tagname

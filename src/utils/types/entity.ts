@@ -43,8 +43,8 @@ export interface HotelEntity extends AnyEntity {
 export interface ActivityEntity extends AnyEntity {
   kind: "activity";
   organizer: string;
-  startTime: string;
-  endTime: string;
+  startTime: string; // date string
+  endTime: string; // date string
   isRegular: boolean;
   regularInfo?: string;
   parkingInfo?: string;
