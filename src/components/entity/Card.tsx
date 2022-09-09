@@ -9,6 +9,7 @@ import {
   selectHotelById,
   selectActivityById,
 } from "#/store/slices/entities";
+import { getPeriod } from "#/services/tdx/helper";
 
 import Graphic from "#/components/layout/Graphic";
 import CardInfo from "./CardInfo";
@@ -110,9 +111,7 @@ function ActivityCard({ id }: AnyCardProps) {
   const activity = useAppSelector(selectActivityById(id));
   const { city, startTime, endTime } = activity;
 
-  const period = [startTime, endTime]
-    .map((value) => new Date(value).toLocaleDateString("zh-TW"))
-    .join(" - ");
+  const period = getPeriod(startTime, endTime);
 
   return (
     <CardBase entity={activity}>
