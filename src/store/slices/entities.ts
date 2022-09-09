@@ -93,6 +93,8 @@ const { setAttraction, setFood, setHotel, setActivity, setAll } =
   entitiesSlice.actions;
 
 /* Selector */
+export const selectEntities = (store: RootState) => store.entities;
+
 export const selectEntityIDsBySearchKind =
   (kind: AllessSearchKind) => (store: RootState) =>
     store.entities[kind].allIDs;
