@@ -13,6 +13,7 @@ function App() {
           <Route path="search" element={<Pages.Search />} />
           <Route path="*" element={<main>Unserved pathname!</main>} />
         </Route>
+        <Route path="sight/:entityId" element={<Pages.Sight />} />
       </Routes>
     </BrowserRouter>
   );

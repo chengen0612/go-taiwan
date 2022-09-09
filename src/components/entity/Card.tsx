@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
@@ -25,40 +26,42 @@ interface CardBaseProps<T> {
 
 /* Elements passed as children will be placed after title. */
 function CardBase<T extends AnyEntity>({ entity, children }: CardBaseProps<T>) {
-  const { title, pictures } = entity;
+  const { id, title, pictures } = entity;
 
   const [picture] = pictures;
 
   return (
     <article>
-      {picture ? (
-        <Graphic
-          src={picture.url}
-          alt={picture.description}
-          aspectRatio="4 / 3"
-          sx={{ borderRadius: 4, overflow: "hidden" }}
-        />
-      ) : (
-        <Box
-          component="figure"
-          sx={{
-            m: "unset",
-            display: "flex",
-            placeContent: "space-evenly",
-            aspectRatio: "4 / 3",
-            borderRadius: 4,
-            backgroundColor: "common.white",
-          }}
-        >
-          <Logo stroke={PRIMARY_COLOR} width="auto" height="50%" />
+      <Link to={`/sight/${id}`}>
+        {picture ? (
+          <Graphic
+            src={picture.url}
+            alt={picture.description}
+            aspectRatio="4 / 3"
+            sx={{ borderRadius: 4, overflow: "hidden" }}
+          />
+        ) : (
+          <Box
+            component="figure"
+            sx={{
+              m: "unset",
+              display: "flex",
+              placeContent: "space-evenly",
+              aspectRatio: "4 / 3",
+              borderRadius: 4,
+              backgroundColor: "common.white",
+            }}
+          >
+            <Logo stroke={PRIMARY_COLOR} width="auto" height="50%" />
+          </Box>
+        )}
+        <Box sx={{ p: "0.5rem 0.5rem 1rem" }}>
+          <Typography component="h4" sx={{ ml: 0.5, fontWeight: 500 }}>
+            {title}
+          </Typography>
+          {children}
         </Box>
-      )}
-      <Box sx={{ p: "0.5rem 0.5rem 1rem" }}>
-        <Typography component="h4" sx={{ ml: 0.5, fontWeight: 500 }}>
-          {title}
-        </Typography>
-        {children}
-      </Box>
+      </Link>
     </article>
   );
 }

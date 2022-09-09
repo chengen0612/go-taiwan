@@ -40,6 +40,10 @@ let globalTheme = createTheme({
         body: {
           backgroundColor: theme.palette.grey["50"],
         },
+        a: {
+          textDecoration: "unset",
+          color: "inherit",
+        },
       }),
     },
   },
