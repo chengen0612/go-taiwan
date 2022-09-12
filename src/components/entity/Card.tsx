@@ -46,14 +46,15 @@ function CardBase<T extends AnyEntity>({ entity, children }: CardBaseProps<T>) {
             component="figure"
             sx={{
               m: "unset",
-              display: "flex",
-              placeContent: "space-evenly",
               aspectRatio: "4 / 3",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               borderRadius: 4,
               backgroundColor: "common.white",
             }}
           >
-            <Logo stroke={PRIMARY_COLOR} width="auto" height="50%" />
+            <Logo width="56%" stroke={PRIMARY_COLOR} />
           </Box>
         )}
         <Box sx={{ p: "0.5rem 0.5rem 1rem" }}>
