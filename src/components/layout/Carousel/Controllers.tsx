@@ -15,7 +15,7 @@ const Controller = styled(ButtonBase, {
   transform: "translateY(-50%)",
   borderRadius: "50%",
   color: theme.palette.common.white,
-  backgroundColor: theme.palette.common.black,
+  backgroundColor: theme.palette.grey[800],
   opacity: 0.5,
   ...(horizontal === "left" ? { left: "1.25rem" } : { right: "1.25rem" }),
 }));

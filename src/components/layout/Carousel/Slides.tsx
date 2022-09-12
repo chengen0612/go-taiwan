@@ -30,10 +30,10 @@ function Slides({ effect, pictures }: SlidesProps) {
             sx={{
               flexShrink: 0,
               ...(effect === SlideEffect.Left && {
-                animation: `${slideLeft} ease-in-out 800ms both`,
+                animation: `${slideLeft} ease 1500ms both`,
               }),
               ...(effect === SlideEffect.Right && {
-                animation: `${slideRight} ease-in-out 800ms both`,
+                animation: `${slideRight} ease 1500ms both`,
               }),
             }}
           />
