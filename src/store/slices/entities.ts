@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import TDX from "#/services/tdx";
+import TDX, { getNameFilter } from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
 import type { AppThunk, RootState } from "#/store";
@@ -31,7 +31,12 @@ type EntitiesState = {
   }[T];
 };
 
-type SetAllPayload = Awaited<ReturnType<typeof TDX.queryAll>>;
+type SetAllPayload = {
+  attraction: ScenicSpotEntity[];
+  food: RestaurantEntity[];
+  hotel: HotelEntity[];
+  activity: ActivityEntity[];
+};
 
 const initialState: EntitiesState = {
   attraction: { byID: {}, allIDs: [] },
@@ -113,42 +118,84 @@ export const selectActivityById = (id: string) => (store: RootState) =>
 
 /* Thunk */
 const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch<"attraction">(getState());
+  const { kind, city, keyword } = selectSearch<"attraction">(getState());
 
-  TDX.queryScenicSpot(options)
+  TDX.queryScenicSpot({
+    kind,
+    city,
+    filter: getNameFilter(kind, keyword),
+  })
     .then((result) => dispatch(setAttraction(result)))
     .catch((error) => alert(error.message));
 };
 
 const queryRestaurant = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch<"food">(getState());
+  const { kind, city, keyword } = selectSearch<"food">(getState());
 
-  TDX.queryRestaurant(options)
+  TDX.queryRestaurant({
+    kind,
+    city,
+    filter: getNameFilter(kind, keyword),
+  })
     .then((result) => dispatch(setFood(result)))
     .catch((error) => alert(error.message));
 };
 
 const queryHotel = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch<"hotel">(getState());
+  const { kind, city, keyword } = selectSearch<"hotel">(getState());
 
-  TDX.queryHotel(options)
+  TDX.queryHotel({
+    kind,
+    city,
+    filter: getNameFilter(kind, keyword),
+  })
     .then((result) => dispatch(setHotel(result)))
     .catch((error) => alert(error.message));
 };
 
 const queryActivity = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch<"activity">(getState());
+  const { kind, city, keyword } = selectSearch<"activity">(getState());
 
-  TDX.queryActivity(options)
+  TDX.queryActivity({
+    kind,
+    city,
+    filter: getNameFilter(kind, keyword),
+  })
     .then((result) => dispatch(setActivity(result)))
     .catch((error) => alert(error.message));
 };
 
 const queryAll = (): AppThunk => (dispatch, getState) => {
-  const options = selectSearch<"all">(getState());
+  const { city, keyword } = selectSearch<"all">(getState());
 
-  TDX.queryAll(options)
-    .then((result) => dispatch(setAll(result)))
+  // TODO: Simplify following workflow.
+  Promise.all([
+    TDX.queryScenicSpot({
+      city,
+      kind: "attraction",
+      filter: getNameFilter("attraction", keyword),
+    }),
+    TDX.queryRestaurant({
+      city,
+      kind: "food",
+      filter: getNameFilter("food", keyword),
+    }),
+    TDX.queryHotel({
+      city,
+      kind: "hotel",
+      filter: getNameFilter("hotel", keyword),
+    }),
+    TDX.queryActivity({
+      city,
+      kind: "activity",
+      filter: getNameFilter("activity", keyword),
+    }),
+  ])
+    .then((result) => {
+      const [attraction, food, hotel, activity] = result;
+
+      dispatch(setAll({ attraction, food, hotel, activity }));
+    })
     .catch((error) => alert(error.message));
 };
 
