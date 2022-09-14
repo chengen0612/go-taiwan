@@ -3,29 +3,30 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import { useAppSelector } from "#/utils/hooks/store";
-import {
-  selectAttractionById,
-  selectFoodById,
-  selectHotelById,
-  selectActivityById,
-} from "#/store/slices/entities";
 import { getPeriod } from "#/services/tdx/helper";
 
 import Graphic from "#/components/layout/Graphic";
 import CardInfo from "./CardInfo";
 
-import { AnyEntity } from "#/utils/types/entity";
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import {
+  AnyEntity,
+  ScenicSpotEntity,
+  RestaurantEntity,
+  HotelEntity,
+  ActivityEntity,
+} from "#/utils/types/entity";
+import { RootState } from "#/store";
+
 import { ReactComponent as Logo } from "#/assets/images/logo.svg";
 
 const PRIMARY_COLOR = "#00BBF0";
 
-interface CardBaseProps<T> {
+interface CardBaseProps<T extends AnyEntity> {
   entity: T;
   children: JSX.Element | JSX.Element[];
 }
 
-/* Elements passed as children will be placed after title. */
+/** Elements passed as children will be placed after title. */
 function CardBase<T extends AnyEntity>({ entity, children }: CardBaseProps<T>) {
   const { id, title, pictures } = entity;
 
@@ -68,12 +69,13 @@ function CardBase<T extends AnyEntity>({ entity, children }: CardBaseProps<T>) {
   );
 }
 
-interface AnyCardProps {
+interface AnyCardProps<T extends AnyEntity> {
   id: string;
+  selector: (id: string) => (state: RootState) => T;
 }
 
-function AttractionCard({ id }: AnyCardProps) {
-  const attraction = useAppSelector(selectAttractionById(id));
+function AttractionCard({ id, selector }: AnyCardProps<ScenicSpotEntity>) {
+  const attraction = useAppSelector(selector(id));
   const { city, openTime } = attraction;
 
   return (
@@ -84,8 +86,8 @@ function AttractionCard({ id }: AnyCardProps) {
   );
 }
 
-function FoodCard({ id }: AnyCardProps) {
-  const food = useAppSelector(selectFoodById(id));
+function FoodCard({ id, selector }: AnyCardProps<RestaurantEntity>) {
+  const food = useAppSelector(selector(id));
   const { city, openTime } = food;
 
   return (
@@ -96,8 +98,8 @@ function FoodCard({ id }: AnyCardProps) {
   );
 }
 
-function HotelCard({ id }: AnyCardProps) {
-  const hotel = useAppSelector(selectHotelById(id));
+function HotelCard({ id, selector }: AnyCardProps<HotelEntity>) {
+  const hotel = useAppSelector(selector(id));
   const { city, address } = hotel;
 
   return (
@@ -108,8 +110,8 @@ function HotelCard({ id }: AnyCardProps) {
   );
 }
 
-function ActivityCard({ id }: AnyCardProps) {
-  const activity = useAppSelector(selectActivityById(id));
+function ActivityCard({ id, selector }: AnyCardProps<ActivityEntity>) {
+  const activity = useAppSelector(selector(id));
   const { city, startTime, endTime } = activity;
 
   const period = getPeriod(startTime, endTime);
@@ -122,14 +124,4 @@ function ActivityCard({ id }: AnyCardProps) {
   );
 }
 
-const kindCardMap: Record<
-  AllessSearchKind,
-  (props: AnyCardProps) => JSX.Element
-> = {
-  attraction: AttractionCard,
-  food: FoodCard,
-  hotel: HotelCard,
-  activity: ActivityCard,
-};
-
-export { AttractionCard, FoodCard, HotelCard, ActivityCard, kindCardMap };
+export { AttractionCard, FoodCard, HotelCard, ActivityCard };

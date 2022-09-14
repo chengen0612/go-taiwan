@@ -2,11 +2,52 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import { useAppSelector } from "#/utils/hooks/store";
-import { selectEntityIDsBySearchKind } from "#/store/slices/entities";
+import {
+  selectEntityIDsBySearchKind,
+  selectAttractionById,
+  selectFoodById,
+  selectHotelById,
+  selectActivityById,
+} from "#/store/slices/entities";
 
-import { kindCardMap } from "#/components/entity/Card";
+import {
+  AttractionCard,
+  FoodCard,
+  HotelCard,
+  ActivityCard,
+} from "#/components/entity/Card";
 
 import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
+
+const switchCardByKind = (kind: AllessSearchKind, entityIds: string[]) => {
+  switch (kind) {
+    case "attraction":
+      return entityIds.map((id) => (
+        <AttractionCard key={id} id={id} selector={selectAttractionById} />
+      ));
+
+    case "food":
+      return entityIds.map((id) => (
+        <FoodCard key={id} id={id} selector={selectFoodById} />
+      ));
+
+    case "hotel":
+      return entityIds.map((id) => (
+        <HotelCard key={id} id={id} selector={selectHotelById} />
+      ));
+
+    case "activity":
+      return entityIds.map((id) => (
+        <ActivityCard key={id} id={id} selector={selectActivityById} />
+      ));
+
+    default:
+      // eslint-disable-next-line
+      const _exhaustiveCheck: never = kind;
+
+      return _exhaustiveCheck;
+  }
+};
 
 interface CardListProps {
   kind: AllessSearchKind;
@@ -15,7 +56,6 @@ interface CardListProps {
 function CardList({ kind }: CardListProps) {
   const entityIds = useAppSelector(selectEntityIDsBySearchKind(kind));
   const { value: heading, color } = SEARCH_KIND.byIndex[kind];
-  const Card = kindCardMap[kind];
 
   return (
     <section>
@@ -36,7 +76,7 @@ function CardList({ kind }: CardListProps) {
       >
         {!(entityIds.length > 0)
           ? "無符合結果"
-          : entityIds.map((id) => <Card key={id} id={id} />)}
+          : switchCardByKind(kind, entityIds)}
       </Box>
     </section>
   );
