@@ -1,55 +1,78 @@
-// Get entity id from location
-// Search for entity data from entities state
 //   -> not exist
 //        - redirect to not found page
 //   -> exist
 //        - render
 //        - get recommend items by location or search options
 
+import { useEffect, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useAppSelector } from "#/utils/hooks/store";
-import { selectEntities } from "#/store/slices/entities";
+import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
+import { selectSearchCity } from "#/store/slices/search";
+import {
+  selectSight,
+  setEntity,
+  SetEntityPayload,
+  queryRecommendations,
+} from "#/store/slices/sight";
 
-import AttractionSight from "#/components/sight/AttractionSight";
-import FoodSight from "#/components/sight/FoodSight";
-import HotelSight from "#/components/sight/HotelSight";
-import ActivitySight from "#/components/sight/ActivitySight";
-
-import { AllessSearchKind } from "#/utils/constants/searchKind";
-import { AnySightProps } from "#/utils/types/sight";
-
-const SightComponentMap: Record<
-  AllessSearchKind,
-  (props: AnySightProps) => JSX.Element
-> = {
-  attraction: AttractionSight,
-  food: FoodSight,
-  hotel: HotelSight,
-  activity: ActivitySight,
-};
+import * as S from "#/components/sight/styles";
+import switchDetails from "#/components/sight/switchDetails";
+import Carousel from "#/components/layout/Carousel";
+import { CardBase, switchCardInfo } from "#/components/entity/Card";
 
 function Sight() {
+  const appDispatch = useAppDispatch();
   const location = useLocation();
-  const entities = useAppSelector(selectEntities);
 
-  const entityID = location.pathname.split("/").pop()!;
-  const found = Object.entries(entities).find((pair) =>
-    pair[1].allIDs.includes(entityID)
+  const { entity, recommendations } = useAppSelector(selectSight);
+  const city = useAppSelector(selectSearchCity);
+
+  const handleClick = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    (entity: SetEntityPayload["entity"]) => {
+      appDispatch(setEntity({ entity, city }));
+    },
+    [appDispatch, city]
   );
 
-  if (!found) {
+  useEffect(() => {
+    appDispatch(queryRecommendations());
+  }, [appDispatch, location]);
+
+  if (!entity) {
     // TODO:
     //   | Redirect to not found page.
     //   | Show cannot find message.
     return null;
   }
 
-  // By this step, we got the id and the kind of the entity.
-  const searchKind = found[0] as AllessSearchKind;
-  const MappedSight = SightComponentMap[searchKind];
+  const { title, description, pictures } = entity;
 
-  return <MappedSight entityID={entityID} />;
+  return (
+    <div>
+      <nav>navbar</nav>
+      <S.Header>
+        <Carousel pictures={pictures} />
+      </S.Header>
+      <S.Body>
+        <S.Title>{title}</S.Title>
+        <S.Details>{switchDetails(entity)}</S.Details>
+        {/* TODO: add fallback if no content */}
+        <section>{description}</section>
+        {recommendations?.map((recommendation) => (
+          <CardBase
+            key={recommendation.id}
+            entity={recommendation}
+            onClick={() => handleClick(recommendation)}
+          >
+            {switchCardInfo(recommendation)}
+          </CardBase>
+        ))}
+      </S.Body>
+      <footer>copyright</footer>
+    </div>
+  );
 }
 
 export default Sight;

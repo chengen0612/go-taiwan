@@ -1,6 +1,6 @@
 import { styled } from "@mui/system";
 
-export const Header = styled("header")({ height: "40vh", border: "1px solid" });
+export const Header = styled("header")({ height: "40vh" });
 
 export const Body = styled("main")({
   display: "grid",
