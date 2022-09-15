@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import { normalize, Normalized } from "#/utils/helpers/normalize";
 import TDX, { getNameFilter } from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
@@ -17,17 +18,12 @@ import type {
 } from "#/utils/types/entity";
 
 /* Main */
-interface AnyEntities<T> {
-  byID: { [key: string]: T };
-  allIDs: string[];
-}
-
 type EntitiesState = {
   [T in AllessSearchKind]: {
-    attraction: AnyEntities<ScenicSpotEntity>;
-    food: AnyEntities<RestaurantEntity>;
-    hotel: AnyEntities<HotelEntity>;
-    activity: AnyEntities<ActivityEntity>;
+    attraction: Normalized<ScenicSpotEntity>;
+    food: Normalized<RestaurantEntity>;
+    hotel: Normalized<HotelEntity>;
+    activity: Normalized<ActivityEntity>;
   }[T];
 };
 
@@ -45,49 +41,36 @@ const initialState: EntitiesState = {
   activity: { byID: {}, allIDs: [] },
 };
 
-const entitiesToState = <T extends { id: string }>(items: T[]) =>
-  items.reduce<AnyEntities<T>>(
-    (acc, item) => {
-      const { id } = item;
-
-      acc.byID[id] = item;
-      acc.allIDs.push(id);
-
-      return acc;
-    },
-    { byID: {}, allIDs: [] }
-  );
-
 const entitiesSlice = createSlice({
   name: "entities",
   initialState,
   reducers: {
     setAttraction(state, action: PayloadAction<ScenicSpotEntity[]>) {
       const items = action.payload;
-      state.attraction = entitiesToState(items);
+      state.attraction = normalize(items);
     },
 
     setFood(state, action: PayloadAction<RestaurantEntity[]>) {
       const items = action.payload;
-      state.food = entitiesToState(items);
+      state.food = normalize(items);
     },
 
     setHotel(state, action: PayloadAction<HotelEntity[]>) {
       const items = action.payload;
-      state.hotel = entitiesToState(items);
+      state.hotel = normalize(items);
     },
 
     setActivity(state, action: PayloadAction<ActivityEntity[]>) {
       const items = action.payload;
-      state.activity = entitiesToState(items);
+      state.activity = normalize(items);
     },
 
     setAll(state, action: PayloadAction<SetAllPayload>) {
       const { attraction, food, hotel, activity } = action.payload;
-      state.attraction = entitiesToState(attraction);
-      state.food = entitiesToState(food);
-      state.hotel = entitiesToState(hotel);
-      state.activity = entitiesToState(activity);
+      state.attraction = normalize(attraction);
+      state.food = normalize(food);
+      state.hotel = normalize(hotel);
+      state.activity = normalize(activity);
     },
   },
 });
