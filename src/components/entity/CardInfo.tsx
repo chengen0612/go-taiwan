@@ -12,6 +12,8 @@ interface CardInfoProps {
   value?: string;
 }
 
+export type EntityInfoType = CardInfoProps["type"];
+
 const typeIconMap: Record<CardInfoProps["type"], typeof SvgIcon> = {
   city: PlaceIcon,
   date: DateRangeIcon,
