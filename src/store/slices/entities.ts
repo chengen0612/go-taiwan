@@ -80,21 +80,13 @@ const { setAttraction, setFood, setHotel, setActivity, setAll } =
 /* Selector */
 export const selectEntities = (store: RootState) => store.entities;
 
-export const selectEntityIDsBySearchKind =
+export const selectEntitiesIDsByKind =
   (kind: AllessSearchKind) => (store: RootState) =>
     store.entities[kind].allIDs;
 
-export const selectAttractionById = (id: string) => (store: RootState) =>
-  store.entities.attraction.byID[id];
-
-export const selectFoodById = (id: string) => (store: RootState) =>
-  store.entities.food.byID[id];
-
-export const selectHotelById = (id: string) => (store: RootState) =>
-  store.entities.hotel.byID[id];
-
-export const selectActivityById = (id: string) => (store: RootState) =>
-  store.entities.activity.byID[id];
+export const selectEntityByKindAndID =
+  (kind: AllessSearchKind, id: string) => (store: RootState) =>
+    store.entities[kind].byID[id];
 
 /* Thunk */
 const queryOneKindData =

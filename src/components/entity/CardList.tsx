@@ -1,60 +1,36 @@
+import { memo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import { useAppSelector } from "#/utils/hooks/store";
 import {
-  selectEntityIDsBySearchKind,
-  selectAttractionById,
-  selectFoodById,
-  selectHotelById,
-  selectActivityById,
+  selectEntitiesIDsByKind,
+  selectEntityByKindAndID,
 } from "#/store/slices/entities";
 
-import {
-  AttractionCard,
-  FoodCard,
-  HotelCard,
-  ActivityCard,
-} from "#/components/entity/Card";
+import { Card } from "#/components/entity/Card";
 
 import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
 
-const switchCardByKind = (kind: AllessSearchKind, entityIds: string[]) => {
-  switch (kind) {
-    case "attraction":
-      return entityIds.map((id) => (
-        <AttractionCard key={id} id={id} selector={selectAttractionById} />
-      ));
+interface CardConnectorProps {
+  kind: AllessSearchKind;
+  entityID: string;
+}
 
-    case "food":
-      return entityIds.map((id) => (
-        <FoodCard key={id} id={id} selector={selectFoodById} />
-      ));
+const CardConnector = memo(({ kind, entityID }: CardConnectorProps) => {
+  const entity = useAppSelector(selectEntityByKindAndID(kind, entityID));
 
-    case "hotel":
-      return entityIds.map((id) => (
-        <HotelCard key={id} id={id} selector={selectHotelById} />
-      ));
+  if (!entity) return null;
 
-    case "activity":
-      return entityIds.map((id) => (
-        <ActivityCard key={id} id={id} selector={selectActivityById} />
-      ));
-
-    default:
-      // eslint-disable-next-line
-      const _exhaustiveCheck: never = kind;
-
-      return _exhaustiveCheck;
-  }
-};
+  return <Card entity={entity} />;
+});
 
 interface CardListProps {
   kind: AllessSearchKind;
 }
 
 function CardList({ kind }: CardListProps) {
-  const entityIds = useAppSelector(selectEntityIDsBySearchKind(kind));
+  const entitiesIDs = useAppSelector(selectEntitiesIDsByKind(kind));
   const { value: heading, color } = SEARCH_KIND.byIndex[kind];
 
   return (
@@ -74,9 +50,11 @@ function CardList({ kind }: CardListProps) {
           columnGap: "0.75rem",
         }}
       >
-        {!(entityIds.length > 0)
+        {entitiesIDs.length === 0
           ? "無符合結果"
-          : switchCardByKind(kind, entityIds)}
+          : entitiesIDs.map((id) => (
+              <CardConnector key={id} kind={kind} entityID={id} />
+            ))}
       </Box>
     </section>
   );
