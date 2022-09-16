@@ -2,14 +2,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { normalize, Normalized } from "#/utils/helpers/normalize";
-import TDX, { getNameFilter } from "#/services/tdx";
+import TDX from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
-import type { AppThunk, RootState } from "#/store";
-import type {
-  SearchKind,
-  AllessSearchKind,
-} from "#/utils/constants/searchKind";
+import type { RootState, AppDispatch } from "#/store";
+import { AllessSearchKind } from "#/utils/constants/searchKind";
 import type {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -100,104 +97,72 @@ export const selectActivityById = (id: string) => (store: RootState) =>
   store.entities.activity.byID[id];
 
 /* Thunk */
-const queryScenicSpot = (): AppThunk => (dispatch, getState) => {
-  const { kind, city, keyword } = selectSearch<"attraction">(getState());
+const queryOneKindData =
+  () => (_dispatch: AppDispatch, getState: () => RootState) => {
+    const { kind, city, keyword } = selectSearch<AllessSearchKind>(getState());
 
-  TDX.queryScenicSpot({
-    kind,
-    city,
-    filter: getNameFilter(kind, keyword),
-  })
-    .then((result) => dispatch(setAttraction(result)))
-    .catch((error) => alert(error.message));
-};
+    return TDX.query({ kind, city, filter: { keyword } });
+  };
 
-const queryRestaurant = (): AppThunk => (dispatch, getState) => {
-  const { kind, city, keyword } = selectSearch<"food">(getState());
+const setOneKindData =
+  (data: Awaited<ReturnType<ReturnType<typeof queryOneKindData>>>) =>
+  (dispatch: AppDispatch) => {
+    const [firstItem] = data;
+    const { kind } = firstItem;
 
-  TDX.queryRestaurant({
-    kind,
-    city,
-    filter: getNameFilter(kind, keyword),
-  })
-    .then((result) => dispatch(setFood(result)))
-    .catch((error) => alert(error.message));
-};
+    switch (kind) {
+      case "attraction":
+        dispatch(setAttraction(data as ScenicSpotEntity[]));
+        break;
 
-const queryHotel = (): AppThunk => (dispatch, getState) => {
-  const { kind, city, keyword } = selectSearch<"hotel">(getState());
+      case "food":
+        dispatch(setFood(data as RestaurantEntity[]));
+        break;
 
-  TDX.queryHotel({
-    kind,
-    city,
-    filter: getNameFilter(kind, keyword),
-  })
-    .then((result) => dispatch(setHotel(result)))
-    .catch((error) => alert(error.message));
-};
+      case "hotel":
+        dispatch(setHotel(data as HotelEntity[]));
+        break;
 
-const queryActivity = (): AppThunk => (dispatch, getState) => {
-  const { kind, city, keyword } = selectSearch<"activity">(getState());
+      case "activity":
+        dispatch(setActivity(data as ActivityEntity[]));
+        break;
 
-  TDX.queryActivity({
-    kind,
-    city,
-    filter: getNameFilter(kind, keyword),
-  })
-    .then((result) => dispatch(setActivity(result)))
-    .catch((error) => alert(error.message));
-};
+      default: {
+        throw new Error(`Invalid kind property ${kind}.`);
+      }
+    }
+  };
 
-const queryAll = (): AppThunk => (dispatch, getState) => {
-  const { city, keyword } = selectSearch<"all">(getState());
+const queryAllKindData =
+  () => (_dispatch: AppDispatch, getState: () => RootState) => {
+    const { keyword, ...rest } = selectSearch<"all">(getState());
 
-  // TODO: Simplify following workflow.
-  Promise.all([
-    TDX.queryScenicSpot({
-      city,
-      kind: "attraction",
-      filter: getNameFilter("attraction", keyword),
-    }),
-    TDX.queryRestaurant({
-      city,
-      kind: "food",
-      filter: getNameFilter("food", keyword),
-    }),
-    TDX.queryHotel({
-      city,
-      kind: "hotel",
-      filter: getNameFilter("hotel", keyword),
-    }),
-    TDX.queryActivity({
-      city,
-      kind: "activity",
-      filter: getNameFilter("activity", keyword),
-    }),
-  ])
-    .then((result) => {
-      const [attraction, food, hotel, activity] = result;
+    return TDX.queryAll({ ...rest, filter: { keyword } });
+  };
 
-      dispatch(setAll({ attraction, food, hotel, activity }));
-    })
-    .catch((error) => alert(error.message));
-};
+const setAllKindData =
+  (data: Awaited<ReturnType<typeof TDX.queryAll>>) =>
+  (dispatch: AppDispatch, getState: () => RootState) => {
+    const { attraction, food, hotel, activity } = data;
 
-const tourismQueryMap: Record<SearchKind, () => AppThunk> = {
-  attraction: queryScenicSpot,
-  food: queryRestaurant,
-  hotel: queryHotel,
-  activity: queryActivity,
-  all: queryAll,
-};
+    dispatch(setAll({ attraction, food, hotel, activity }));
+  };
 
 /**
  * An abstract layer to switch query thunks by search.kind.
  * It is designed to hide the api switching logic from ui component.
  */
-export const queryTourismData = (): AppThunk => (dispatch, getState) => {
-  const kind = selectSearchKind(getState());
+export const queryTourismData =
+  () => (dispatch: AppDispatch, getState: () => RootState) => {
+    const kind = selectSearchKind(getState());
 
-  const queryThunk = tourismQueryMap[kind];
-
-  dispatch(queryThunk());
-};
+    if (kind !== "all") {
+      dispatch(queryOneKindData())
+        .then((data) => dispatch(setOneKindData(data)))
+        .catch((error) => alert(error.message));
+    } else {
+      dispatch(queryAllKindData())
+        .then((data) => dispatch(setAllKindData(data)))
+        .catch((error) => alert(error.message));
+    }
+  };

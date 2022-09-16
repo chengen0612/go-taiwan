@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import TDX, { getIDFilter } from "#/services/tdx";
+import TDX from "#/services/tdx";
 
 import { AllessSearchKind } from "#/utils/constants/searchKind";
 import { CityName } from "#/utils/constants/city";
@@ -71,7 +71,7 @@ export const queryRecommendations = (): AppThunk => (dispatch, getState) => {
   const { kind, city, id: excludedID } = selectSight(getState());
 
   if (kind && city && excludedID) {
-    TDX.query({ kind, city, filter: getIDFilter(kind, excludedID), limit: 3 })
+    TDX.query({ kind, city, filter: { excludedID }, limit: 3 })
       .then((result) => dispatch(setRecommendations(result)))
       .catch((error) => alert(error.message));
   }
