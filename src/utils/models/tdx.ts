@@ -14,7 +14,7 @@ export interface TDXPosition {
   GeoHash: string;
 }
 
-export interface AnyTDXItem {
+export interface TDXEntityBase {
   Address?: string /* The location name with detail compared to TDXActivity 'Location' property  */;
   City: string;
   Description?: string /* A shortened description compared to TDXScenicSpot 'DescriptionDetail' property */;
@@ -26,7 +26,7 @@ export interface AnyTDXItem {
   UpdateTime: string;
 }
 
-export interface TDXScenicSpot extends AnyTDXItem {
+export interface TDXScenicSpot extends TDXEntityBase {
   ScenicSpotID: string;
   ScenicSpotName: string;
   DescriptionDetail?: string;
@@ -36,14 +36,14 @@ export interface TDXScenicSpot extends AnyTDXItem {
   Class3?: string; // tagname
 }
 
-export interface TDXRestaurant extends AnyTDXItem {
+export interface TDXRestaurant extends TDXEntityBase {
   RestaurantID: string;
   RestaurantName: string;
   OpenTime?: string;
   Class?: string; // tagname
 }
 
-export interface TDXHotel extends AnyTDXItem {
+export interface TDXHotel extends TDXEntityBase {
   HotelID: string;
   HotelName: string;
   Class?: string; // tagname
@@ -51,7 +51,7 @@ export interface TDXHotel extends AnyTDXItem {
 }
 
 // <strong>{Cycle}</strong> StartTime - EndTime || 未提供資訊
-export interface TDXActivity extends AnyTDXItem {
+export interface TDXActivity extends TDXEntityBase {
   ActivityID: string;
   ActivityName: string;
   Location: string; // venue

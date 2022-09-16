@@ -2,20 +2,9 @@ import { getPeriod } from "#/services/tdx/helper";
 
 import EntityInfo, { EntityInfoType } from "./EntityInfo";
 
-import {
-  ScenicSpotEntity,
-  RestaurantEntity,
-  HotelEntity,
-  ActivityEntity,
-} from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/types/entity";
 
-type Entity =
-  | ScenicSpotEntity
-  | RestaurantEntity
-  | HotelEntity
-  | ActivityEntity;
-
-const switchCardInfo = (entity: Entity) => {
+const switchCardInfo = (entity: AnyEntity) => {
   let info: [EntityInfoType, string | undefined][] = [];
 
   switch (entity.kind) {

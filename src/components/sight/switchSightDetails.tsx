@@ -1,20 +1,9 @@
 import { getPeriod } from "#/services/tdx";
 
 import EntityInfo, { EntityInfoType } from "#/components/entity/EntityInfo";
-import {
-  ScenicSpotEntity,
-  RestaurantEntity,
-  HotelEntity,
-  ActivityEntity,
-} from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/types/entity";
 
-type Entity =
-  | ScenicSpotEntity
-  | RestaurantEntity
-  | HotelEntity
-  | ActivityEntity;
-
-const switchSightDetails = (entity: Entity) => {
+const switchSightDetails = (entity: AnyEntity) => {
   let info: [EntityInfoType, string | undefined][] = [];
 
   switch (entity.kind) {

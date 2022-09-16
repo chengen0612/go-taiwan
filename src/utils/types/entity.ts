@@ -11,7 +11,7 @@ export interface EntityPosition {
   geohash: string;
 }
 
-export interface AnyEntity {
+export interface EntityBase {
   kind: AllessSearchKind;
   id: string;
   title: string;
@@ -25,22 +25,22 @@ export interface AnyEntity {
   websiteUrl?: string;
 }
 
-export interface ScenicSpotEntity extends AnyEntity {
+export interface ScenicSpotEntity extends EntityBase {
   kind: "attraction";
   openTime?: string; // unformatted data
 }
 
-export interface RestaurantEntity extends AnyEntity {
+export interface RestaurantEntity extends EntityBase {
   kind: "food";
   openTime?: string; // unformatted data
 }
 
-export interface HotelEntity extends AnyEntity {
+export interface HotelEntity extends EntityBase {
   kind: "hotel";
   parkingInfo?: string;
 }
 
-export interface ActivityEntity extends AnyEntity {
+export interface ActivityEntity extends EntityBase {
   kind: "activity";
   organizer: string;
   startTime: string; // date string
@@ -51,3 +51,9 @@ export interface ActivityEntity extends AnyEntity {
   charge?: string;
   remarks?: string;
 }
+
+export type AnyEntity =
+  | ScenicSpotEntity
+  | RestaurantEntity
+  | HotelEntity
+  | ActivityEntity;

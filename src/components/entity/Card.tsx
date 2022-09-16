@@ -16,11 +16,11 @@ import { ReactComponent as Logo } from "#/assets/images/logo.svg";
 
 const PRIMARY_COLOR = "#00BBF0";
 
-interface CardProps<T extends AnyEntity> {
-  entity: T;
+interface CardProps {
+  entity: AnyEntity;
 }
 
-export function Card<T extends AnyEntity>({ entity }: CardProps<T>) {
+export function Card({ entity }: CardProps) {
   const appDispatch = useAppDispatch();
   const city = useAppSelector(selectSearchCity);
 
