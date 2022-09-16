@@ -1,6 +1,6 @@
 import { getPeriod } from "#/services/tdx";
 
-import CardInfo, { EntityInfoType } from "#/components/entity/CardInfo";
+import EntityInfo, { EntityInfoType } from "#/components/entity/EntityInfo";
 import {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -14,7 +14,7 @@ type Entity =
   | HotelEntity
   | ActivityEntity;
 
-const switchDetails = (entity: Entity) => {
+const switchSightDetails = (entity: Entity) => {
   let info: [EntityInfoType, string | undefined][] = [];
 
   switch (entity.kind) {
@@ -62,10 +62,10 @@ const switchDetails = (entity: Entity) => {
   return (
     <>
       {info.map(([type, value]) => (
-        <CardInfo key={type} type={type} value={value} />
+        <EntityInfo key={type} type={type} value={value} />
       ))}
     </>
   );
 };
 
-export default switchDetails;
+export default switchSightDetails;

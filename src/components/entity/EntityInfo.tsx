@@ -7,14 +7,14 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import PhoneIcon from "@mui/icons-material/Phone";
 
-interface CardInfoProps {
+interface EntityInfoProps {
   type: "city" | "date" | "time" | "address" | "phone";
   value?: string;
 }
 
-export type EntityInfoType = CardInfoProps["type"];
+export type EntityInfoType = EntityInfoProps["type"];
 
-const typeIconMap: Record<CardInfoProps["type"], typeof SvgIcon> = {
+const typeIconMap: Record<EntityInfoProps["type"], typeof SvgIcon> = {
   city: PlaceIcon,
   date: DateRangeIcon,
   time: AccessTimeIcon,
@@ -26,7 +26,7 @@ const typeIconMap: Record<CardInfoProps["type"], typeof SvgIcon> = {
  * The main mission of this component is to map information
  * with corresponding icon.
  */
-function CardInfo({ type, value }: CardInfoProps) {
+function EntityInfo({ type, value }: EntityInfoProps) {
   const Icon = typeIconMap[type];
 
   return (
@@ -51,4 +51,4 @@ function CardInfo({ type, value }: CardInfoProps) {
   );
 }
 
-export default CardInfo;
+export default EntityInfo;

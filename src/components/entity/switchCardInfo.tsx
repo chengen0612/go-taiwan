@@ -1,6 +1,6 @@
 import { getPeriod } from "#/services/tdx/helper";
 
-import CardInfo, { EntityInfoType } from "./CardInfo";
+import EntityInfo, { EntityInfoType } from "./EntityInfo";
 
 import {
   ScenicSpotEntity,
@@ -61,7 +61,7 @@ const switchCardInfo = (entity: Entity) => {
   return (
     <>
       {info.map(([type, value]) => (
-        <CardInfo key={type} type={type} value={value} />
+        <EntityInfo key={type} type={type} value={value} />
       ))}
     </>
   );

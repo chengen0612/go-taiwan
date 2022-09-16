@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { selectSight, queryRecommendations } from "#/store/slices/sight";
 
 import * as S from "#/components/sight/styles";
-import switchDetails from "#/components/sight/switchDetails";
+import switchSightDetails from "#/components/sight/switchSightDetails";
 import Carousel from "#/components/layout/Carousel";
 import { Card } from "#/components/entity/Card";
 
@@ -42,7 +42,7 @@ function Sight() {
       </S.Header>
       <S.Body>
         <S.Title>{title}</S.Title>
-        <S.Details>{switchDetails(entity)}</S.Details>
+        <S.Details>{switchSightDetails(entity)}</S.Details>
         {/* TODO: add fallback if no content */}
         <section>{description}</section>
         {recommendations?.map((recommendation) => (
