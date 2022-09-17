@@ -12,6 +12,7 @@ import type {
   RestaurantEntity,
   HotelEntity,
   ActivityEntity,
+  AnyEntity,
 } from "#/utils/types/entity";
 
 /* Main */
@@ -97,10 +98,8 @@ const queryOneKindData =
   };
 
 const setOneKindData =
-  (data: Awaited<ReturnType<ReturnType<typeof queryOneKindData>>>) =>
-  (dispatch: AppDispatch) => {
-    const [firstItem] = data;
-    const { kind } = firstItem;
+  (data: AnyEntity[]) => (dispatch: AppDispatch, getState: () => RootState) => {
+    const kind = selectSearchKind(getState());
 
     switch (kind) {
       case "attraction":
