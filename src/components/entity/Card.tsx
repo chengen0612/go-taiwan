@@ -12,9 +12,10 @@ import switchCardInfo from "./switchCardInfo";
 
 import { AnyEntity } from "#/utils/types/entity";
 
-import { ReactComponent as Logo } from "#/assets/images/logo.svg";
+import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
-const PRIMARY_COLOR = "#00BBF0";
+const ASPECT_RATIO = "4 / 3";
+const BORDER_RADIUS = 4;
 
 interface CardProps {
   entity: AnyEntity;
@@ -41,23 +42,27 @@ export function Card({ entity }: CardProps) {
           <Graphic
             src={firstPicture.url}
             alt={firstPicture.description}
-            aspectRatio="4 / 3"
-            sx={{ borderRadius: 4, overflow: "hidden" }}
+            aspectRatio={ASPECT_RATIO}
+            sx={{ borderRadius: BORDER_RADIUS, overflow: "hidden" }}
           />
         ) : (
           <Box
             component="figure"
             sx={{
-              m: "unset",
-              aspectRatio: "4 / 3",
+              aspectRatio: ASPECT_RATIO,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              borderRadius: 4,
+              borderRadius: BORDER_RADIUS,
               backgroundColor: "common.white",
             }}
           >
-            <Logo width="56%" stroke={PRIMARY_COLOR} />
+            <Graphic
+              src={NO_IMAGE_PATH}
+              alt="未提供圖片"
+              height="80%"
+              objectFit="contain"
+            />
           </Box>
         )}
         <Box sx={{ p: "0.5rem 0.5rem 1rem" }}>

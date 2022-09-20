@@ -1,5 +1,7 @@
-import { SxProps } from "@mui/material";
+import { CSSProperties } from "react";
 import Box from "@mui/material/Box";
+import { SxProps } from "@mui/material";
+import { Theme } from "@mui/material/styles";
 
 interface GraphicProps {
   src: string;
@@ -7,16 +9,25 @@ interface GraphicProps {
   aspectRatio?: string;
   height?: number | string;
   width?: number | string;
-  sx?: SxProps;
+  objectFit?: CSSProperties["objectFit"];
+  sx?: SxProps<Theme>;
 }
 
-function Graphic({ src, alt, aspectRatio, height, width, sx }: GraphicProps) {
+function Graphic({
+  src,
+  alt,
+  aspectRatio,
+  height,
+  width,
+  objectFit = "cover",
+  sx,
+}: GraphicProps) {
   return (
-    <Box sx={{ aspectRatio, height, width, ...sx }}>
+    <Box component="figure" sx={{ aspectRatio, height, width, ...sx }}>
       <img
         src={src}
         alt={alt}
-        style={{ height: "100%", width: "100%", objectFit: "cover" }}
+        style={{ height: "100%", width: "100%", objectFit }}
       />
     </Box>
   );

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
 import Slides from "./Slides";
 import Controllers from "./Controllers";
@@ -47,11 +47,11 @@ function Root({ pictures: initPictures }: RootProps) {
   }, [timerRef, slideNext]);
 
   return (
-    <Container sx={{ position: "relative", height: "100%", p: 0 }}>
+    <Box sx={{ position: "relative", height: "100%" }}>
       <Slides effect={effect} pictures={pictures} />
       <Controllers onPrev={slidePrev} onNext={slideNext} />
       <Indicators length={pictures.length} currentIndex={currentIndex} />
-    </Container>
+    </Box>
   );
 }
 

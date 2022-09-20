@@ -1,13 +1,11 @@
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
 import Root from "./Root";
 import Graphic from "#/components/layout/Graphic";
 
 import type { EntityPicture } from "#/utils/types/entity";
 
-import { ReactComponent as Logo } from "#/assets/images/logo.svg";
-
-const PRIMARY_COLOR = "#00BBF0";
+import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
 interface CarouselProps {
   pictures: EntityPicture[];
@@ -16,17 +14,18 @@ interface CarouselProps {
 function Carousel({ pictures }: CarouselProps) {
   if (pictures.length === 0) {
     return (
-      <Container
+      <Box
+        component="figure"
         sx={{
           height: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          p: 0,
+          bgcolor: "common.white",
         }}
       >
-        <Logo width="52%" stroke={PRIMARY_COLOR} />
-      </Container>
+        <Graphic src={NO_IMAGE_PATH} alt="未提供圖片" height="80%" />
+      </Box>
     );
   }
 
