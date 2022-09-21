@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
 import SearchNav from "#/components/layout/SearchNav";
+import ContentBoundary from "#/components/layout/ContentBoundary";
 import CardList from "#/components/entity/CardList";
 
 import { useOnSearchEnd } from "#/utils/hooks/search";
@@ -32,17 +33,19 @@ function Search() {
   return (
     <>
       <SearchNav />
-      <Container component="main" sx={{ p: "0 1.5rem 3.5rem" }}>
-        {searchKind !== "all" ? (
-          <CardList kind={searchKind} />
-        ) : (
-          SEARCH_KIND.allKinds
-            .filter<AllessSearchKind>(
-              (kind): kind is AllessSearchKind => kind !== "all"
-            )
-            .map((kind) => <CardList key={kind} kind={kind} />)
-        )}
-      </Container>
+      <ContentBoundary component="main">
+        <Box sx={{ pb: "3.5rem" }}>
+          {searchKind !== "all" ? (
+            <CardList kind={searchKind} />
+          ) : (
+            SEARCH_KIND.allKinds
+              .filter<AllessSearchKind>(
+                (kind): kind is AllessSearchKind => kind !== "all"
+              )
+              .map((kind) => <CardList key={kind} kind={kind} />)
+          )}
+        </Box>
+      </ContentBoundary>
     </>
   );
 }

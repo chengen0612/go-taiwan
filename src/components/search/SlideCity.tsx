@@ -1,6 +1,5 @@
 import { memo, useCallback, MouseEventHandler } from "react";
 import { styled } from "@mui/material/styles";
-import Container, { ContainerProps } from "@mui/material/Container";
 import ButtonBase, { ButtonBaseProps } from "@mui/material/ButtonBase";
 
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
@@ -13,7 +12,7 @@ import {
 import { CITY } from "#/utils/constants/city";
 import { SearchProperty } from "#/utils/types/search";
 
-const StyledContainer = styled(Container)<ContainerProps>({
+const Wrapper = styled("div")({
   height: "4.5rem",
   display: "flex",
   alignItems: "center",
@@ -63,7 +62,7 @@ function SlideCity() {
   );
 
   return (
-    <StyledContainer>
+    <Wrapper>
       {CITY.all.map((item) => (
         <CityButton
           key={item.key}
@@ -74,7 +73,7 @@ function SlideCity() {
           {item.value}
         </CityButton>
       ))}
-    </StyledContainer>
+    </Wrapper>
   );
 }
 
