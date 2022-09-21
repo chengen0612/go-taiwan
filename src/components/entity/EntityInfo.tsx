@@ -43,7 +43,11 @@ function EntityInfo({ type, value }: EntityInfoProps) {
       <Icon />
       <Typography
         component="p"
-        sx={{ pt: 0.25, verticalAlign: "super", fontSize: "inherit" }}
+        sx={{
+          pt: 0.25,
+          fontSize: "inherit",
+          overflowWrap: "anywhere",
+        }}
       >
         {value || "無資訊"}
       </Typography>
