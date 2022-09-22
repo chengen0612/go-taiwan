@@ -12,7 +12,6 @@ import type {
   RestaurantEntity,
   HotelEntity,
   ActivityEntity,
-  AnyEntity,
 } from "#/utils/types/entity";
 
 /* Main */
@@ -25,12 +24,7 @@ type EntitiesState = {
   }[T];
 };
 
-type SetAllPayload = {
-  attraction: ScenicSpotEntity[];
-  food: RestaurantEntity[];
-  hotel: HotelEntity[];
-  activity: ActivityEntity[];
-};
+type SetAllPayload = Awaited<ReturnType<typeof TDX.queryAll>>;
 
 const initialState: EntitiesState = {
   attraction: { byID: {}, allIDs: [] },
@@ -92,14 +86,15 @@ export const selectEntityByKindAndID =
 /* Thunk */
 const queryOneKindData =
   () => (_dispatch: AppDispatch, getState: () => RootState) => {
-    const { kind, city, keyword } = selectSearch<AllessSearchKind>(getState());
+    const { keyword, ...rest } = selectSearch<AllessSearchKind>(getState());
 
-    return TDX.query({ kind, city, filter: { keyword } });
+    return TDX.query({ ...rest, filter: { keyword } });
   };
 
 const setOneKindData =
-  (data: AnyEntity[]) => (dispatch: AppDispatch, getState: () => RootState) => {
-    const kind = selectSearchKind(getState());
+  (data: Awaited<ReturnType<typeof TDX.query>>) =>
+  (dispatch: AppDispatch, getState: () => RootState) => {
+    const kind = selectSearchKind(getState()) as AllessSearchKind;
 
     switch (kind) {
       case "attraction":
@@ -131,14 +126,6 @@ const queryAllKindData =
     return TDX.queryAll({ ...rest, filter: { keyword } });
   };
 
-const setAllKindData =
-  (data: Awaited<ReturnType<typeof TDX.queryAll>>) =>
-  (dispatch: AppDispatch, getState: () => RootState) => {
-    const { attraction, food, hotel, activity } = data;
-
-    dispatch(setAll({ attraction, food, hotel, activity }));
-  };
-
 /**
  * An abstract layer to switch query thunks by search.kind.
  * It is designed to hide the api switching logic from ui component.
@@ -153,7 +140,7 @@ export const queryTourismData =
         .catch((error) => alert(error.message));
     } else {
       dispatch(queryAllKindData())
-        .then((data) => dispatch(setAllKindData(data)))
+        .then((data) => dispatch(setAll(data)))
         .catch((error) => alert(error.message));
     }
   };
