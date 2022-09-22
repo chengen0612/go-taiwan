@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
+
+import { useMounted } from "#/utils/hooks/lifecycle";
+import { useOnSearchEnd } from "#/utils/hooks/search";
 
 import SearchNav from "#/components/layout/SearchNav";
 import ContentBoundary from "#/components/layout/ContentBoundary";
 import CardList from "#/components/entity/CardList";
-
-import { useOnSearchEnd } from "#/utils/hooks/search";
 
 import {
   SEARCH_KIND,
@@ -16,19 +17,16 @@ import {
 
 function Search() {
   const [searchParams] = useSearchParams();
-  // Using query string to decide which kind of data to display.
+  // Use query string to decide which kind of data to display.
   const searchKind = searchParams.get("kind") as SearchKind;
 
+  const mounted = useMounted();
   const onSearchEnd = useOnSearchEnd();
 
-  const [didMount, setDidMount] = useState(false);
-
-  useEffect(() => setDidMount(true), []);
-
-  // Query data.
+  // query data
   useEffect(() => {
-    if (didMount) onSearchEnd();
-  }, [didMount, onSearchEnd]);
+    if (mounted) onSearchEnd();
+  }, [mounted, onSearchEnd]);
 
   return (
     <>

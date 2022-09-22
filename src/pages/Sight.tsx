@@ -7,6 +7,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+import { useMounted } from "#/utils/hooks/lifecycle";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { selectSight, queryRecommendations } from "#/store/slices/sight";
 
@@ -20,14 +21,17 @@ import { SEARCH_KIND } from "#/utils/constants/searchKind";
 import { CITY } from "#/utils/constants/city";
 
 function Sight() {
+  const mounted = useMounted();
   const appDispatch = useAppDispatch();
   const location = useLocation();
 
   const { kind, city, entity, recommendations } = useAppSelector(selectSight);
 
   useEffect(() => {
-    appDispatch(queryRecommendations());
-  }, [appDispatch, location]);
+    if (mounted) {
+      appDispatch(queryRecommendations());
+    }
+  }, [mounted, appDispatch, location]);
 
   if (!entity) {
     // TODO:
@@ -39,7 +43,7 @@ function Sight() {
   const { title, description, pictures } = entity;
 
   return (
-    <div>
+    <>
       <SightNav />
       <S.Main>
         <S.Header>
@@ -64,7 +68,7 @@ function Sight() {
           </S.Recommendations>
         </S.Section>
       </S.Main>
-    </div>
+    </>
   );
 }
 

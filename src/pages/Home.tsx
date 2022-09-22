@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "#/utils/hooks/store";
 
+import { useMounted } from "#/utils/hooks/lifecycle";
 import { queryTourismData } from "#/store/slices/entities";
 
 import SearchNav from "#/components/layout/SearchNav";
@@ -10,12 +11,17 @@ import CardList from "#/components/entity/CardList";
 import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
 
 function Home() {
+  const mounted = useMounted();
   const appDispatch = useAppDispatch();
 
-  useEffect(() => appDispatch(queryTourismData()), [appDispatch]);
+  useEffect(() => {
+    if (mounted) {
+      appDispatch(queryTourismData());
+    }
+  }, [mounted, appDispatch]);
 
   return (
-    <div>
+    <>
       <SearchNav />
       <ContentBoundary component="main">
         {SEARCH_KIND.allKinds
@@ -26,7 +32,7 @@ function Home() {
             <CardList key={kind} kind={kind} />
           ))}
       </ContentBoundary>
-    </div>
+    </>
   );
 }
 
