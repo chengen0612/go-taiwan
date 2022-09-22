@@ -1,68 +1,32 @@
-import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
+import { useEffect } from "react";
+import { useAppDispatch } from "#/utils/hooks/store";
 
-import Graphic from "#/components/layout/Graphic";
-import SearchForm from "#/components/search/SearchForm";
+import { queryTourismData } from "#/store/slices/entities";
 
-import LogoPath from "#/assets/images/logo.svg";
+import SearchNav from "#/components/layout/SearchNav";
+import ContentBoundary from "#/components/layout/ContentBoundary";
+import CardList from "#/components/entity/CardList";
 
-const Wrapper = styled("div")({
-  position: "relative",
-  height: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  paddingRight: "1.5rem",
-  paddingLeft: "1.5rem",
-  background: "center / cover url(src/assets/images/cover.png)",
-  overflowX: "hidden",
-});
-
-const Moon = styled("div")(({ theme }) => ({
-  position: "absolute",
-  right: "16vw",
-  top: "-20vh",
-  width: "210%",
-  aspectRatio: "1 / 1",
-  borderRadius: "100%",
-  backgroundColor: theme.palette.secondary.main,
-}));
+import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
 
 function Home() {
+  const appDispatch = useAppDispatch();
+
+  useEffect(() => appDispatch(queryTourismData()), [appDispatch]);
+
   return (
-    <Wrapper>
-      <Moon />
-      <Graphic
-        src="./src/assets/images/character.png"
-        alt="character"
-        aspectRatio="1 / 1"
-        width="120%"
-        sx={{ position: "absolute", top: "6vh" }}
-      />
-      <img
-        src={LogoPath}
-        alt="logo"
-        style={{
-          position: "absolute",
-          top: "8vh",
-          left: "12vw",
-          width: "53vw",
-        }}
-      />
-      <Typography
-        variant="h1"
-        sx={{
-          position: "absolute",
-          top: "50vh",
-          fontFamily: "Noto Serif JP",
-          fontSize: "40vw",
-          fontWeight: "regular",
-          color: "common.white",
-        }}
-      >
-        台灣
-      </Typography>
-      <SearchForm />
-    </Wrapper>
+    <div>
+      <SearchNav />
+      <ContentBoundary component="main">
+        {SEARCH_KIND.allKinds
+          .filter<AllessSearchKind>(
+            (kind): kind is AllessSearchKind => kind !== "all"
+          )
+          .map((kind) => (
+            <CardList key={kind} kind={kind} />
+          ))}
+      </ContentBoundary>
+    </div>
   );
 }
 
