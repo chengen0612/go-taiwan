@@ -43,12 +43,23 @@ function CardList({ kind }: CardListProps) {
         {heading}
       </Typography>
       <Box
-        sx={{
+        sx={(theme) => ({
           mt: "1.25rem",
           display: "grid",
-          rowGap: "1.25rem",
-          columnGap: "0.75rem",
-        }}
+          gap: "1.5rem",
+          [theme.breakpoints.up("sm")]: {
+            gridTemplateColumns: "repeat(2, 1fr)",
+          },
+          [theme.breakpoints.up("md")]: {
+            gridTemplateColumns: "repeat(3, 1fr)",
+          },
+          [theme.breakpoints.up("lg")]: {
+            gridTemplateColumns: "repeat(4, 1fr)",
+          },
+          [theme.breakpoints.up("xl")]: {
+            gridTemplateColumns: "repeat(5, 1fr)",
+          },
+        })}
       >
         {entitiesIDs.length === 0
           ? "無符合結果"

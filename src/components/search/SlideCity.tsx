@@ -13,7 +13,6 @@ import { CITY } from "#/utils/constants/city";
 import { SearchProperty } from "#/utils/types/search";
 
 const Wrapper = styled("div")({
-  height: "4.5rem",
   display: "flex",
   alignItems: "center",
   columnGap: "0.5rem",

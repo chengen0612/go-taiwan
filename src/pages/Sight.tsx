@@ -41,7 +41,7 @@ function Sight() {
   return (
     <div>
       <SightNav />
-      <S.Layout>
+      <S.Main>
         <S.Header>
           <Carousel pictures={pictures} />
         </S.Header>
@@ -63,7 +63,7 @@ function Sight() {
             ))}
           </S.Recommendations>
         </S.Section>
-      </S.Layout>
+      </S.Main>
     </div>
   );
 }

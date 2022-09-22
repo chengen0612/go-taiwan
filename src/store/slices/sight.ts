@@ -71,7 +71,7 @@ export const queryRecommendations = (): AppThunk => (dispatch, getState) => {
   const { kind, city, id: excludedID } = selectSight(getState());
 
   if (kind && city && excludedID) {
-    TDX.query({ kind, city, filter: { excludedID }, limit: 3 })
+    TDX.query({ kind, city, filter: { excludedID }, limit: 4 })
       .then((result) => dispatch(setRecommendations(result)))
       .catch((error) => alert(error.message));
   }

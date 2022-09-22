@@ -24,7 +24,12 @@ function Carousel({ pictures }: CarouselProps) {
           bgcolor: "common.white",
         }}
       >
-        <Graphic src={NO_IMAGE_PATH} alt="未提供圖片" height="80%" />
+        <Graphic
+          src={NO_IMAGE_PATH}
+          alt="未提供圖片"
+          height="80%"
+          objectFit="contain"
+        />
       </Box>
     );
   }

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { selectSearchCity } from "#/store/slices/search";
-import { setEntity, SetEntityPayload } from "#/store/slices/sight";
+import { setEntity } from "#/store/slices/sight";
 
 import Graphic from "#/components/layout/Graphic";
 import switchCardInfo from "./switchCardInfo";
@@ -30,9 +30,7 @@ export function Card({ entity }: CardProps) {
   const [firstPicture] = pictures;
 
   const handleClick = useCallback(() => {
-    appDispatch(
-      setEntity({ entity: entity as SetEntityPayload["entity"], city })
-    );
+    appDispatch(setEntity({ entity, city }));
   }, [appDispatch, entity, city]);
 
   return (
@@ -65,7 +63,7 @@ export function Card({ entity }: CardProps) {
             />
           </Box>
         )}
-        <Box sx={{ p: "0.5rem 0.5rem 1rem" }}>
+        <Box sx={{ p: "0.5rem" }}>
           <Typography component="h4" sx={{ ml: 0.5, fontWeight: 500 }}>
             {title}
           </Typography>
