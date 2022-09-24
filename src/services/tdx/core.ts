@@ -17,6 +17,7 @@ import type {
   TDXRestaurant,
   TDXHotel,
   TDXActivity,
+  AnyTDXEntity,
 } from "#/utils/models/tdx";
 import { SearchOptions } from "#/store/slices/search";
 import { AllessSearchKind, SearchKind } from "#/utils/constants/searchKind";
@@ -67,13 +68,11 @@ export class TDXService {
   };
 
   queryAll = async (options: QueryOptions & { kind: "all" }) => {
-    const { kind, ...rest } = options;
-
     const data = await Promise.all([
-      this.queryScenicSpot({ ...rest, kind: "attraction" }),
-      this.queryRestaurant({ ...rest, kind: "food" }),
-      this.queryHotel({ ...rest, kind: "hotel" }),
-      this.queryActivity({ ...rest, kind: "activity" }),
+      this.queryScenicSpot({ ...options, kind: "attraction" }),
+      this.queryRestaurant({ ...options, kind: "food" }),
+      this.queryHotel({ ...options, kind: "hotel" }),
+      this.queryActivity({ ...options, kind: "activity" }),
     ]);
 
     return {
@@ -82,6 +81,50 @@ export class TDXService {
       hotel: data[2],
       activity: data[3],
     };
+  };
+
+  queryID = (kind: AllessSearchKind, id: string) => {
+    const tdxPathname = getTDXPathName(kind);
+
+    const urlFragments = [
+      this.BASE_API_URL,
+      this.BASE_TOURISM_ROUTE,
+      tdxPathname,
+    ];
+
+    const params: Params = {
+      format: "json",
+      filter: getFilterString(kind, { includedID: id }),
+    };
+
+    const url = this.getUrl(urlFragments, params);
+
+    return fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+
+        return response.json();
+      })
+      .then((data: AnyTDXEntity[]) => {
+        switch (kind) {
+          case "attraction":
+            return parseScenicSpot(data as TDXScenicSpot[]);
+
+          case "food":
+            return parseRestaurant(data as TDXRestaurant[]);
+
+          case "hotel":
+            return parseHotel(data as TDXHotel[]);
+
+          case "activity":
+            return parseActivity(data as TDXActivity[]);
+
+          default:
+            throw new Error(`Invalid kind property ${kind}`);
+        }
+      });
   };
 
   private queryScenicSpot = async (

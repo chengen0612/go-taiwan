@@ -41,15 +41,22 @@ const getNameFilter = (kind: AllessSearchKind, keyword: string) => {
  *
  * Example: ScenicSpotID ne 'C1_313020000G_000026'
  */
-const getIDFilter = (kind: AllessSearchKind, excludedID: string) => {
+const getExcludeIDFilter = (kind: AllessSearchKind, excludedID: string) => {
   const pathname = getTDXPathName(kind);
 
   return `${pathname}ID ne '${excludedID}'`;
 };
 
+const getIncludeIDFilter = (kind: AllessSearchKind, includedID: string) => {
+  const pathname = getTDXPathName(kind);
+
+  return `${pathname}ID eq '${includedID}'`;
+};
+
 export interface Filter {
   keyword?: string;
   excludedID?: string;
+  includedID?: string;
 }
 
 /**
@@ -61,7 +68,7 @@ export const getFilterString = (
 ): string | undefined => {
   if (!filter) return undefined;
 
-  const { keyword, excludedID } = filter;
+  const { keyword, excludedID, includedID } = filter;
 
   let filterString: string | undefined;
 
@@ -70,7 +77,11 @@ export const getFilterString = (
   }
 
   if (excludedID) {
-    filterString = getIDFilter(kind, excludedID);
+    filterString = getExcludeIDFilter(kind, excludedID);
+  }
+
+  if (includedID) {
+    filterString = getIncludeIDFilter(kind, includedID);
   }
 
   return filterString;
