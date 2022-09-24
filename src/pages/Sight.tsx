@@ -50,14 +50,14 @@ function Sight() {
 
   if (!entity) return null;
 
-  const { kind, city, title, description, pictures } = entity;
+  const { kind, id, city, title, description, pictures } = entity;
 
   return (
     <>
       <SightNav />
       <S.Main>
         <S.Header>
-          <Carousel pictures={pictures} />
+          <Carousel key={id} pictures={pictures} />
         </S.Header>
         <S.Title>{title}</S.Title>
         <S.Details>{switchSightDetails(entity)}</S.Details>
