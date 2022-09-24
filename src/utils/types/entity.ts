@@ -1,4 +1,5 @@
 import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { CityName } from "#/utils/constants/city";
 
 export interface EntityPicture {
   url: string;
@@ -21,7 +22,7 @@ export interface EntityBase {
   position: EntityPosition;
   categories: string[]; // tags
   phone?: string;
-  city: string;
+  city: CityName;
   websiteUrl?: string;
 }
 

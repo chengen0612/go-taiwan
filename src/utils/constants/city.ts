@@ -1,9 +1,9 @@
 const CITY_TABLE = {
-  taipei: { key: "taipei", value: "台北市", tdxCityName: "Taipei" },
+  taipei: { key: "taipei", value: "臺北市", tdxCityName: "Taipei" },
   newTaipei: { key: "newTaipei", value: "新北市", tdxCityName: "NewTaipei" },
   taoyuan: { key: "taoyuan", value: "桃園市", tdxCityName: "Taoyuan" },
-  taichung: { key: "taichung", value: "台中市", tdxCityName: "Taichung" },
-  tainan: { key: "tainan", value: "台南市", tdxCityName: "Tainan" },
+  taichung: { key: "taichung", value: "臺中市", tdxCityName: "Taichung" },
+  tainan: { key: "tainan", value: "臺南市", tdxCityName: "Tainan" },
   kaohsiung: { key: "kaohsiung", value: "高雄市", tdxCityName: "Kaohsiung" },
   keelung: { key: "keelung", value: "基隆市", tdxCityName: "Keelung" },
   hsinchu: { key: "hsinchu", value: "新竹市", tdxCityName: "Hsinchu" },
@@ -76,6 +76,8 @@ const CITY_TABLE = {
 } as const;
 
 export type CityName = keyof typeof CITY_TABLE;
+
+export type CityValue = typeof CITY_TABLE[CityName]["value"];
 
 export const CITY = {
   byName: CITY_TABLE,
