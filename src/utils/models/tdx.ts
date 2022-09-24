@@ -67,3 +67,9 @@ export interface TDXActivity extends TDXEntityBase {
   Charge?: string;
   Remarks?: string;
 }
+
+export type AnyTDXEntity =
+  | TDXScenicSpot
+  | TDXRestaurant
+  | TDXHotel
+  | TDXActivity;
