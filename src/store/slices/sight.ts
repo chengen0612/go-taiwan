@@ -1,52 +1,34 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 
 import TDX from "#/services/tdx";
 
 import { AllessSearchKind } from "#/utils/constants/searchKind";
-import { CityName } from "#/utils/constants/city";
-import {
-  ScenicSpotEntity,
-  RestaurantEntity,
-  HotelEntity,
-  ActivityEntity,
-} from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/types/entity";
 import { RootState, AppThunk } from "#/store";
 
-type EntityMap = {
-  attraction: ScenicSpotEntity;
-  food: RestaurantEntity;
-  hotel: HotelEntity;
-  activity: ActivityEntity;
-};
-
-interface InitialState<T extends AllessSearchKind> {
-  id: string;
-  kind: T;
-  city: CityName;
-  entity: EntityMap[T];
-  recommendations: EntityMap[T][];
+interface InitialState {
+  entity: AnyEntity | undefined;
+  recommendations: AnyEntity[] | undefined;
 }
 
-export type SetEntityPayload = Pick<
-  InitialState<AllessSearchKind>,
-  "entity" | "city"
->;
+const initialState: InitialState = {
+  entity: undefined,
+  recommendations: undefined,
+};
 
-type SetRecommendationsPayload =
-  InitialState<AllessSearchKind>["recommendations"];
-
-const initialState: Partial<InitialState<AllessSearchKind>> = {};
+type SetEntityPayload = NonNullable<InitialState["entity"]>;
+type SetRecommendationsPayload = NonNullable<InitialState["recommendations"]>;
 
 const sightSlice = createSlice({
   name: "sight",
   initialState,
   reducers: {
     setEntity(_state, action: PayloadAction<SetEntityPayload>) {
-      const { entity, city } = action.payload;
-      const { id, kind } = entity;
-
-      return { id, kind, city, entity };
+      return {
+        ...initialState,
+        entity: action.payload,
+      };
     },
 
     setRecommendations(
@@ -65,14 +47,38 @@ export const { setEntity, setRecommendations } = sightSlice.actions;
 /* Selector */
 export const selectSight = (store: RootState) => store.sight;
 
-/* Thunk */
-/** Query recommendations by the kind and the city of the viewing entity. */
-export const queryRecommendations = (): AppThunk => (dispatch, getState) => {
-  const { kind, city, id: excludedID } = selectSight(getState());
+export const selectSightEntity = createSelector(
+  selectSight,
+  (sight) => sight.entity
+);
 
-  if (kind && city && excludedID) {
-    TDX.query({ kind, city, filter: { excludedID }, limit: 4 })
-      .then((result) => dispatch(setRecommendations(result)))
+export const selectSightRecommendations = createSelector(
+  selectSight,
+  (sight) => sight.recommendations
+);
+
+/* Thunk */
+export const queryEntity =
+  (kind: AllessSearchKind, id: string): AppThunk<Promise<void>> =>
+  async (dispatch) => {
+    await TDX.queryID(kind, id)
+      .then((data) => dispatch(setEntity(data[0])))
       .catch((error) => alert(error.message));
-  }
-};
+  };
+
+/**
+ * Query recommendations by the kind and the city properties
+ * of the target entity.
+ */
+export const queryRecommendations =
+  (): AppThunk<Promise<void>> => async (dispatch, getState) => {
+    const { entity } = selectSight(getState());
+
+    if (entity) {
+      const { kind, city, id: excludedID } = entity;
+
+      await TDX.query({ kind, city, filter: { excludedID }, limit: 4 })
+        .then((result) => dispatch(setRecommendations(result)))
+        .catch((error) => alert(error.message));
+    }
+  };
