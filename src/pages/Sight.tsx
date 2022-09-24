@@ -10,6 +10,7 @@ import {
   queryRecommendations,
 } from "#/store/slices/sight";
 import { destructSightPath } from "#/utils/helpers/pathname";
+import { getCityValue } from "#/utils/constants/city";
 
 import * as S from "#/components/sight/styles";
 import switchSightDetails from "#/components/sight/switchSightDetails";
@@ -18,7 +19,6 @@ import { Card } from "#/components/entity/Card";
 import SightNav from "#/components/layout/SightNav";
 
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
-import { CITY } from "#/utils/constants/city";
 
 function Sight() {
   const mounted = useMounted();
@@ -68,7 +68,7 @@ function Sight() {
         <S.Section>
           <S.Subtitle>
             更多
-            {CITY.byName[city!].value}
+            {getCityValue(city)}
             {SEARCH_KIND.byIndex[kind!].value}
           </S.Subtitle>
           <S.Recommendations>

@@ -84,3 +84,5 @@ export const CITY = {
   allNames: Object.keys(CITY_TABLE),
   all: Object.values(CITY_TABLE),
 };
+
+export const getCityValue = (city: CityName) => CITY.byName[city].value;

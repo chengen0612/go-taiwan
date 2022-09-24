@@ -1,3 +1,4 @@
+import { getCityValue } from "#/utils/constants/city";
 import { getPeriod } from "#/services/tdx/helper";
 
 import EntityInfo, { EntityInfoType } from "./EntityInfo";
@@ -6,12 +7,13 @@ import { AnyEntity } from "#/utils/types/entity";
 
 const switchCardInfo = (entity: AnyEntity) => {
   let info: [EntityInfoType, string | undefined][] = [];
+  const cityValue = getCityValue(entity.city);
 
   switch (entity.kind) {
     case "attraction":
     case "food": {
       info = [
-        ["city", entity.city],
+        ["city", cityValue],
         ["date", entity.openTime],
       ];
 
@@ -20,7 +22,7 @@ const switchCardInfo = (entity: AnyEntity) => {
 
     case "hotel": {
       info = [
-        ["city", entity.city],
+        ["city", cityValue],
         ["address", entity.address],
       ];
 
@@ -32,7 +34,7 @@ const switchCardInfo = (entity: AnyEntity) => {
       const period = getPeriod(startTime, endTime);
 
       info = [
-        ["city", entity.city],
+        ["city", cityValue],
         ["date", period],
       ];
 
