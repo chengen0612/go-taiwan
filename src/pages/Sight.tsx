@@ -1,15 +1,15 @@
-//   -> not exist
-//        - redirect to not found page
-//   -> exist
-//        - render
-//        - get recommend items by location or search options
-
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useMounted } from "#/utils/hooks/lifecycle";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
-import { selectSight, queryRecommendations } from "#/store/slices/sight";
+import {
+  selectSightEntity,
+  selectSightRecommendations,
+  queryEntity,
+  queryRecommendations,
+} from "#/store/slices/sight";
+import { destructSightPath } from "#/utils/helpers/pathname";
 
 import * as S from "#/components/sight/styles";
 import switchSightDetails from "#/components/sight/switchSightDetails";
@@ -24,23 +24,33 @@ function Sight() {
   const mounted = useMounted();
   const appDispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const { kind, city, entity, recommendations } = useAppSelector(selectSight);
+  const entity = useAppSelector(selectSightEntity);
+  const recommendations = useAppSelector(selectSightRecommendations);
+
+  const entityInfo = useMemo(
+    () => destructSightPath(location.pathname),
+    [location]
+  );
 
   useEffect(() => {
-    if (mounted) {
-      appDispatch(queryRecommendations());
+    if (!mounted) return;
+
+    const { kind, id } = entityInfo;
+
+    if (!kind || !id) {
+      navigate("/");
+    } else {
+      appDispatch(queryEntity(kind, id))
+        .then(() => appDispatch(queryRecommendations()))
+        .catch(() => navigate("/"));
     }
-  }, [mounted, appDispatch, location]);
+  }, [mounted, entityInfo, appDispatch, navigate]);
 
-  if (!entity) {
-    // TODO:
-    //   | Redirect to not found page.
-    //   | Show cannot find message.
-    return null;
-  }
+  if (!entity) return null;
 
-  const { title, description, pictures } = entity;
+  const { kind, city, title, description, pictures } = entity;
 
   return (
     <>

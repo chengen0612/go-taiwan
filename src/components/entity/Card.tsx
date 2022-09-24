@@ -1,17 +1,14 @@
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
-import { selectSearchCity } from "#/store/slices/search";
-import { setEntity } from "#/store/slices/sight";
+import { constructSightPath } from "#/utils/helpers/pathname";
 
 import Graphic from "#/components/layout/Graphic";
 import switchCardInfo from "./switchCardInfo";
 
 import { AnyEntity } from "#/utils/types/entity";
-
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
 const ASPECT_RATIO = "4 / 3";
@@ -22,20 +19,15 @@ interface CardProps {
 }
 
 export function Card({ entity }: CardProps) {
-  const appDispatch = useAppDispatch();
-  const city = useAppSelector(selectSearchCity);
-
-  const { id, title, pictures } = entity;
+  const { kind, id, title, pictures } = entity;
 
   const [firstPicture] = pictures;
 
-  const handleClick = useCallback(() => {
-    appDispatch(setEntity({ entity, city }));
-  }, [appDispatch, entity, city]);
+  const sightPath = useMemo(() => constructSightPath(kind, id), [kind, id]);
 
   return (
     <article>
-      <Link to={`/sight/${id}`} onClick={handleClick}>
+      <Link to={sightPath}>
         {firstPicture ? (
           <Graphic
             src={firstPicture.url}
