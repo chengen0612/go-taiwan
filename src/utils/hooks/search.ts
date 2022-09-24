@@ -15,7 +15,7 @@ const useOnSearchStart = () => {
   const handler = useCallback(() => {
     const { kind, city, keyword } = search;
 
-    navigate(`search?kind=${kind}&city=${city}&keyword=${keyword}`);
+    navigate(`/search?kind=${kind}&city=${city}&keyword=${keyword}`);
   }, [navigate, search]);
 
   return handler;
