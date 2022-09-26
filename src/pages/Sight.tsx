@@ -16,7 +16,6 @@ import * as S from "#/components/sight/styles";
 import switchSightDetails from "#/components/sight/switchSightDetails";
 import Carousel from "#/components/layout/Carousel";
 import { Card } from "#/components/entity/Card";
-import SightNav from "#/components/layout/SightNav";
 
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
 
@@ -53,32 +52,29 @@ function Sight() {
   const { kind, id, city, title, description, pictures } = entity;
 
   return (
-    <>
-      <SightNav />
-      <S.Main>
-        <S.Header>
-          <Carousel key={id} pictures={pictures} />
-        </S.Header>
-        <S.Title>{title}</S.Title>
-        <S.Details>{switchSightDetails(entity)}</S.Details>
-        <S.Section>
-          <S.Subtitle>{SEARCH_KIND.byIndex[kind!].value}介紹</S.Subtitle>
-          <p>{description || "未提供資訊"}</p>
-        </S.Section>
-        <S.Section>
-          <S.Subtitle>
-            更多
-            {getCityValue(city)}
-            {SEARCH_KIND.byIndex[kind!].value}
-          </S.Subtitle>
-          <S.Recommendations>
-            {recommendations?.map((recommendation) => (
-              <Card key={recommendation.id} entity={recommendation} />
-            ))}
-          </S.Recommendations>
-        </S.Section>
-      </S.Main>
-    </>
+    <S.Main>
+      <S.Header>
+        <Carousel key={id} pictures={pictures} />
+      </S.Header>
+      <S.Title>{title}</S.Title>
+      <S.Details>{switchSightDetails(entity)}</S.Details>
+      <S.Section>
+        <S.Subtitle>{SEARCH_KIND.byIndex[kind!].value}介紹</S.Subtitle>
+        <p>{description || "未提供資訊"}</p>
+      </S.Section>
+      <S.Section>
+        <S.Subtitle>
+          更多
+          {getCityValue(city)}
+          {SEARCH_KIND.byIndex[kind!].value}
+        </S.Subtitle>
+        <S.Recommendations>
+          {recommendations?.map((recommendation) => (
+            <Card key={recommendation.id} entity={recommendation} />
+          ))}
+        </S.Recommendations>
+      </S.Section>
+    </S.Main>
   );
 }
 

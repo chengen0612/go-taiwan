@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import { useMounted } from "#/utils/hooks/lifecycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
 
-import SearchNav from "#/components/layout/SearchNav";
 import ContentBoundary from "#/components/layout/ContentBoundary";
 import CardList from "#/components/entity/CardList";
 
@@ -29,22 +28,19 @@ function Search() {
   }, [mounted, onSearchEnd]);
 
   return (
-    <>
-      <SearchNav />
-      <ContentBoundary component="main">
-        <Box sx={{ pb: "3.5rem" }}>
-          {searchKind !== "all" ? (
-            <CardList kind={searchKind} />
-          ) : (
-            SEARCH_KIND.allKinds
-              .filter<AllessSearchKind>(
-                (kind): kind is AllessSearchKind => kind !== "all"
-              )
-              .map((kind) => <CardList key={kind} kind={kind} />)
-          )}
-        </Box>
-      </ContentBoundary>
-    </>
+    <ContentBoundary component="main">
+      <Box sx={{ pb: "3.5rem" }}>
+        {searchKind !== "all" ? (
+          <CardList kind={searchKind} />
+        ) : (
+          SEARCH_KIND.allKinds
+            .filter<AllessSearchKind>(
+              (kind): kind is AllessSearchKind => kind !== "all"
+            )
+            .map((kind) => <CardList key={kind} kind={kind} />)
+        )}
+      </Box>
+    </ContentBoundary>
   );
 }
 

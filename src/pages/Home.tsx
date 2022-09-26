@@ -4,7 +4,6 @@ import { useAppDispatch } from "#/utils/hooks/store";
 import { useMounted } from "#/utils/hooks/lifecycle";
 import { queryTourismData } from "#/store/slices/entities";
 
-import SearchNav from "#/components/layout/SearchNav";
 import ContentBoundary from "#/components/layout/ContentBoundary";
 import CardList from "#/components/entity/CardList";
 
@@ -21,18 +20,15 @@ function Home() {
   }, [mounted, appDispatch]);
 
   return (
-    <>
-      <SearchNav />
-      <ContentBoundary component="main">
-        {SEARCH_KIND.allKinds
-          .filter<AllessSearchKind>(
-            (kind): kind is AllessSearchKind => kind !== "all"
-          )
-          .map((kind) => (
-            <CardList key={kind} kind={kind} />
-          ))}
-      </ContentBoundary>
-    </>
+    <ContentBoundary component="main">
+      {SEARCH_KIND.allKinds
+        .filter<AllessSearchKind>(
+          (kind): kind is AllessSearchKind => kind !== "all"
+        )
+        .map((kind) => (
+          <CardList key={kind} kind={kind} />
+        ))}
+    </ContentBoundary>
   );
 }
 
