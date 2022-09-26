@@ -33,7 +33,6 @@ function SearchInput() {
       onChange={handleChange}
       fullWidth
       sx={{
-        maxWidth: "30rem",
         borderRadius: "2rem",
         pl: "1.5rem",
         bgcolor: "grey.100",
