@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "#/utils/hooks/store";
 
-import { useMounted } from "#/utils/hooks/lifecycle";
+import { useMounted } from "#/utils/hooks/lifeCycle";
 import { queryTourismData } from "#/store/slices/entities";
 
 import ContentBoundary from "#/components/layout/ContentBoundary";

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useMounted } from "#/utils/hooks/lifecycle";
+import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import {
   selectSightEntity,

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 
-import { useMounted } from "#/utils/hooks/lifecycle";
+import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
 
 import ContentBoundary from "#/components/layout/ContentBoundary";
