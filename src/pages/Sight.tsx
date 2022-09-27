@@ -16,6 +16,7 @@ import * as S from "#/components/sight/styles";
 import switchSightDetails from "#/components/sight/switchSightDetails";
 import Carousel from "#/components/layout/Carousel";
 import { Card } from "#/components/entity/Card";
+import FavoriteButton from "#/components/sight/FavoriteButton";
 
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
 
@@ -56,7 +57,10 @@ function Sight() {
       <S.Header>
         <Carousel key={id} pictures={pictures} />
       </S.Header>
-      <S.Title>{title}</S.Title>
+      <S.Heading>
+        <S.Title>{title}</S.Title>
+        <FavoriteButton entity={entity} />
+      </S.Heading>
       <S.Details>{switchSightDetails(entity)}</S.Details>
       <S.Section>
         <S.Subtitle>{SEARCH_KIND.byIndex[kind!].value}介紹</S.Subtitle>

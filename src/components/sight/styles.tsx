@@ -17,6 +17,12 @@ export const Header = styled("header")({
   overflow: "hidden",
 });
 
+export const Heading = styled("section")({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
 export const Section = styled("section")({
   display: "flex",
   flexDirection: "column",
