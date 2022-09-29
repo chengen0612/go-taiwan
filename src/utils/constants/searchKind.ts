@@ -35,3 +35,6 @@ export const SEARCH_KIND = {
   all: Object.values(SEARCH_KIND_TABLE),
   allKinds: Object.keys(SEARCH_KIND_TABLE) as SearchKind[],
 };
+
+export const getKindValue = (kind: AllessSearchKind) =>
+  SEARCH_KIND.byIndex[kind].value;

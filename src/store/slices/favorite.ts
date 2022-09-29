@@ -37,6 +37,11 @@ const initialState: FavoriteState = {
   count: 0,
 };
 
+type DeleteFavoritePayload = {
+  kind: AllessSearchKind;
+  id: string;
+};
+
 const favoriteSlice = createSlice({
   name: "favorite",
   initialState,
@@ -56,12 +61,21 @@ const favoriteSlice = createSlice({
         state.count -= 1;
       }
     },
+
+    deleteFavorite(state, action: PayloadAction<DeleteFavoritePayload>) {
+      const { kind, id } = action.payload;
+      const constraint = state[kind];
+
+      delete constraint.byID[id];
+      constraint.allIDs = constraint.allIDs.filter((value) => value !== id);
+      state.count -= 1;
+    },
   },
 });
 
 export default favoriteSlice.reducer;
 
-export const { toggleFavorite } = favoriteSlice.actions;
+export const { toggleFavorite, deleteFavorite } = favoriteSlice.actions;
 
 /* Selector */
 export const selectIsFavorite = createSelector(
@@ -71,3 +85,15 @@ export const selectIsFavorite = createSelector(
 );
 
 export const selectFavoriteCount = (store: RootState) => store.favorite.count;
+
+export const selectFavoritesIDsByKind = (kind: AllessSearchKind) =>
+  createSelector(
+    (store: RootState) => store.favorite,
+    (favorite) => favorite[kind].allIDs
+  );
+
+export const selectFavoriteByKindAndID = (kind: AllessSearchKind, id: string) =>
+  createSelector(
+    (store: RootState) => store.favorite[kind],
+    (constraint) => constraint.byID[id]
+  );
