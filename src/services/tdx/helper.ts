@@ -1,5 +1,4 @@
-import { AllessSearchKind, SEARCH_KIND } from "#/utils/constants/searchKind";
-import { CityName, CityValue, CITY } from "#/utils/constants/city";
+import { getTDXPathName, AllessSearchKind } from "#/utils/constants/searchKind";
 
 /**
  * Create event period for activity entity.
@@ -9,20 +8,6 @@ export const getPeriod = (startTime: string, endTime: string) =>
   [startTime, endTime]
     .map((value) => new Date(value).toLocaleDateString("zh-TW"))
     .join(" - ");
-
-/**
- * Map tdx tourism pathname with kind property.
- */
-export const getTDXPathName = (kind: AllessSearchKind) =>
-  SEARCH_KIND.byIndex[kind].tdxPathname;
-
-/**
- * Map tdx city name with cityName property.
- */
-export const getTDXCityName = (city: CityName) => CITY.byName[city].tdxCityName;
-
-export const mapCityValueToName = (city: CityValue): CityName =>
-  Object.values(CITY.byName).find((item) => item.value === city)!.key;
 
 /**
  * Construct name filter by tdx pathname and OData syntax.

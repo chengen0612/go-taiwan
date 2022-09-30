@@ -1,10 +1,7 @@
 /* eslint-disable class-methods-use-this */
-import {
-  Filter,
-  getFilterString,
-  getTDXPathName,
-  getTDXCityName,
-} from "./helper";
+import { getFilterString, Filter } from "./helper";
+import { getTDXPathName, AllessSearchKind } from "#/utils/constants/searchKind";
+import { getTDXCityName } from "#/utils/constants/city";
 import {
   parseScenicSpot,
   parseRestaurant,
@@ -19,8 +16,7 @@ import type {
   TDXActivity,
   AnyTDXEntity,
 } from "#/utils/models/tdx";
-import { SearchOptions } from "#/store/slices/search";
-import { AllessSearchKind, SearchKind } from "#/utils/constants/searchKind";
+import { SearchOptions, SearchKind } from "#/store/slices/search";
 
 interface Params {
   [key: string]: string | number | undefined;

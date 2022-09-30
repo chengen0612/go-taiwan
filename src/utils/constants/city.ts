@@ -85,4 +85,10 @@ export const CITY = {
   all: Object.values(CITY_TABLE),
 };
 
+export const getCityNameByValue = (city: CityValue): CityName =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  Object.values(CITY.byName).find((item) => item.value === city)!.key;
+
 export const getCityValue = (city: CityName) => CITY.byName[city].value;
+
+export const getTDXCityName = (city: CityName) => CITY.byName[city].tdxCityName;

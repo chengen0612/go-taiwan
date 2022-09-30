@@ -1,5 +1,3 @@
-import { mapCityValueToName } from "./helper";
-
 import type {
   TDXPicture,
   TDXPosition,
@@ -16,7 +14,7 @@ import type {
   HotelEntity,
   ActivityEntity,
 } from "#/utils/types/entity";
-import { CityValue } from "#/utils/constants/city";
+import { getCityNameByValue, CityValue } from "#/utils/constants/city";
 
 const createPicture = (url: string, description: string): EntityPicture => ({
   url,
@@ -63,7 +61,7 @@ const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
     position: parsePosition(item.Position),
     websiteUrl: item.WebsiteUrl,
     categories: parseClasses(item.Class1, item.Class2, item.Class3),
-    city: mapCityValueToName(item.City as CityValue),
+    city: getCityNameByValue(item.City as CityValue),
     phone: item.Phone,
     openTime: item.OpenTime,
   }));
@@ -79,7 +77,7 @@ const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
     position: parsePosition(item.Position),
     websiteUrl: item.WebsiteUrl,
     categories: parseClasses(item.Class),
-    city: mapCityValueToName(item.City as CityValue),
+    city: getCityNameByValue(item.City as CityValue),
     phone: item.Phone,
     openTime: item.OpenTime,
   }));
@@ -95,7 +93,7 @@ const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
     position: parsePosition(item.Position),
     websiteUrl: item.WebsiteUrl,
     categories: parseClasses(item.Class),
-    city: mapCityValueToName(item.City as CityValue),
+    city: getCityNameByValue(item.City as CityValue),
     phone: item.Phone,
     parkingInfo: item.ParkingInfo,
   }));
@@ -111,7 +109,7 @@ const parseActivity = (items: TDXActivity[]): ActivityEntity[] =>
     position: parsePosition(item.Position),
     websiteUrl: item.WebsiteUrl,
     categories: parseClasses(item.Class1, item.Class2),
-    city: mapCityValueToName(item.City as CityValue),
+    city: getCityNameByValue(item.City as CityValue),
     phone: item.Phone,
     startTime: item.StartTime,
     endTime: item.EndTime,
