@@ -1,24 +1,28 @@
 import { useCallback } from "react";
-import type { SxProps, Theme, SelectProps } from "@mui/material";
+import Select, { SelectProps } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { setSearch, SetSearchPayload } from "#/store/slices/search";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
-
-import Select from "#/components/search/Select";
+import { setSearch, SetSearchPayload } from "#/store/slices/search";
 
 import { SearchProperty } from "#/utils/types/search";
 
-import type { AppSelector } from "#/store";
-import type { Option } from "#/utils/types/search";
+import type { RootState } from "#/store";
 
-interface SelectConnectorProps {
-  name: SearchProperty;
-  options: Option[];
-  selector: AppSelector<string>;
-  sx?: SxProps<Theme>;
+interface Option {
+  [key: string]: unknown;
+  key: string;
+  value: string;
 }
 
-function SelectConnector(props: SelectConnectorProps) {
+interface SearchSelectProps extends SelectProps {
+  name: SearchProperty;
+  options: Option[];
+  selector: (store: RootState) => string;
+}
+
+function SearchSelect(props: SearchSelectProps) {
   const { name, options, selector, sx } = props;
 
   const state = useAppSelector(selector);
@@ -38,11 +42,17 @@ function SelectConnector(props: SelectConnectorProps) {
     <Select
       name={name}
       value={state}
-      options={options}
+      IconComponent={ExpandMoreIcon}
       onChange={handleChange}
       sx={sx}
-    />
+    >
+      {options.map((item) => (
+        <MenuItem key={item.key} value={item.key}>
+          {item.value}
+        </MenuItem>
+      ))}
+    </Select>
   );
 }
 
-export default SelectConnector;
+export default SearchSelect;

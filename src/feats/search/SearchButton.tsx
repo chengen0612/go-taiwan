@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,14 +7,13 @@ import { useOnSearchStart } from "#/utils/hooks/search";
 function SearchButton() {
   const onSearchStart = useOnSearchStart();
 
-  const handleSubmit = useCallback(() => onSearchStart(), [onSearchStart]);
-
   return (
     <IconButton
       type="submit"
+      size="large"
       aria-label="search"
-      onClick={handleSubmit}
-      sx={{ alignSelf: "center" }}
+      onClick={onSearchStart}
+      sx={{ alignSelf: "center", p: "unset" }}
     >
       <Avatar
         sx={{

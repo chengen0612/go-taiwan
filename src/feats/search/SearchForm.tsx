@@ -18,7 +18,7 @@ import {
 } from "#/store/slices/search";
 import { useOnSearchStart } from "#/utils/hooks/search";
 
-import SelectConnector from "#/components/search/SelectConnector";
+import SearchSelect from "#/feats/search/SearchSelect";
 
 import { CITY } from "#/utils/constants/city";
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
@@ -75,12 +75,12 @@ function SearchForm() {
           sx={{ marginTop: "1.25rem" }}
           onSubmit={handleSubmit}
         >
-          <SelectConnector
+          <SearchSelect
             name={SearchProperty.City}
             options={CITY.all}
             selector={selectSearchCity}
           />
-          <SelectConnector
+          <SearchSelect
             name={SearchProperty.Kind}
             options={SEARCH_KIND.all}
             selector={selectSearchKind}

@@ -16,7 +16,7 @@ import {
   SetSearchPayload,
 } from "#/store/slices/search";
 
-import SelectConnector from "#/components/search/SelectConnector";
+import SearchSelect from "#/feats/search/SearchSelect";
 
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
 import { SearchProperty } from "#/utils/types/search";
@@ -85,7 +85,7 @@ function SearchBar() {
         }}
         onSubmit={handleSubmit}
       >
-        <SelectConnector
+        <SearchSelect
           name={SearchProperty.Kind}
           options={SEARCH_KIND.all}
           selector={selectSearchKind}

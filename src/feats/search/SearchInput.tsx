@@ -1,4 +1,4 @@
-import { useCallback, FocusEventHandler } from "react";
+import { useCallback, ChangeEventHandler } from "react";
 import InputBase from "@mui/material/InputBase";
 
 import {
@@ -13,7 +13,7 @@ function SearchInput() {
   const keyword = useAppSelector(selectSearchKeyword);
   const appDispatch = useAppDispatch();
 
-  const handleChange = useCallback<FocusEventHandler<HTMLInputElement>>(
+  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
       const { name: searchProperty, value } = event.target;
       const payload = { searchProperty, value } as SetSearchPayload;
@@ -27,8 +27,8 @@ function SearchInput() {
     <InputBase
       type="search"
       name={SearchProperty.Keyword}
-      placeholder="輸入關鍵字..."
       value={keyword}
+      placeholder="輸入關鍵字..."
       autoComplete="off"
       onChange={handleChange}
       fullWidth
