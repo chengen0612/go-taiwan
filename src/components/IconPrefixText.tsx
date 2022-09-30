@@ -7,14 +7,9 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import PhoneIcon from "@mui/icons-material/Phone";
 
-interface EntityInfoProps {
-  type: "city" | "date" | "time" | "address" | "phone";
-  value?: string;
-}
+type PrefixIconType = "city" | "date" | "time" | "address" | "phone";
 
-export type EntityInfoType = EntityInfoProps["type"];
-
-const typeIconMap: Record<EntityInfoProps["type"], typeof SvgIcon> = {
+const typeIconMap: Record<PrefixIconType, typeof SvgIcon> = {
   city: PlaceIcon,
   date: DateRangeIcon,
   time: AccessTimeIcon,
@@ -22,11 +17,12 @@ const typeIconMap: Record<EntityInfoProps["type"], typeof SvgIcon> = {
   phone: PhoneIcon,
 };
 
-/**
- * The main mission of this component is to map information
- * with corresponding icon.
- */
-function EntityInfo({ type, value }: EntityInfoProps) {
+interface IconPrefixTextProps {
+  type: PrefixIconType;
+  value: string;
+}
+
+function IconPrefixText({ type, value }: IconPrefixTextProps) {
   const Icon = typeIconMap[type];
 
   return (
@@ -49,10 +45,11 @@ function EntityInfo({ type, value }: EntityInfoProps) {
           overflowWrap: "anywhere",
         }}
       >
-        {value || "無資訊"}
+        {value}
       </Typography>
     </Box>
   );
 }
 
-export default EntityInfo;
+export default IconPrefixText;
+export type { IconPrefixTextProps };

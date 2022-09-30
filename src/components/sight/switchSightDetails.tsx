@@ -1,10 +1,12 @@
 import { getPeriod } from "#/services/tdx";
 
-import { EntityInfo, EntityInfoType } from "#/feats/entity";
+import IconPrefixText, {
+  IconPrefixTextProps,
+} from "#/components/IconPrefixText";
 import { AnyEntity } from "#/utils/types/entity";
 
 const switchSightDetails = (entity: AnyEntity) => {
-  let info: [EntityInfoType, string | undefined][] = [];
+  let info: [IconPrefixTextProps["type"], string | undefined][] = [];
 
   switch (entity.kind) {
     case "attraction":
@@ -51,7 +53,7 @@ const switchSightDetails = (entity: AnyEntity) => {
   return (
     <>
       {info.map(([type, value]) => (
-        <EntityInfo key={type} type={type} value={value} />
+        <IconPrefixText key={type} type={type} value={value || "無資訊"} />
       ))}
     </>
   );

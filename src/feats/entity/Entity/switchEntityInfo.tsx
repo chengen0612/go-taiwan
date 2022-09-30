@@ -1,12 +1,14 @@
 import { getCityValue } from "#/utils/constants/city";
 import { getPeriod } from "#/services/tdx/helper";
 
-import EntityInfo, { EntityInfoType } from "#/feats/entity/EntityInfo";
+import IconPrefixText, {
+  IconPrefixTextProps,
+} from "#/components/IconPrefixText";
 
 import { AnyEntity } from "#/utils/types/entity";
 
 const switchEntityInfo = (entity: AnyEntity) => {
-  let info: [EntityInfoType, string | undefined][] = [];
+  let info: [IconPrefixTextProps["type"], string | undefined][] = [];
   const cityValue = getCityValue(entity.city);
 
   switch (entity.kind) {
@@ -52,7 +54,7 @@ const switchEntityInfo = (entity: AnyEntity) => {
   return (
     <>
       {info.map(([type, value]) => (
-        <EntityInfo key={type} type={type} value={value} />
+        <IconPrefixText key={type} type={type} value={value || "無資訊"} />
       ))}
     </>
   );
