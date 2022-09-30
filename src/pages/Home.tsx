@@ -4,7 +4,7 @@ import { useAppDispatch } from "#/utils/hooks/store";
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { queryTourismData } from "#/store/slices/entities";
 
-import ContentBoundary from "#/components/layout/ContentBoundary";
+import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
 
 import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";

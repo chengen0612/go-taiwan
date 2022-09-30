@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 import { constructSightPath } from "#/utils/helpers/pathname";
 
-import Graphic from "#/components/layout/Graphic";
+import Graphic from "#/components/Graphic";
 import FavoriteButton from "./FavoriteButton";
 import switchEntityInfo from "./switchEntityInfo";
 

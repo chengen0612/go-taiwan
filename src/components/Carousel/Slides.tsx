@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 
 import { slideLeft, slideRight } from "#/services/mui/keyframes";
 
-import Graphic from "#/components/layout/Graphic";
+import Graphic from "#/components/Graphic";
 
 import { EntityPicture } from "#/utils/types/entity";
 import { SlideEffect } from "#/utils/types/carousel";

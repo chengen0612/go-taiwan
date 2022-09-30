@@ -12,11 +12,9 @@ import {
 import { destructSightPath } from "#/utils/helpers/pathname";
 import { getCityValue } from "#/utils/constants/city";
 
-import * as S from "#/components/sight/styles";
-import switchSightDetails from "#/components/sight/switchSightDetails";
-import Carousel from "#/components/layout/Carousel";
+import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
+import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
-import FavoriteButton from "#/components/sight/FavoriteButton";
 
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
 

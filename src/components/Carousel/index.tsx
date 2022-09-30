@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 
 import Root from "./Root";
-import Graphic from "#/components/layout/Graphic";
+import Graphic from "#/components/Graphic";
 
 import type { EntityPicture } from "#/utils/types/entity";
 

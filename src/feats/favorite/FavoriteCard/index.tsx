@@ -11,7 +11,7 @@ import {
 import { getCityValue } from "#/utils/constants/city";
 
 import * as S from "./styles";
-import Graphic from "#/components/layout/Graphic";
+import Graphic from "#/components/Graphic";
 import Tag from "#/components/Tag";
 
 import { AllessSearchKind } from "#/utils/constants/searchKind";

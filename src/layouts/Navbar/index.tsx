@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme, Theme } from "@mui/material/styles";
 import ButtonBase from "@mui/material/ButtonBase";
 
 import * as S from "./styles";
-import ContentBoundary from "#/components/layout/ContentBoundary";
+import ContentBoundary from "#/layouts/ContentBoundary";
 import {
   SelectKind,
   SearchInput,

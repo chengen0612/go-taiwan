@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
 
-import ContentBoundary from "#/components/layout/ContentBoundary";
+import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
 
 import {

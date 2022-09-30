@@ -3,7 +3,7 @@ import Box from "@mui/system/Box";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import FloatingBar from "#/components/action/FloatingBar";
+import FloatingBar from "./FloatingBar";
 
 function PageLayout() {
   return (

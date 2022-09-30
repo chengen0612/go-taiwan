@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import PageLayout from "./components/layout/PageLayout";
+import PageLayout from "#/layouts/PageLayout";
 import * as Pages from "./pages";
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
           <Route index element={<Pages.Home />} />
           <Route path="search" element={<Pages.Search />} />
           <Route path="sight/:entityInfo" element={<Pages.Sight />} />
+          <Route path="favorite" element={<Pages.Favorite />} />
           <Route path="*" element={<main>Unserved pathname!</main>} />
         </Route>
       </Routes>
