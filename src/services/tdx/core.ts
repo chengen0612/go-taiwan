@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { getFilterString, Filter } from "./helper";
-import { getTDXPathName, AllessSearchKind } from "#/utils/constants/searchKind";
+import { getTDXPathName, Kind } from "#/utils/constants/kind";
 import { getTDXCityName } from "#/utils/constants/city";
 import {
   parseScenicSpot,
@@ -34,7 +34,7 @@ export class TDXService {
 
   private readonly DEFAULT_LIMIT = 10;
 
-  query = (options: QueryOptions & { kind: AllessSearchKind }) => {
+  query = (options: QueryOptions & { kind: Kind }) => {
     const { kind } = options;
 
     switch (kind) {
@@ -79,7 +79,7 @@ export class TDXService {
     };
   };
 
-  queryID = (kind: AllessSearchKind, id: string) => {
+  queryID = (kind: Kind, id: string) => {
     const tdxPathname = getTDXPathName(kind);
 
     const urlFragments = [
@@ -157,9 +157,7 @@ export class TDXService {
    * Handle each kind of tourism queries by dynamically constructing
    * the url and query string.
    */
-  private queryBase<T>(
-    options: QueryOptions & { kind: AllessSearchKind }
-  ): Promise<T> {
+  private queryBase<T>(options: QueryOptions & { kind: Kind }): Promise<T> {
     const { kind, city, filter, limit } = options;
 
     const tdxPathname = getTDXPathName(kind);

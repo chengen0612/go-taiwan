@@ -6,14 +6,14 @@ import { selectFavoritesIDsByKind } from "#/store/slices/favorite";
 
 import { S, FavoriteCard } from "#/feats/favorite";
 
-import { AllessSearchKind, getKindValue } from "#/utils/constants/searchKind";
+import { getKindValue, KIND, Kind } from "#/utils/constants/kind";
 
 function Favorite() {
-  const [kind, setKind] = useState<AllessSearchKind>("attraction");
+  const [kind, setKind] = useState<Kind>("attraction");
   const favoritesIDs = useAppSelector(selectFavoritesIDsByKind(kind));
 
   const onTabClick = useCallback<
-    (event: React.SyntheticEvent, value: AllessSearchKind) => void
+    (event: React.SyntheticEvent, value: Kind) => void
   >((_event, value) => {
     setKind(value);
   }, []);
@@ -22,10 +22,9 @@ function Favorite() {
     <S.Root>
       {/* Tabs */}
       <Tabs value={kind} aria-label="選擇最愛類型" onChange={onTabClick}>
-        <S.Tab label={getKindValue("attraction")} value="attraction" />
-        <S.Tab label={getKindValue("food")} value="food" />
-        <S.Tab label={getKindValue("hotel")} value="hotel" />
-        <S.Tab label={getKindValue("activity")} value="activity" />
+        {KIND.all.map(({ key, value }) => (
+          <S.Tab key={key} label={value} value={key} />
+        ))}
       </Tabs>
 
       {/* Cards */}

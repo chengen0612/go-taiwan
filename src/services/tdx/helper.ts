@@ -1,4 +1,4 @@
-import { getTDXPathName, AllessSearchKind } from "#/utils/constants/searchKind";
+import { getTDXPathName, Kind } from "#/utils/constants/kind";
 
 /**
  * Create event period for activity entity.
@@ -15,7 +15,7 @@ export const getPeriod = (startTime: string, endTime: string) =>
  *
  * Example: contains(RestaurantName,'港式')
  */
-const getNameFilter = (kind: AllessSearchKind, keyword: string) => {
+const getNameFilter = (kind: Kind, keyword: string) => {
   if (keyword.length === 0) return undefined;
 
   const pathname = getTDXPathName(kind);
@@ -29,13 +29,13 @@ const getNameFilter = (kind: AllessSearchKind, keyword: string) => {
  *
  * Example: ScenicSpotID ne 'C1_313020000G_000026'
  */
-const getExcludeIDFilter = (kind: AllessSearchKind, excludedID: string) => {
+const getExcludeIDFilter = (kind: Kind, excludedID: string) => {
   const pathname = getTDXPathName(kind);
 
   return `${pathname}ID ne '${excludedID}'`;
 };
 
-const getIncludeIDFilter = (kind: AllessSearchKind, includedID: string) => {
+const getIncludeIDFilter = (kind: Kind, includedID: string) => {
   const pathname = getTDXPathName(kind);
 
   return `${pathname}ID eq '${includedID}'`;
@@ -51,7 +51,7 @@ export interface Filter {
  * Convert Filter object to filter string.
  */
 export const getFilterString = (
-  kind: AllessSearchKind,
+  kind: Kind,
   filter: Filter | undefined
 ): string | undefined => {
   if (!filter) return undefined;

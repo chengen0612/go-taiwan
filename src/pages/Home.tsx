@@ -7,7 +7,7 @@ import { queryTourismData } from "#/store/slices/entities";
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
 
-import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
+import { KIND } from "#/utils/constants/kind";
 
 function Home() {
   const mounted = useMounted();
@@ -21,13 +21,9 @@ function Home() {
 
   return (
     <ContentBoundary component="main">
-      {SEARCH_KIND.allKinds
-        .filter<AllessSearchKind>(
-          (kind): kind is AllessSearchKind => kind !== "all"
-        )
-        .map((kind) => (
-          <EntityList key={kind} kind={kind} />
-        ))}
+      {KIND.allKinds.map((kind) => (
+        <EntityList key={kind} kind={kind} />
+      ))}
     </ContentBoundary>
   );
 }

@@ -1,22 +1,20 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+import { SearchProperty } from "#/utils/types/search";
 import { CITY, CityName } from "#/utils/constants/city";
-import { SEARCH_KIND, SearchKind } from "#/utils/constants/searchKind";
 
-import type { SearchProperty } from "#/utils/types/search";
+import type { Kind } from "#/utils/constants/kind";
 import type { RootState } from "#/store";
 
 /* Main */
-interface ValueMap {
-  kind: SearchKind;
-  city: CityName;
-  keyword: string;
+interface SearchState {
+  [SearchProperty.Kind]: Kind | "all";
+  [SearchProperty.City]: CityName;
+  [SearchProperty.Keyword]: string;
 }
 
-type SearchState = {
-  [T in SearchProperty]: ValueMap[T];
-};
+export type SearchKind = SearchState["kind"];
 
 export type SearchOptions<T extends SearchKind> = {
   [U in keyof SearchState]: U extends "kind" ? T : SearchState[U];
@@ -32,12 +30,11 @@ type ReplaceSearchPayload = {
 };
 
 const initialState: SearchState = {
-  kind: SEARCH_KIND.byIndex.all.key,
+  kind: "all",
   city: CITY.byName.taipei.key,
   keyword: "",
 };
 
-/* eslint-disable no-param-reassign */
 const searchSlice = createSlice({
   name: "search",
   initialState,
@@ -45,24 +42,10 @@ const searchSlice = createSlice({
     setSearch(state, action: PayloadAction<SetSearchPayload>) {
       const { searchProperty, value } = action.payload;
 
-      switch (searchProperty) {
-        case "kind":
-          state.kind = value;
-          break;
-
-        case "city":
-          state.city = value;
-          break;
-
-        case "keyword":
-          state.keyword = value;
-          break;
-
-        default:
-          throw new Error(
-            `SearchSlice update failed because of unknown search property ${searchProperty}`
-          );
-      }
+      return {
+        ...state,
+        [searchProperty]: value,
+      };
     },
     replaceSearch(state, action: PayloadAction<ReplaceSearchPayload>) {
       const { kind, city, keyword } = action.payload;

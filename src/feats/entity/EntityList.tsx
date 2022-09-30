@@ -9,10 +9,10 @@ import {
 
 import Entity from "./Entity";
 
-import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
+import { KIND, Kind } from "#/utils/constants/kind";
 
 interface MemoizedEntityProps {
-  kind: AllessSearchKind;
+  kind: Kind;
   entityID: string;
 }
 
@@ -25,12 +25,12 @@ function MemoizedEntity({ kind, entityID }: MemoizedEntityProps) {
 }
 
 interface EntityListProps {
-  kind: AllessSearchKind;
+  kind: Kind;
 }
 
 function EntityList({ kind }: EntityListProps) {
   const entitiesIDs = useAppSelector(selectEntitiesIDsByKind(kind));
-  const { value: kindValue } = SEARCH_KIND.byIndex[kind];
+  const { value: kindValue } = KIND.byKind[kind];
 
   return (
     <section>

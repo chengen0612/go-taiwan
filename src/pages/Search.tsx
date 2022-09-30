@@ -8,11 +8,8 @@ import { useOnSearchEnd } from "#/utils/hooks/search";
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
 
-import {
-  SEARCH_KIND,
-  SearchKind,
-  AllessSearchKind,
-} from "#/utils/constants/searchKind";
+import { KIND } from "#/utils/constants/kind";
+import { SearchKind } from "#/store/slices/search";
 
 function Search() {
   const [searchParams] = useSearchParams();
@@ -33,11 +30,7 @@ function Search() {
         {searchKind !== "all" ? (
           <EntityList kind={searchKind} />
         ) : (
-          SEARCH_KIND.allKinds
-            .filter<AllessSearchKind>(
-              (kind): kind is AllessSearchKind => kind !== "all"
-            )
-            .map((kind) => <EntityList key={kind} kind={kind} />)
+          KIND.allKinds.map((kind) => <EntityList key={kind} kind={kind} />)
         )}
       </Box>
     </ContentBoundary>

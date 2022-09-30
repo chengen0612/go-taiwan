@@ -1,17 +1,16 @@
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 
 /**
  * Return the relative path of sight page.
  * The path will content the kind and the id of the entity.
  */
-const constructSightPath = (kind: AllessSearchKind, id: string) =>
-  `/sight/${kind}-${id}`;
+const constructSightPath = (kind: Kind, id: string) => `/sight/${kind}-${id}`;
 
 /**
  * Return the kind and the id representing current sight page.
  */
 interface DestructSightPathOutput {
-  kind: AllessSearchKind | undefined;
+  kind: Kind | undefined;
   id: string | undefined;
 }
 const destructSightPath = (pathname: string): DestructSightPathOutput => {

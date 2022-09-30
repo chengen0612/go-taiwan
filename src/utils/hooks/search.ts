@@ -2,10 +2,9 @@ import { useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "./store";
-import { selectSearch, replaceSearch } from "#/store/slices/search";
+import { selectSearch, replaceSearch, SearchKind } from "#/store/slices/search";
 import { queryTourismData } from "#/store/slices/entities";
 
-import { SearchKind } from "#/utils/constants/searchKind";
 import { CityName } from "#/utils/constants/city";
 
 const useOnSearchStart = () => {

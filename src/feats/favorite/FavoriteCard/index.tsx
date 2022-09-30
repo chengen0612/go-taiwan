@@ -14,13 +14,13 @@ import * as S from "./styles";
 import Graphic from "#/components/Graphic";
 import Tag from "#/components/Tag";
 
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 import { constructSightPath } from "#/utils/helpers/pathname";
 
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
 interface FavoriteCardProps {
-  kind: AllessSearchKind;
+  kind: Kind;
   id: string;
 }
 

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 
 import TDX from "#/services/tdx";
 
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 import { AnyEntity } from "#/utils/types/entity";
 import { RootState, AppThunk } from "#/store";
 
@@ -59,7 +59,7 @@ export const selectSightRecommendations = createSelector(
 
 /* Thunk */
 export const queryEntity =
-  (kind: AllessSearchKind, id: string): AppThunk<Promise<void>> =>
+  (kind: Kind, id: string): AppThunk<Promise<void>> =>
   async (dispatch) => {
     await TDX.queryID(kind, id)
       .then((data) => dispatch(setEntity(data[0])))

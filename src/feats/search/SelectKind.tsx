@@ -1,15 +1,22 @@
-import SearchSelect from "#/feats/search/SearchSelect";
+import SearchSelect, { SearchSelectProps } from "#/feats/search/SearchSelect";
 
-import { selectSearchKind } from "#/store/slices/search";
+import { selectSearchKind, SearchKind } from "#/store/slices/search";
 
-import { SEARCH_KIND } from "#/utils/constants/searchKind";
 import { SearchProperty } from "#/utils/types/search";
+import { KIND } from "#/utils/constants/kind";
+
+import type { MemberOf } from "#/utils/types";
+
+type Option = MemberOf<SearchSelectProps["options"]>;
+type SelectKindOptions = (Option & { key: SearchKind })[];
+
+const options: SelectKindOptions = [{ key: "all", value: "全部" }, ...KIND.all];
 
 function SelectKind() {
   return (
     <SearchSelect
       name={SearchProperty.Kind}
-      options={SEARCH_KIND.all}
+      options={options}
       selector={selectSearchKind}
       sx={{
         "& .MuiOutlinedInput-notchedOutline": {

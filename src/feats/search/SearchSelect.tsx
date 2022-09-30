@@ -18,7 +18,7 @@ interface Option {
 
 interface SearchSelectProps extends SelectProps {
   name: SearchProperty;
-  options: Option[];
+  options: Array<Option>;
   selector: (store: RootState) => string;
 }
 
@@ -56,3 +56,4 @@ function SearchSelect(props: SearchSelectProps) {
 }
 
 export default SearchSelect;
+export type { SearchSelectProps };

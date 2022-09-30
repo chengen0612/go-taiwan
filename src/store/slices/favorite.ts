@@ -3,7 +3,7 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
 import { Normalized } from "#/utils/helpers/normalize";
 
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 import {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -22,7 +22,7 @@ interface KindEntityMap {
 }
 
 type Entities = {
-  [Property in AllessSearchKind]: Normalized<KindEntityMap[Property]>;
+  [Property in Kind]: Normalized<KindEntityMap[Property]>;
 };
 
 interface FavoriteState extends Entities {
@@ -38,7 +38,7 @@ const initialState: FavoriteState = {
 };
 
 type DeleteFavoritePayload = {
-  kind: AllessSearchKind;
+  kind: Kind;
   id: string;
 };
 
@@ -79,20 +79,20 @@ export const { toggleFavorite, deleteFavorite } = favoriteSlice.actions;
 
 /* Selector */
 export const selectIsFavorite = createSelector(
-  (store: RootState, kind: AllessSearchKind) => store.favorite[kind],
-  (_store: RootState, _kind: AllessSearchKind, id: string) => id,
+  (store: RootState, kind: Kind) => store.favorite[kind],
+  (_store: RootState, _kind: Kind, id: string) => id,
   (constraint, id) => constraint.allIDs.includes(id)
 );
 
 export const selectFavoriteCount = (store: RootState) => store.favorite.count;
 
-export const selectFavoritesIDsByKind = (kind: AllessSearchKind) =>
+export const selectFavoritesIDsByKind = (kind: Kind) =>
   createSelector(
     (store: RootState) => store.favorite,
     (favorite) => favorite[kind].allIDs
   );
 
-export const selectFavoriteByKindAndID = (kind: AllessSearchKind, id: string) =>
+export const selectFavoriteByKindAndID = (kind: Kind, id: string) =>
   createSelector(
     (store: RootState) => store.favorite[kind],
     (constraint) => constraint.byID[id]

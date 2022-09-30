@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import Container from "@mui/material/Container";
 import Tab, { TabProps } from "@mui/material/Tab";
 
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 
 const Root = styled(Container)({
   marginTop: "2.5rem",
@@ -12,7 +12,7 @@ const Root = styled(Container)({
 });
 
 interface StyledTabProps extends TabProps {
-  value: AllessSearchKind;
+  value: Kind;
 }
 
 const StyledTab = memo(

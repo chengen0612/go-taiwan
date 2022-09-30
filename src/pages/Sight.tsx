@@ -16,7 +16,7 @@ import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
 
-import { SEARCH_KIND } from "#/utils/constants/searchKind";
+import { KIND } from "#/utils/constants/kind";
 
 function Sight() {
   const mounted = useMounted();
@@ -61,14 +61,14 @@ function Sight() {
       </S.Heading>
       <S.Details>{switchSightDetails(entity)}</S.Details>
       <S.Section>
-        <S.Subtitle>{SEARCH_KIND.byIndex[kind!].value}介紹</S.Subtitle>
+        <S.Subtitle>{KIND.byKind[kind!].value}介紹</S.Subtitle>
         <p>{description || "未提供資訊"}</p>
       </S.Section>
       <S.Section>
         <S.Subtitle>
           更多
           {getCityValue(city)}
-          {SEARCH_KIND.byIndex[kind!].value}
+          {KIND.byKind[kind!].value}
         </S.Subtitle>
         <S.Recommendations>
           {recommendations?.map((recommendation) => (

@@ -1,4 +1,4 @@
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 import { CityName } from "#/utils/constants/city";
 
 export interface EntityPicture {
@@ -13,7 +13,7 @@ export interface EntityPosition {
 }
 
 export interface EntityBase {
-  kind: AllessSearchKind;
+  kind: Kind;
   id: string;
   title: string;
   address?: string;

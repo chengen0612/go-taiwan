@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
 import { normalize, Normalized } from "#/utils/helpers/normalize";
 import TDX from "#/services/tdx";
 import { selectSearchKind, selectSearch } from "./search";
 
 import type { RootState, AppDispatch } from "#/store";
-import { AllessSearchKind } from "#/utils/constants/searchKind";
+import { Kind } from "#/utils/constants/kind";
 import type {
   ScenicSpotEntity,
   RestaurantEntity,
@@ -16,7 +16,7 @@ import type {
 
 /* Main */
 type EntitiesState = {
-  [T in AllessSearchKind]: {
+  [T in Kind]: {
     attraction: Normalized<ScenicSpotEntity>;
     food: Normalized<RestaurantEntity>;
     hotel: Normalized<HotelEntity>;
@@ -75,18 +75,22 @@ const { setAttraction, setFood, setHotel, setActivity, setAll } =
 /* Selector */
 export const selectEntities = (store: RootState) => store.entities;
 
-export const selectEntitiesIDsByKind =
-  (kind: AllessSearchKind) => (store: RootState) =>
-    store.entities[kind].allIDs;
+export const selectEntitiesIDsByKind = (kind: Kind) =>
+  createSelector(
+    (store: RootState) => store.entities[kind],
+    (constraint) => constraint.allIDs
+  );
 
-export const selectEntityByKindAndID =
-  (kind: AllessSearchKind, id: string) => (store: RootState) =>
-    store.entities[kind].byID[id];
+export const selectEntityByKindAndID = (kind: Kind, id: string) =>
+  createSelector(
+    (store: RootState) => store.entities[kind],
+    (constraint) => constraint.byID[id]
+  );
 
 /* Thunk */
 const queryOneKindData =
   () => (_dispatch: AppDispatch, getState: () => RootState) => {
-    const { keyword, ...rest } = selectSearch<AllessSearchKind>(getState());
+    const { keyword, ...rest } = selectSearch<Kind>(getState());
 
     return TDX.query({ ...rest, filter: { keyword } });
   };
@@ -94,7 +98,7 @@ const queryOneKindData =
 const setOneKindData =
   (data: Awaited<ReturnType<typeof TDX.query>>) =>
   (dispatch: AppDispatch, getState: () => RootState) => {
-    const kind = selectSearchKind(getState()) as AllessSearchKind;
+    const kind = selectSearchKind(getState()) as Kind;
 
     switch (kind) {
       case "attraction":
