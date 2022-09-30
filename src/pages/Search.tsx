@@ -6,7 +6,7 @@ import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
 
 import ContentBoundary from "#/components/layout/ContentBoundary";
-import CardList from "#/components/entity/CardList";
+import { EntityList } from "#/feats/entity";
 
 import {
   SEARCH_KIND,
@@ -31,13 +31,13 @@ function Search() {
     <ContentBoundary component="main">
       <Box sx={{ pb: "3.5rem" }}>
         {searchKind !== "all" ? (
-          <CardList kind={searchKind} />
+          <EntityList kind={searchKind} />
         ) : (
           SEARCH_KIND.allKinds
             .filter<AllessSearchKind>(
               (kind): kind is AllessSearchKind => kind !== "all"
             )
-            .map((kind) => <CardList key={kind} kind={kind} />)
+            .map((kind) => <EntityList key={kind} kind={kind} />)
         )}
       </Box>
     </ContentBoundary>

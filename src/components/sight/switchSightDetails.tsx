@@ -1,6 +1,6 @@
 import { getPeriod } from "#/services/tdx";
 
-import EntityInfo, { EntityInfoType } from "#/components/entity/EntityInfo";
+import { EntityInfo, EntityInfoType } from "#/feats/entity";
 import { AnyEntity } from "#/utils/types/entity";
 
 const switchSightDetails = (entity: AnyEntity) => {

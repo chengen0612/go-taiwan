@@ -1,11 +1,11 @@
 import { getCityValue } from "#/utils/constants/city";
 import { getPeriod } from "#/services/tdx/helper";
 
-import EntityInfo, { EntityInfoType } from "./EntityInfo";
+import EntityInfo, { EntityInfoType } from "#/feats/entity/EntityInfo";
 
 import { AnyEntity } from "#/utils/types/entity";
 
-const switchCardInfo = (entity: AnyEntity) => {
+const switchEntityInfo = (entity: AnyEntity) => {
   let info: [EntityInfoType, string | undefined][] = [];
   const cityValue = getCityValue(entity.city);
 
@@ -58,4 +58,4 @@ const switchCardInfo = (entity: AnyEntity) => {
   );
 };
 
-export default switchCardInfo;
+export default switchEntityInfo;

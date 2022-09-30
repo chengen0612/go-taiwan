@@ -15,7 +15,7 @@ import { getCityValue } from "#/utils/constants/city";
 import * as S from "#/components/sight/styles";
 import switchSightDetails from "#/components/sight/switchSightDetails";
 import Carousel from "#/components/layout/Carousel";
-import { Card } from "#/components/entity/Card";
+import { Entity } from "#/feats/entity";
 import FavoriteButton from "#/components/sight/FavoriteButton";
 
 import { SEARCH_KIND } from "#/utils/constants/searchKind";
@@ -74,7 +74,7 @@ function Sight() {
         </S.Subtitle>
         <S.Recommendations>
           {recommendations?.map((recommendation) => (
-            <Card key={recommendation.id} entity={recommendation} />
+            <Entity key={recommendation.id} entity={recommendation} />
           ))}
         </S.Recommendations>
       </S.Section>

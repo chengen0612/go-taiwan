@@ -5,7 +5,7 @@ import { useMounted } from "#/utils/hooks/lifeCycle";
 import { queryTourismData } from "#/store/slices/entities";
 
 import ContentBoundary from "#/components/layout/ContentBoundary";
-import CardList from "#/components/entity/CardList";
+import { EntityList } from "#/feats/entity";
 
 import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
 
@@ -26,7 +26,7 @@ function Home() {
           (kind): kind is AllessSearchKind => kind !== "all"
         )
         .map((kind) => (
-          <CardList key={kind} kind={kind} />
+          <EntityList key={kind} kind={kind} />
         ))}
     </ContentBoundary>
   );

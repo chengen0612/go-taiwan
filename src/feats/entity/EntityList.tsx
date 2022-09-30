@@ -1,4 +1,3 @@
-import { memo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
@@ -8,40 +7,48 @@ import {
   selectEntityByKindAndID,
 } from "#/store/slices/entities";
 
-import { Card } from "#/components/entity/Card";
+import Entity from "./Entity";
 
 import { SEARCH_KIND, AllessSearchKind } from "#/utils/constants/searchKind";
 
-interface CardConnectorProps {
+interface MemoizedEntityProps {
   kind: AllessSearchKind;
   entityID: string;
 }
 
-const CardConnector = memo(({ kind, entityID }: CardConnectorProps) => {
+function MemoizedEntity({ kind, entityID }: MemoizedEntityProps) {
   const entity = useAppSelector(selectEntityByKindAndID(kind, entityID));
 
   if (!entity) return null;
 
-  return <Card entity={entity} />;
-});
+  return <Entity entity={entity} />;
+}
 
-interface CardListProps {
+interface EntityListProps {
   kind: AllessSearchKind;
 }
 
-function CardList({ kind }: CardListProps) {
+function EntityList({ kind }: EntityListProps) {
   const entitiesIDs = useAppSelector(selectEntitiesIDsByKind(kind));
-  const { value: heading, color } = SEARCH_KIND.byIndex[kind];
+  const { value: kindValue } = SEARCH_KIND.byIndex[kind];
 
   return (
     <section>
+      {/* Title */}
       <Typography
         component="h2"
         variant="h2"
-        sx={{ mt: "2.5rem", fontSize: "1.5rem", fontWeight: 500, color }}
+        sx={{
+          mt: "2.5rem",
+          fontSize: "1.5rem",
+          fontWeight: 500,
+          color: "secondary.main",
+        }}
       >
-        {heading}
+        {kindValue}
       </Typography>
+
+      {/* Cards */}
       <Box
         sx={(theme) => ({
           mt: "1.25rem",
@@ -64,11 +71,11 @@ function CardList({ kind }: CardListProps) {
         {entitiesIDs.length === 0
           ? "無符合結果"
           : entitiesIDs.map((id) => (
-              <CardConnector key={id} kind={kind} entityID={id} />
+              <MemoizedEntity key={id} kind={kind} entityID={id} />
             ))}
       </Box>
     </section>
   );
 }
 
-export default CardList;
+export default EntityList;
