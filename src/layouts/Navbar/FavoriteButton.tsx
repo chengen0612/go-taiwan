@@ -17,7 +17,7 @@ function FavoriteButton() {
       aria-label="收藏"
       sx={{ display: { xs: "none", md: "inline-flex" } }}
     >
-      <Badge badgeContent={count} color="error">
+      <Badge badgeContent={count} color="favorite">
         <FavoriteBorderIcon />
       </Badge>
     </IconButton>

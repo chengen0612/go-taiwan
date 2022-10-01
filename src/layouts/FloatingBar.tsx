@@ -44,7 +44,7 @@ function FloatingBar() {
         aria-label="我的最愛"
         sx={{ bgcolor: "white" }}
       >
-        <Badge badgeContent={count} color="error">
+        <Badge badgeContent={count} color="favorite">
           <FavoriteBorderIcon htmlColor="grey" />
         </Badge>
       </Fab>
