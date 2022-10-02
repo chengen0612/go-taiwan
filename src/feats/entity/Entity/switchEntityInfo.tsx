@@ -5,7 +5,7 @@ import IconPrefixText, {
   IconPrefixTextProps,
 } from "#/components/IconPrefixText";
 
-import { AnyEntity } from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/models/entity";
 
 const switchEntityInfo = (entity: AnyEntity) => {
   let info: [IconPrefixTextProps["type"], string | undefined][] = [];

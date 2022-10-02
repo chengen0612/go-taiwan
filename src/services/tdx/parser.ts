@@ -1,3 +1,5 @@
+import { getCityNameByValue, CityValue } from "#/utils/constants/city";
+
 import type {
   TDXPicture,
   TDXPosition,
@@ -7,21 +9,19 @@ import type {
   TDXActivity,
 } from "#/utils/models/tdx";
 import type {
-  EntityPicture,
-  EntityPosition,
   ScenicSpotEntity,
   RestaurantEntity,
   HotelEntity,
   ActivityEntity,
-} from "#/utils/types/entity";
-import { getCityNameByValue, CityValue } from "#/utils/constants/city";
+} from "#/utils/models/entity";
+import type { Picture, Position } from "#/utils/models/base";
 
-const createPicture = (url: string, description: string): EntityPicture => ({
+const createPicture = (url: string, description: string): Picture => ({
   url,
   description,
 });
 
-const parsePictures = (picture: TDXPicture): EntityPicture[] => {
+const parsePictures = (picture: TDXPicture): Picture[] => {
   type Pair = [string, string];
 
   const pairs: Pair[] = [];
@@ -41,7 +41,7 @@ const parsePictures = (picture: TDXPicture): EntityPicture[] => {
   return pairs.map((pair) => createPicture(...pair));
 };
 
-const parsePosition = (position: TDXPosition): EntityPosition => ({
+const parsePosition = (position: TDXPosition): Position => ({
   lat: position.PositionLat,
   lon: position.PositionLon,
   geohash: position.GeoHash,

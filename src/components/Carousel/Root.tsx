@@ -1,37 +1,36 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 
-import Slides from "./Slides";
+import Slides, { SlidesProps } from "./Slides";
 import Controllers from "./Controllers";
 import Indicators from "./Indicators";
 
-import { EntityPicture } from "#/utils/types/entity";
-import { SlideEffect } from "#/utils/types/carousel";
+import type { Picture } from "#/utils/models/base";
 
 interface RootProps {
-  pictures: EntityPicture[];
+  pictures: Picture[];
 }
 
-function Root({ pictures: initPictures }: RootProps) {
-  const [pictures, setPictures] = useState(initPictures);
+function Root({ pictures: initialPictures }: RootProps) {
+  const [pictures, setPictures] = useState(initialPictures);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [effect, setEffect] = useState(SlideEffect.Unset);
+  const [effect, setEffect] = useState<SlidesProps["effect"]>("stable");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const slidePrev = useCallback(() => {
-    setEffect(SlideEffect.Right);
+    setEffect("slide-right");
     setCurrentIndex((prev) => (prev === 0 ? pictures.length - 1 : prev - 1));
 
-    if (effect !== SlideEffect.Left) {
+    if (effect !== "slide-left") {
       setPictures((prev) => [...prev.slice(-1), ...prev.slice(0, -1)]);
     }
   }, [pictures, effect]);
 
   const slideNext = useCallback(() => {
-    setEffect(SlideEffect.Left);
+    setEffect("slide-left");
     setCurrentIndex((prev) => (prev === pictures.length - 1 ? 0 : prev + 1));
 
-    if (effect === SlideEffect.Left) {
+    if (effect === "slide-left") {
       setPictures((prev) => [...prev.slice(1), prev[0]]);
     }
   }, [pictures, effect]);

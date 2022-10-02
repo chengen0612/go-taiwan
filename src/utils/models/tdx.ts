@@ -1,4 +1,4 @@
-/* PictureUrl might have no description. */
+/* URLs and descriptions are not always provided in pairs. */
 export interface TDXPicture {
   PictureUrl1?: string;
   PictureUrl2?: string;
@@ -50,7 +50,6 @@ export interface TDXHotel extends TDXEntityBase {
   ParkingInfo?: string;
 }
 
-// <strong>{Cycle}</strong> StartTime - EndTime || 未提供資訊
 export interface TDXActivity extends TDXEntityBase {
   ActivityID: string;
   ActivityName: string;

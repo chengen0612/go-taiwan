@@ -3,7 +3,7 @@ import { useCallback, MouseEventHandler } from "react";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { selectIsFavorite, toggleFavorite } from "#/store/slices/favorite";
 
-import { AnyEntity } from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/models/entity";
 
 const useIsFavorite = (entity: AnyEntity) => {
   const { kind, id } = entity;

@@ -10,7 +10,7 @@ import {
   HotelEntity,
   ActivityEntity,
   AnyEntity,
-} from "#/utils/types/entity";
+} from "#/utils/models/entity";
 import { RootState } from "#/store";
 
 /* Main */

@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { setSearch, SetSearchPayload } from "#/store/slices/search";
 
-import { SearchProperty } from "#/utils/types/search";
+import { SearchProperty } from "#/utils/models/search";
 
 import type { RootState } from "#/store";
 

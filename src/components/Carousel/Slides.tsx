@@ -1,15 +1,14 @@
 import Box from "@mui/material/Box";
 
-import { slideLeft, slideRight } from "#/services/mui/keyframes";
+import { slideLeft, slideRight, SlideEffect } from "./keyframes";
 
 import Graphic from "#/components/Graphic";
 
-import { EntityPicture } from "#/utils/types/entity";
-import { SlideEffect } from "#/utils/types/carousel";
+import { Picture } from "#/utils/models/base";
 
 interface SlidesProps {
-  effect: SlideEffect;
-  pictures: EntityPicture[];
+  effect: SlideEffect | "stable";
+  pictures: Picture[];
 }
 
 function Slides({ effect, pictures }: SlidesProps) {
@@ -29,10 +28,10 @@ function Slides({ effect, pictures }: SlidesProps) {
             width="100%"
             sx={{
               flexShrink: 0,
-              ...(effect === SlideEffect.Left && {
+              ...(effect === "slide-left" && {
                 animation: `${slideLeft} ease 1500ms both`,
               }),
-              ...(effect === SlideEffect.Right && {
+              ...(effect === "slide-right" && {
                 animation: `${slideRight} ease 1500ms both`,
               }),
             }}
@@ -50,3 +49,4 @@ function Slides({ effect, pictures }: SlidesProps) {
 }
 
 export default Slides;
+export type { SlidesProps };

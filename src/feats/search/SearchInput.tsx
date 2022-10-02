@@ -7,7 +7,7 @@ import {
   SetSearchPayload,
 } from "#/store/slices/search";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
-import { SearchProperty } from "#/utils/types/search";
+import { SearchProperty } from "#/utils/models/search";
 
 function SearchInput() {
   const keyword = useAppSelector(selectSearchKeyword);

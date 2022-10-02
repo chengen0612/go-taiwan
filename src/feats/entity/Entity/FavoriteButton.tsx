@@ -3,7 +3,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { useIsFavorite, useOnFavorite } from "#/utils/hooks/favorite";
 
-import { AnyEntity } from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/models/entity";
 
 interface FavoriteButtonProps {
   entity: AnyEntity;

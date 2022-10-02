@@ -9,7 +9,8 @@ import Graphic from "#/components/Graphic";
 import FavoriteButton from "./FavoriteButton";
 import switchEntityInfo from "./switchEntityInfo";
 
-import { AnyEntity } from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/models/entity";
+
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
 interface EntityProps {

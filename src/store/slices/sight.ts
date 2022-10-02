@@ -4,7 +4,7 @@ import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import TDX from "#/services/tdx";
 
 import { Kind } from "#/utils/constants/kind";
-import { AnyEntity } from "#/utils/types/entity";
+import { AnyEntity } from "#/utils/models/entity";
 import { RootState, AppThunk } from "#/store";
 
 interface InitialState {

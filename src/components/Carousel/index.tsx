@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import Root from "./Root";
 import Graphic from "#/components/Graphic";
 
-import type { EntityPicture } from "#/utils/types/entity";
+import type { Picture } from "#/utils/models/base";
 
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
 interface CarouselProps {
-  pictures: EntityPicture[];
+  pictures: Picture[];
 }
 
 function Carousel({ pictures }: CarouselProps) {

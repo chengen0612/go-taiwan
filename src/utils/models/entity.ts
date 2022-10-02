@@ -1,16 +1,7 @@
 import { Kind } from "#/utils/constants/kind";
 import { CityName } from "#/utils/constants/city";
 
-export interface EntityPicture {
-  url: string;
-  description: string;
-}
-
-export interface EntityPosition {
-  lat: number;
-  lon: number;
-  geohash: string;
-}
+import type { Picture, Position } from "#/utils/models/base";
 
 export interface EntityBase {
   kind: Kind;
@@ -18,8 +9,8 @@ export interface EntityBase {
   title: string;
   address?: string;
   description?: string;
-  pictures: EntityPicture[];
-  position: EntityPosition;
+  pictures: Picture[];
+  position: Position;
   categories: string[]; // tags
   phone?: string;
   city: CityName;

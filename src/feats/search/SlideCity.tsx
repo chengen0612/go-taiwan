@@ -10,7 +10,7 @@ import {
 } from "#/store/slices/search";
 
 import { CITY } from "#/utils/constants/city";
-import { SearchProperty } from "#/utils/types/search";
+import { SearchProperty } from "#/utils/models/search";
 
 const Wrapper = styled("div")({
   display: "flex",

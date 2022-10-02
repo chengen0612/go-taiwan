@@ -3,7 +3,8 @@ import { getPeriod } from "#/services/tdx";
 import IconPrefixText, {
   IconPrefixTextProps,
 } from "#/components/IconPrefixText";
-import { AnyEntity } from "#/utils/types/entity";
+
+import { AnyEntity } from "#/utils/models/entity";
 
 const switchSightDetails = (entity: AnyEntity) => {
   let info: [IconPrefixTextProps["type"], string | undefined][] = [];

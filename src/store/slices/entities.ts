@@ -12,7 +12,7 @@ import type {
   RestaurantEntity,
   HotelEntity,
   ActivityEntity,
-} from "#/utils/types/entity";
+} from "#/utils/models/entity";
 
 /* Main */
 type EntitiesState = {
