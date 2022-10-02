@@ -1,4 +1,4 @@
-import { useCallback, useMemo, MouseEventHandler } from "react";
+import { useCallback, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -15,7 +15,7 @@ import Graphic from "#/components/Graphic";
 import Tag from "#/components/Tag";
 
 import { Kind } from "#/utils/constants/kind";
-import { constructSightPath } from "#/utils/helpers/pathname";
+import { useSightPath } from "#/utils/hooks/pathname";
 
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
@@ -28,7 +28,7 @@ function FavoriteCard({ kind, id }: FavoriteCardProps) {
   const favorite = useAppSelector(selectFavoriteByKindAndID(kind, id));
   const appDispatch = useAppDispatch();
 
-  const sightPath = useMemo(() => constructSightPath(kind, id), [kind, id]);
+  const sightPath = useSightPath(kind, id);
 
   const onDelete = useCallback<MouseEventHandler>(
     (event) => {

@@ -26,7 +26,7 @@ export type SetSearchPayload =
   | { searchProperty: SearchProperty.Keyword; value: string };
 
 type ReplaceSearchPayload = {
-  [T in keyof SearchState]?: SearchState[T] | null;
+  [T in keyof SearchState]: SearchState[T] | null;
 };
 
 const initialState: SearchState = {

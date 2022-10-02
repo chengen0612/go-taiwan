@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
@@ -9,7 +9,7 @@ import {
   queryEntity,
   queryRecommendations,
 } from "#/store/slices/sight";
-import { destructSightPath } from "#/utils/helpers/pathname";
+import { useSightPathInfo } from "#/utils/hooks/pathname";
 import { getCityValue } from "#/utils/constants/city";
 
 import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
@@ -21,30 +21,27 @@ import { KIND } from "#/utils/constants/kind";
 function Sight() {
   const mounted = useMounted();
   const appDispatch = useAppDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const entity = useAppSelector(selectSightEntity);
   const recommendations = useAppSelector(selectSightRecommendations);
 
-  const entityInfo = useMemo(
-    () => destructSightPath(location.pathname),
-    [location]
-  );
+  const sightPathInfo = useSightPathInfo();
 
   useEffect(() => {
     if (!mounted) return;
 
-    const { kind, id } = entityInfo;
+    const { kind, id } = sightPathInfo;
 
     if (!kind || !id) {
+      // Improve inspection of kind and id
       navigate("/");
     } else {
       appDispatch(queryEntity(kind, id))
         .then(() => appDispatch(queryRecommendations()))
         .catch(() => navigate("/"));
     }
-  }, [mounted, entityInfo, appDispatch, navigate]);
+  }, [mounted, sightPathInfo, appDispatch, navigate]);
 
   if (!entity) return null;
 

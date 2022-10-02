@@ -1,9 +1,8 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import { constructSightPath } from "#/utils/helpers/pathname";
+import { useSightPath } from "#/utils/hooks/pathname";
 
 import Graphic from "#/components/Graphic";
 import FavoriteButton from "./FavoriteButton";
@@ -21,7 +20,7 @@ function Entity({ entity }: EntityProps) {
   const { kind, id, title, pictures } = entity;
   const [firstPicture] = pictures;
 
-  const sightPath = useMemo(() => constructSightPath(kind, id), [kind, id]);
+  const sightPath = useSightPath(kind, id);
 
   return (
     <article>
