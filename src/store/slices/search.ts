@@ -47,6 +47,7 @@ const searchSlice = createSlice({
         [searchProperty]: value,
       };
     },
+
     replaceSearch(state, action: PayloadAction<ReplaceSearchPayload>) {
       const { kind, city, keyword } = action.payload;
 
@@ -56,12 +57,16 @@ const searchSlice = createSlice({
         keyword: keyword ?? state.keyword,
       };
     },
+
+    resetSearch() {
+      return initialState;
+    },
   },
 });
 
 export default searchSlice.reducer;
 
-export const { setSearch, replaceSearch } = searchSlice.actions;
+export const { setSearch, replaceSearch, resetSearch } = searchSlice.actions;
 
 /* Selector */
 export const selectSearch = <T extends SearchKind>(store: RootState) =>
