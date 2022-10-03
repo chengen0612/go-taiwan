@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import ScrollToTop from "#/utils/helpers/ScrollToTop";
 import PageLayout from "#/layouts/PageLayout";
 import * as Pages from "./pages";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* TODO: Design common layout for pages that are not homepage */}
         <Route element={<PageLayout />}>
