@@ -7,9 +7,18 @@ import FloatingBar from "./FloatingBar";
 
 function PageLayout() {
   return (
-    <Box sx={{ position: "relative", height: "100vh" }}>
+    <Box
+      sx={{
+        position: "relative",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Navbar />
-      <Outlet />
+      <Box component="main" sx={{ flex: 1 }}>
+        <Outlet />
+      </Box>
       <Footer />
       <FloatingBar />
     </Box>
