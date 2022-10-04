@@ -24,11 +24,8 @@ const sightSlice = createSlice({
   name: "sight",
   initialState,
   reducers: {
-    setEntity(_state, action: PayloadAction<SetEntityPayload>) {
-      return {
-        ...initialState,
-        entity: action.payload,
-      };
+    setEntity(state, action: PayloadAction<SetEntityPayload>) {
+      state.entity = action.payload;
     },
 
     setRecommendations(
@@ -37,12 +34,20 @@ const sightSlice = createSlice({
     ) {
       state.recommendations = action.payload;
     },
+
+    reset() {
+      return initialState;
+    },
   },
 });
 
 export default sightSlice.reducer;
 
-export const { setEntity, setRecommendations } = sightSlice.actions;
+export const {
+  setEntity,
+  setRecommendations,
+  reset: resetSight,
+} = sightSlice.actions;
 
 /* Selector */
 export const selectSight = (store: RootState) => store.sight;

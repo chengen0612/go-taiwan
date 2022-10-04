@@ -64,13 +64,25 @@ const entitiesSlice = createSlice({
       state.hotel = normalize(hotel);
       state.activity = normalize(activity);
     },
+
+    reset() {
+      return initialState;
+    },
   },
 });
 
 export default entitiesSlice.reducer;
 
-const { setAttraction, setFood, setHotel, setActivity, setAll } =
-  entitiesSlice.actions;
+const {
+  setAttraction,
+  setFood,
+  setHotel,
+  setActivity,
+  setAll,
+  reset: resetEntities,
+} = entitiesSlice.actions;
+
+export { resetEntities };
 
 /* Selector */
 export const selectEntities = (store: RootState) => store.entities;

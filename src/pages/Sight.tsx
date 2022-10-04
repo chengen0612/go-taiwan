@@ -8,15 +8,15 @@ import {
   selectSightRecommendations,
   queryEntity,
   queryRecommendations,
+  resetSight,
 } from "#/store/slices/sight";
 import { useSightPathInfo } from "#/utils/hooks/pathname";
 import { getCityValue } from "#/utils/constants/city";
+import { getKindValue } from "#/utils/constants/kind";
 
 import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
-
-import { KIND } from "#/utils/constants/kind";
 
 function Sight() {
   const mounted = useMounted();
@@ -29,7 +29,7 @@ function Sight() {
   const sightPathInfo = useSightPathInfo();
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted) return undefined;
 
     const { kind, id } = sightPathInfo;
 
@@ -41,6 +41,11 @@ function Sight() {
         .then(() => appDispatch(queryRecommendations()))
         .catch(() => navigate("/"));
     }
+
+    // Cleanup on sight change or unmount.
+    return () => {
+      appDispatch(resetSight());
+    };
   }, [mounted, sightPathInfo, appDispatch, navigate]);
 
   if (!entity) return null;
@@ -58,14 +63,14 @@ function Sight() {
       </S.Heading>
       <S.Details>{switchSightDetails(entity)}</S.Details>
       <S.Section>
-        <S.Subtitle>{KIND.byKind[kind!].value}介紹</S.Subtitle>
+        <S.Subtitle>{getKindValue(kind)}介紹</S.Subtitle>
         <p>{description || "未提供資訊"}</p>
       </S.Section>
       <S.Section>
         <S.Subtitle>
           更多
           {getCityValue(city)}
-          {KIND.byKind[kind!].value}
+          {getKindValue(kind)}
         </S.Subtitle>
         <S.Recommendations>
           {recommendations?.map((recommendation) => (

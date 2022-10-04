@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
+import { useAppDispatch } from "#/utils/hooks/store";
+import { resetEntities } from "#/store/slices/entities";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
@@ -18,11 +20,19 @@ function Search() {
 
   const mounted = useMounted();
   const onSearchEnd = useOnSearchEnd();
+  const appDispatch = useAppDispatch();
 
-  // query data
   useEffect(() => {
-    if (mounted) onSearchEnd();
-  }, [mounted, onSearchEnd]);
+    if (!mounted) return undefined;
+
+    // query data
+    onSearchEnd();
+
+    // Cleanup on querystring change or unmount.
+    return () => {
+      appDispatch(resetEntities());
+    };
+  }, [mounted, onSearchEnd, appDispatch]);
 
   return (
     <ContentBoundary component="main">

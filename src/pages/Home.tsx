@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "#/utils/hooks/store";
 
 import { useMounted } from "#/utils/hooks/lifeCycle";
-import { queryTourismData } from "#/store/slices/entities";
+import { useAppDispatch } from "#/utils/hooks/store";
+import { queryTourismData, resetEntities } from "#/store/slices/entities";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
@@ -14,9 +14,14 @@ function Home() {
   const appDispatch = useAppDispatch();
 
   useEffect(() => {
-    if (mounted) {
-      appDispatch(queryTourismData());
-    }
+    if (mounted) return undefined;
+
+    appDispatch(queryTourismData());
+
+    // cleanup
+    return () => {
+      appDispatch(resetEntities());
+    };
   }, [mounted, appDispatch]);
 
   return (
