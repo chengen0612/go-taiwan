@@ -8,3 +8,7 @@ export interface Position {
   lon: number;
   geohash: string;
 }
+
+export interface AnonymousError extends Error {
+  code?: number;
+}

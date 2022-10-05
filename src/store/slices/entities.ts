@@ -3,16 +3,18 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
 import { normalize, Normalized } from "#/utils/helpers/normalize";
 import TDX from "#/services/tdx";
+import { Kind } from "#/utils/constants/kind";
 import { selectSearchKind, selectSearch } from "./search";
+import { setError } from "./status";
 
 import type { RootState, AppDispatch } from "#/store";
-import { Kind } from "#/utils/constants/kind";
 import type {
   ScenicSpotEntity,
   RestaurantEntity,
   HotelEntity,
   ActivityEntity,
 } from "#/utils/models/entity";
+import { AnonymousError } from "#/utils/models/base";
 
 /* Main */
 type EntitiesState = {
@@ -150,13 +152,19 @@ export const queryTourismData =
   () => (dispatch: AppDispatch, getState: () => RootState) => {
     const kind = selectSearchKind(getState());
 
-    if (kind !== "all") {
-      dispatch(queryOneKindData())
-        .then((data) => dispatch(setOneKindData(data)))
-        .catch((error) => alert(error.message));
-    } else {
-      dispatch(queryAllKindData())
-        .then((data) => dispatch(setAll(data)))
-        .catch((error) => alert(error.message));
+    try {
+      if (kind !== "all") {
+        dispatch(queryOneKindData()).then((data) =>
+          dispatch(setOneKindData(data))
+        );
+      } else {
+        dispatch(queryAllKindData()).then((data) => {
+          dispatch(setAll(data));
+        });
+      }
+    } catch (error) {
+      const { code, message } = error as AnonymousError;
+
+      dispatch(setError({ code, message }));
     }
   };

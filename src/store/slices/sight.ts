@@ -6,6 +6,10 @@ import TDX from "#/services/tdx";
 import { Kind } from "#/utils/constants/kind";
 import { AnyEntity } from "#/utils/models/entity";
 import { RootState, AppThunk } from "#/store";
+import { setError } from "#/store/slices/status";
+import HTTPError from "#/utils/helpers/http-error";
+
+import { AnonymousError } from "#/utils/models/base";
 
 interface InitialState {
   entity: AnyEntity | undefined;
@@ -63,27 +67,30 @@ export const selectSightRecommendations = createSelector(
 );
 
 /* Thunk */
-export const queryEntity =
+export const loadSight =
   (kind: Kind, id: string): AppThunk<Promise<void>> =>
   async (dispatch) => {
-    await TDX.queryID(kind, id)
-      .then((data) => dispatch(setEntity(data[0])))
-      .catch((error) => alert(error.message));
-  };
+    try {
+      const [entity] = await TDX.queryID(kind, id);
 
-/**
- * Query recommendations by the kind and the city properties
- * of the target entity.
- */
-export const queryRecommendations =
-  (): AppThunk<Promise<void>> => async (dispatch, getState) => {
-    const { entity } = selectSight(getState());
+      if (!entity) {
+        throw new HTTPError(404);
+      }
 
-    if (entity) {
-      const { kind, city, id: excludedID } = entity;
+      const { city, id: excludedID } = entity;
+      const recommendations = await TDX.query({
+        kind,
+        city,
+        filter: { excludedID },
+        limit: 4,
+      });
 
-      await TDX.query({ kind, city, filter: { excludedID }, limit: 4 })
-        .then((result) => dispatch(setRecommendations(result)))
-        .catch((error) => alert(error.message));
+      dispatch(setEntity(entity));
+      dispatch(setRecommendations(recommendations));
+    } catch (error) {
+      if (error instanceof Error) {
+        const { message, code } = error as AnonymousError;
+        dispatch(setError({ message, code }));
+      }
     }
   };

@@ -17,6 +17,7 @@ import type {
   AnyTDXEntity,
 } from "#/utils/models/tdx";
 import { SearchOptions, SearchKind } from "#/store/slices/search";
+import HTTPError from "#/utils/helpers/http-error";
 
 interface Params {
   [key: string]: string | number | undefined;
@@ -98,7 +99,7 @@ export class TDXService {
     return fetch(url)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(response.statusText);
+          throw new HTTPError(response.status);
         }
 
         return response.json();
@@ -180,7 +181,7 @@ export class TDXService {
 
     return fetch(url).then((response) => {
       if (!response.ok) {
-        throw new Error(response.statusText);
+        throw new HTTPError(response.status);
       }
 
       return response.json();

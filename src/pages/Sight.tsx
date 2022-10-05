@@ -6,10 +6,10 @@ import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import {
   selectSightEntity,
   selectSightRecommendations,
-  queryEntity,
-  queryRecommendations,
+  loadSight,
   resetSight,
 } from "#/store/slices/sight";
+import { setError } from "#/store/slices/status";
 import { useSightPathInfo } from "#/utils/hooks/pathname";
 import { getCityValue } from "#/utils/constants/city";
 import { getKindValue } from "#/utils/constants/kind";
@@ -17,6 +17,7 @@ import { getKindValue } from "#/utils/constants/kind";
 import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
+import HTTPError from "#/utils/helpers/http-error";
 
 function Sight() {
   const mounted = useMounted();
@@ -34,12 +35,10 @@ function Sight() {
     const { kind, id } = sightPathInfo;
 
     if (!kind || !id) {
-      // Improve inspection of kind and id
-      navigate("/");
+      const { message, code } = new HTTPError(404);
+      appDispatch(setError({ message, code }));
     } else {
-      appDispatch(queryEntity(kind, id))
-        .then(() => appDispatch(queryRecommendations()))
-        .catch(() => navigate("/"));
+      appDispatch(loadSight(kind, id));
     }
 
     // Cleanup on sight change or unmount.
@@ -73,9 +72,12 @@ function Sight() {
           {getKindValue(kind)}
         </S.Subtitle>
         <S.Recommendations>
-          {recommendations?.map((recommendation) => (
-            <Entity key={recommendation.id} entity={recommendation} />
-          ))}
+          {recommendations &&
+            (recommendations.length === 0
+              ? `沒有其他${getKindValue(kind)}`
+              : recommendations.map((recommendation) => (
+                  <Entity key={recommendation.id} entity={recommendation} />
+                )))}
         </S.Recommendations>
       </S.Section>
     </S.Main>

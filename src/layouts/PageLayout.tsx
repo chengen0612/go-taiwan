@@ -4,6 +4,7 @@ import Box from "@mui/system/Box";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import FloatingBar from "./FloatingBar";
+import PageBoundary from "./PageBoundary";
 
 function PageLayout() {
   return (
@@ -17,7 +18,9 @@ function PageLayout() {
     >
       <Navbar />
       <Box component="main" sx={{ flex: 1 }}>
-        <Outlet />
+        <PageBoundary>
+          <Outlet />
+        </PageBoundary>
       </Box>
       <Footer />
       <FloatingBar />
