@@ -6,7 +6,7 @@ import TDX from "#/services/tdx";
 import { Kind } from "#/utils/constants/kind";
 import { AnyEntity } from "#/utils/models/entity";
 import { RootState, AppThunk } from "#/store";
-import { setError } from "#/store/slices/status";
+import { setLoaded, setError } from "#/store/slices/status";
 import HTTPError from "#/utils/helpers/http-error";
 
 import { AnonymousError } from "#/utils/models/base";
@@ -70,6 +70,8 @@ export const selectSightRecommendations = createSelector(
 export const loadSight =
   (kind: Kind, id: string): AppThunk<Promise<void>> =>
   async (dispatch) => {
+    dispatch(setLoaded(false));
+
     try {
       const [entity] = await TDX.queryID(kind, id);
 
@@ -92,5 +94,7 @@ export const loadSight =
         const { message, code } = error as AnonymousError;
         dispatch(setError({ message, code }));
       }
+    } finally {
+      dispatch(setLoaded(true));
     }
   };

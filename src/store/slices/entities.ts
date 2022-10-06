@@ -5,7 +5,7 @@ import { normalize, Normalized } from "#/utils/helpers/normalize";
 import TDX from "#/services/tdx";
 import { Kind } from "#/utils/constants/kind";
 import { selectSearchKind, selectSearch } from "./search";
-import { setError } from "./status";
+import { setLoaded, setError } from "./status";
 
 import type { RootState, AppDispatch } from "#/store";
 import type {
@@ -138,6 +138,8 @@ export const queryTourismData =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
     const { kind, city, keyword } = selectSearch(getState());
 
+    dispatch(setLoaded(false));
+
     try {
       if (kind !== "all") {
         const data = await TDX.query({ kind, city, filter: { keyword } });
@@ -147,8 +149,11 @@ export const queryTourismData =
         dispatch(setAll(data));
       }
     } catch (error) {
-      const { code, message } = error as AnonymousError;
-
-      dispatch(setError({ code, message }));
+      if (error instanceof Error) {
+        const { code, message } = error as AnonymousError;
+        dispatch(setError({ code, message }));
+      }
+    } finally {
+      dispatch(setLoaded(true));
     }
   };

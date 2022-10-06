@@ -9,18 +9,20 @@ import {
   loadSight,
   resetSight,
 } from "#/store/slices/sight";
-import { setError } from "#/store/slices/status";
+import { selectLoaded, setError } from "#/store/slices/status";
 import { useSightPathInfo } from "#/utils/hooks/pathname";
 import { getCityValue } from "#/utils/constants/city";
 import { getKindValue } from "#/utils/constants/kind";
+import HTTPError from "#/utils/helpers/http-error";
 
 import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
-import HTTPError from "#/utils/helpers/http-error";
+import LoadingFallback from "#/components/LoadingFallback";
 
 function Sight() {
   const mounted = useMounted();
+  const loaded = useAppSelector(selectLoaded);
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -46,6 +48,8 @@ function Sight() {
       appDispatch(resetSight());
     };
   }, [mounted, sightPathInfo, appDispatch, navigate]);
+
+  if (!loaded) return <LoadingFallback />;
 
   if (!entity) return null;
 

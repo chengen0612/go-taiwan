@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Box from "@mui/material/Box";
 
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
-import { useAppDispatch } from "#/utils/hooks/store";
+import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { resetEntities } from "#/store/slices/entities";
+import { selectLoaded } from "#/store/slices/status";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
+import LoadingFallback from "#/components/LoadingFallback";
 
 import { KIND } from "#/utils/constants/kind";
 import { SearchKind } from "#/store/slices/search";
@@ -21,6 +22,7 @@ function Search() {
   const mounted = useMounted();
   const onSearchEnd = useOnSearchEnd();
   const appDispatch = useAppDispatch();
+  const loaded = useAppSelector(selectLoaded);
 
   useEffect(() => {
     if (!mounted) return undefined;
@@ -34,15 +36,15 @@ function Search() {
     };
   }, [mounted, onSearchEnd, appDispatch]);
 
+  if (!loaded) return <LoadingFallback />;
+
   return (
-    <ContentBoundary component="main">
-      <Box sx={{ pb: "3.5rem" }}>
-        {searchKind !== "all" ? (
-          <EntityList kind={searchKind} />
-        ) : (
-          KIND.allKinds.map((kind) => <EntityList key={kind} kind={kind} />)
-        )}
-      </Box>
+    <ContentBoundary>
+      {searchKind !== "all" ? (
+        <EntityList kind={searchKind} />
+      ) : (
+        KIND.allKinds.map((kind) => <EntityList key={kind} kind={kind} />)
+      )}
     </ContentBoundary>
   );
 }
