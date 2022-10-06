@@ -76,6 +76,7 @@ function FavoriteCard({ kind, id }: FavoriteCardProps) {
                   label={category}
                   color="secondary"
                   responsive
+                  sx={{ cursor: "pointer" }}
                 />
               ))}
             </S.Tags>

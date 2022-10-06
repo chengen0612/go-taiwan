@@ -1,14 +1,18 @@
 import { styled } from "@mui/material";
 import Container, { ContainerProps } from "@mui/material/Container";
 
+const NAVBAR_HEIGHT = "8.25rem";
+
 const Root = styled((props: ContainerProps) => (
   <Container {...props} component="nav" />
-))({
+))(({ theme }) => ({
+  position: "fixed",
+  zIndex: 20,
   paddingTop: "1rem",
-  bgcolor: "common.white",
+  backgroundColor: theme.palette.common.white,
   boxShadow:
     "0px 0px 2px rgba(40, 41, 61, 0.04), 0px 4px 8px rgba(96, 97, 112, 0.16)",
-});
+}));
 
 const UpperHalf = styled("div")({
   height: "3.25rem",
@@ -32,4 +36,4 @@ const LowerHalf = styled("div")({
   columnGap: "0.75rem",
 });
 
-export { Root, UpperHalf, SearchBar, LowerHalf };
+export { Root, UpperHalf, SearchBar, LowerHalf, NAVBAR_HEIGHT };

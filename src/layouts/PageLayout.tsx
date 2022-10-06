@@ -6,6 +6,8 @@ import Footer from "./Footer";
 import FloatingBar from "./FloatingBar";
 import PageBoundary from "./PageBoundary";
 
+import { NAVBAR_HEIGHT } from "#/layouts/Navbar";
+
 function PageLayout() {
   return (
     <Box
@@ -17,7 +19,7 @@ function PageLayout() {
       }}
     >
       <Navbar />
-      <Box component="main" sx={{ flex: 1 }}>
+      <Box component="main" sx={{ flex: 1, mt: NAVBAR_HEIGHT }}>
         <PageBoundary>
           <Outlet />
         </PageBoundary>
