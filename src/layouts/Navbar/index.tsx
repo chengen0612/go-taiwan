@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme, Theme } from "@mui/material/styles";
 import ButtonBase from "@mui/material/ButtonBase";
 
-import { useOnHome } from "#/utils/hooks/navigate";
+import { useOnHomepage } from "#/utils/hooks/navigate";
 
 import * as S from "./styles";
 import ContentBoundary from "#/layouts/ContentBoundary";
@@ -27,7 +27,7 @@ const getNavbarTheme = (outerTheme: Theme) =>
   });
 
 function Navbar() {
-  const onHome = useOnHome();
+  const onHomepage = useOnHomepage();
 
   return (
     <ThemeProvider theme={getNavbarTheme}>
@@ -40,7 +40,7 @@ function Navbar() {
               to="/"
               disableRipple
               disableTouchRipple
-              onClick={onHome}
+              onClick={onHomepage}
               sx={{
                 height: "100%",
                 width: "5rem",

@@ -3,19 +3,27 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "./store";
 import { selectSearch, replaceSearch, SearchKind } from "#/store/slices/search";
+import { selectIsError, resetStatus } from "#/store/slices/status";
 import { queryTourismData } from "#/store/slices/entities";
 
 import { CityName } from "#/utils/constants/city";
 
 const useOnSearchStart = () => {
+  const appDispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const search = useAppSelector(selectSearch);
+  const isError = useAppSelector(selectIsError);
 
   const handler = useCallback(() => {
     const { kind, city, keyword } = search;
 
+    if (isError) {
+      appDispatch(resetStatus());
+    }
+
     navigate(`/search?kind=${kind}&city=${city}&keyword=${keyword}`);
-  }, [navigate, search]);
+  }, [appDispatch, navigate, search, isError]);
 
   return handler;
 };
