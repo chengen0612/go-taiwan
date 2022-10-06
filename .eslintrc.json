@@ -18,6 +18,9 @@
     "airbnb",
     "prettier"
   ],
+  "globals": {
+    "JSX": "readonly" // Make JSX namespace accessible
+  },
   "overrides": [],
   "rules": {
     "@typescript-eslint/lines-between-class-members": 1,
@@ -34,6 +37,7 @@
     "no-shadow": 0, // Avoids incorrect error reports on Enum type
     "no-unused-vars": 0,
     "react/jsx-filename-extension": 0,
+    "react/jsx-props-no-spreading": 0, // Disable it for MUI components customization
     "react/require-default-props": 0,
     "react/react-in-jsx-scope": 0,
     "react-hooks/exhaustive-deps": 1, // Reminds missing dependencies
