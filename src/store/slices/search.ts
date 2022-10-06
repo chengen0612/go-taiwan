@@ -8,17 +8,13 @@ import type { Kind } from "#/utils/constants/kind";
 import type { RootState } from "#/store";
 
 /* Main */
-interface SearchState {
+export interface SearchState {
   [SearchProperty.Kind]: Kind | "all";
   [SearchProperty.City]: CityName;
   [SearchProperty.Keyword]: string;
 }
 
 export type SearchKind = SearchState["kind"];
-
-export type SearchOptions<T extends SearchKind> = {
-  [U in keyof SearchState]: U extends "kind" ? T : SearchState[U];
-};
 
 export type SetSearchPayload =
   | { searchProperty: SearchProperty.City; value: CityName }
@@ -69,8 +65,7 @@ export default searchSlice.reducer;
 export const { setSearch, replaceSearch, resetSearch } = searchSlice.actions;
 
 /* Selector */
-export const selectSearch = <T extends SearchKind>(store: RootState) =>
-  store.search as SearchOptions<T>;
+export const selectSearch = (store: RootState) => store.search;
 
 export const selectSearchCity = createSelector(
   selectSearch,

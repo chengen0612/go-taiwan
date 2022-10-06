@@ -102,13 +102,6 @@ export const selectEntityByKindAndID = (kind: Kind, id: string) =>
   );
 
 /* Thunk */
-const queryOneKindData =
-  () => (_dispatch: AppDispatch, getState: () => RootState) => {
-    const { keyword, ...rest } = selectSearch<Kind>(getState());
-
-    return TDX.query({ ...rest, filter: { keyword } });
-  };
-
 const setOneKindData =
   (data: Awaited<ReturnType<typeof TDX.query>>) =>
   (dispatch: AppDispatch, getState: () => RootState) => {
@@ -137,30 +130,21 @@ const setOneKindData =
     }
   };
 
-const queryAllKindData =
-  () => (_dispatch: AppDispatch, getState: () => RootState) => {
-    const { keyword, ...rest } = selectSearch<"all">(getState());
-
-    return TDX.queryAll({ ...rest, filter: { keyword } });
-  };
-
 /**
  * An abstract layer to switch query thunks by search.kind.
  * It is designed to hide the api switching logic from ui component.
  */
 export const queryTourismData =
-  () => (dispatch: AppDispatch, getState: () => RootState) => {
-    const kind = selectSearchKind(getState());
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { kind, city, keyword } = selectSearch(getState());
 
     try {
       if (kind !== "all") {
-        dispatch(queryOneKindData()).then((data) =>
-          dispatch(setOneKindData(data))
-        );
+        const data = await TDX.query({ kind, city, filter: { keyword } });
+        dispatch(setOneKindData(data));
       } else {
-        dispatch(queryAllKindData()).then((data) => {
-          dispatch(setAll(data));
-        });
+        const data = await TDX.queryAll({ kind, city, filter: { keyword } });
+        dispatch(setAll(data));
       }
     } catch (error) {
       const { code, message } = error as AnonymousError;

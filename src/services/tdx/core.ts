@@ -16,14 +16,14 @@ import type {
   TDXActivity,
   AnyTDXEntity,
 } from "#/utils/models/tdx";
-import { SearchOptions, SearchKind } from "#/store/slices/search";
+import { SearchState } from "#/store/slices/search";
 import HTTPError from "#/utils/helpers/http-error";
 
 interface Params {
   [key: string]: string | number | undefined;
 }
 
-interface QueryOptions extends Omit<SearchOptions<SearchKind>, "keyword"> {
+interface QueryOptions extends Omit<SearchState, "keyword"> {
   filter?: Filter;
   limit?: number;
 }
