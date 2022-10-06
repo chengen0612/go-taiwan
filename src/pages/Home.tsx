@@ -14,7 +14,7 @@ function Home() {
   const appDispatch = useAppDispatch();
 
   useEffect(() => {
-    if (mounted) return undefined;
+    if (!mounted) return undefined;
 
     appDispatch(queryTourismData());
 
