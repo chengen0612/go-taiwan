@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import Tabs from "@mui/material/Tabs";
 
 import { useAppSelector } from "#/utils/hooks/store";
@@ -11,6 +11,8 @@ import { getKindValue, KIND, Kind } from "#/utils/constants/kind";
 function Favorite() {
   const [kind, setKind] = useState<Kind>("attraction");
   const favoritesIDs = useAppSelector(selectFavoritesIDsByKind(kind));
+
+  const hasFavorite = useMemo(() => favoritesIDs.length > 0, [favoritesIDs]);
 
   const onTabClick = useCallback<
     (event: React.SyntheticEvent, value: Kind) => void
@@ -29,7 +31,7 @@ function Favorite() {
 
       {/* Cards */}
       <S.CardList>
-        {favoritesIDs.length === 0
+        {!hasFavorite
           ? `目前沒有任何收藏${getKindValue(kind)}`
           : favoritesIDs.map((id) => (
               <FavoriteCard key={id} id={id} kind={kind} />
