@@ -7,15 +7,13 @@ import { RootState } from "#/store";
 interface StatusState {
   loaded: boolean;
   isError: boolean;
-  errorCode: number | undefined;
-  errorMessage: string | undefined;
+  errorCode?: number;
+  errorMessage?: string;
 }
 
 const initialState: StatusState = {
   loaded: false,
   isError: false,
-  errorCode: undefined,
-  errorMessage: undefined,
 };
 
 type SetErrorPayload = {
@@ -45,9 +43,10 @@ const statusSlice = createSlice({
   },
 });
 
-export default statusSlice.reducer;
+const { setLoaded, setError, reset: resetStatus } = statusSlice.actions;
 
-export const { setLoaded, setError, reset: resetStatus } = statusSlice.actions;
+export default statusSlice.reducer;
+export { setLoaded, setError, resetStatus };
 
 /* Selector */
 export const selectStatus = (store: RootState) => store.status;

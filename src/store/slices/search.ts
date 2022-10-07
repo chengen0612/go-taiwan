@@ -17,12 +17,12 @@ export interface SearchState {
 export type SearchKind = SearchState["kind"];
 
 export type SetSearchPayload =
-  | { searchProperty: SearchProperty.City; value: CityName }
   | { searchProperty: SearchProperty.Kind; value: SearchKind }
+  | { searchProperty: SearchProperty.City; value: CityName }
   | { searchProperty: SearchProperty.Keyword; value: string };
 
-type ReplaceSearchPayload = {
-  [T in keyof SearchState]: SearchState[T] | null;
+type ReplacePayload = {
+  [Property in keyof SearchState]: SearchState[Property] | null;
 };
 
 const initialState: SearchState = {
@@ -44,7 +44,7 @@ const searchSlice = createSlice({
       };
     },
 
-    replaceSearch(state, action: PayloadAction<ReplaceSearchPayload>) {
+    replace(state, action: PayloadAction<ReplacePayload>) {
       const { kind, city, keyword } = action.payload;
 
       return {
@@ -54,15 +54,20 @@ const searchSlice = createSlice({
       };
     },
 
-    resetSearch() {
+    reset() {
       return initialState;
     },
   },
 });
 
-export default searchSlice.reducer;
+const {
+  setSearch,
+  replace: replaceSearch,
+  reset: resetSearch,
+} = searchSlice.actions;
 
-export const { setSearch, replaceSearch, resetSearch } = searchSlice.actions;
+export default searchSlice.reducer;
+export { setSearch, replaceSearch, resetSearch };
 
 /* Selector */
 export const selectSearch = (store: RootState) => store.search;

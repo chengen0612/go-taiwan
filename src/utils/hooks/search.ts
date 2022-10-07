@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "./store";
 import { selectSearch, replaceSearch, SearchKind } from "#/store/slices/search";
 import { selectIsError, resetStatus } from "#/store/slices/status";
-import { queryTourismData } from "#/store/slices/entities";
+import { loadEntities } from "#/store/slices/entities";
 
 import { CityName } from "#/utils/constants/city";
 
@@ -41,7 +41,7 @@ const useOnSearchEnd = () => {
     const keyword = searchParams.get("keyword");
 
     appDispatch(replaceSearch({ kind, city, keyword }));
-    appDispatch(queryTourismData());
+    appDispatch(loadEntities());
   }, [searchParams, appDispatch]);
 
   return handler;

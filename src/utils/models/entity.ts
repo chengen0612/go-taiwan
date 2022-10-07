@@ -49,3 +49,10 @@ export type AnyEntity =
   | RestaurantEntity
   | HotelEntity
   | ActivityEntity;
+
+export interface KindEntityMap {
+  attraction: ScenicSpotEntity;
+  food: RestaurantEntity;
+  hotel: HotelEntity;
+  activity: ActivityEntity;
+}

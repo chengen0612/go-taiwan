@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { selectLoaded } from "#/store/slices/status";
-import { queryTourismData, resetEntities } from "#/store/slices/entities";
+import { loadEntities, resetEntities } from "#/store/slices/entities";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
@@ -19,7 +19,7 @@ function Home() {
   useEffect(() => {
     if (!mounted) return undefined;
 
-    appDispatch(queryTourismData());
+    appDispatch(loadEntities());
 
     // cleanup
     return () => {

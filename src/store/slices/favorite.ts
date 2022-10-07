@@ -4,23 +4,10 @@ import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { Normalized } from "#/utils/helpers/normalize";
 
 import { Kind } from "#/utils/constants/kind";
-import {
-  ScenicSpotEntity,
-  RestaurantEntity,
-  HotelEntity,
-  ActivityEntity,
-  AnyEntity,
-} from "#/utils/models/entity";
+import { KindEntityMap, AnyEntity } from "#/utils/models/entity";
 import { RootState } from "#/store";
 
 /* Main */
-interface KindEntityMap {
-  attraction: ScenicSpotEntity;
-  food: RestaurantEntity;
-  hotel: HotelEntity;
-  activity: ActivityEntity;
-}
-
 type Entities = {
   [Property in Kind]: Normalized<KindEntityMap[Property]>;
 };
@@ -73,9 +60,10 @@ const favoriteSlice = createSlice({
   },
 });
 
-export default favoriteSlice.reducer;
+const { toggleFavorite, deleteFavorite } = favoriteSlice.actions;
 
-export const { toggleFavorite, deleteFavorite } = favoriteSlice.actions;
+export default favoriteSlice.reducer;
+export { toggleFavorite, deleteFavorite };
 
 /* Selector */
 export const selectIsFavorite = createSelector(

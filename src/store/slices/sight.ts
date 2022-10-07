@@ -11,18 +11,15 @@ import HTTPError from "#/utils/helpers/http-error";
 
 import { AnonymousError } from "#/utils/models/base";
 
-interface InitialState {
-  entity: AnyEntity | undefined;
-  recommendations: AnyEntity[] | undefined;
+interface SightState {
+  entity?: AnyEntity;
+  recommendations?: AnyEntity[];
 }
 
-const initialState: InitialState = {
-  entity: undefined,
-  recommendations: undefined,
-};
+const initialState: SightState = {};
 
-type SetEntityPayload = NonNullable<InitialState["entity"]>;
-type SetRecommendationsPayload = NonNullable<InitialState["recommendations"]>;
+type SetEntityPayload = NonNullable<SightState["entity"]>;
+type SetRecommendationsPayload = NonNullable<SightState["recommendations"]>;
 
 const sightSlice = createSlice({
   name: "sight",
@@ -45,13 +42,10 @@ const sightSlice = createSlice({
   },
 });
 
-export default sightSlice.reducer;
+const { setEntity, setRecommendations, reset: resetSight } = sightSlice.actions;
 
-export const {
-  setEntity,
-  setRecommendations,
-  reset: resetSight,
-} = sightSlice.actions;
+export default sightSlice.reducer;
+export { resetSight };
 
 /* Selector */
 export const selectSight = (store: RootState) => store.sight;
