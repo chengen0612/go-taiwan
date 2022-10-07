@@ -1,13 +1,14 @@
 /* eslint-disable class-methods-use-this */
-import { getFilterString, Filter } from "./helper";
 import { getTDXPathName, Kind } from "#/utils/constants/kind";
-import { getTDXCityName } from "#/utils/constants/city";
+import { getTDXCityName, CityName } from "#/utils/constants/city";
+import { getFilterString, Filter } from "./helper";
 import {
   parseScenicSpot,
   parseRestaurant,
   parseHotel,
   parseActivity,
 } from "./parser";
+import HTTPError from "#/utils/helpers/http-error";
 
 import type {
   TDXScenicSpot,
@@ -16,17 +17,34 @@ import type {
   TDXActivity,
   AnyTDXEntity,
 } from "#/utils/models/tdx";
-import { SearchState } from "#/store/slices/search";
-import HTTPError from "#/utils/helpers/http-error";
+import type { SearchKind } from "#/store/slices/search";
 
-interface Params {
+interface UnstableParams {
   [key: string]: string | number | undefined;
 }
 
-interface QueryOptions extends Omit<SearchState, "keyword"> {
+interface QueryOptions<T extends SearchKind = SearchKind> {
+  kind: T;
+  city?: CityName;
   filter?: Filter;
   limit?: number;
 }
+
+const isAttractionOptions = (
+  options: QueryOptions
+): options is QueryOptions<"attraction"> => options.kind === "attraction";
+
+const isFoodOptions = (
+  options: QueryOptions
+): options is QueryOptions<"food"> => options.kind === "food";
+
+const isHotelOptions = (
+  options: QueryOptions
+): options is QueryOptions<"hotel"> => options.kind === "hotel";
+
+const isActivityOptions = (
+  options: QueryOptions
+): options is QueryOptions<"activity"> => options.kind === "activity";
 
 export class TDXService {
   private readonly BASE_API_URL = "https://tdx.transportdata.tw/api/basic";
@@ -35,36 +53,13 @@ export class TDXService {
 
   private readonly DEFAULT_LIMIT = 10;
 
-  query = (options: QueryOptions & { kind: Kind }) => {
-    const { kind } = options;
+  query = (options: QueryOptions<Kind>) => this.switchQuery(options);
 
-    switch (kind) {
-      case "attraction":
-        return this.queryScenicSpot(
-          options as QueryOptions & { kind: "attraction" }
-        );
+  // Find a specific entity by kind and id.
+  queryID = (kind: Kind, id: string) =>
+    this.switchQuery({ kind, filter: { includedID: id }, limit: 1 });
 
-      case "food":
-        return this.queryRestaurant(options as QueryOptions & { kind: "food" });
-
-      case "hotel":
-        return this.queryHotel(options as QueryOptions & { kind: "hotel" });
-
-      case "activity":
-        return this.queryActivity(
-          options as QueryOptions & { kind: "activity" }
-        );
-
-      default: {
-        // eslint-disable-next-line no-underscore-dangle
-        const _exhaustedCheck: never = kind;
-
-        return _exhaustedCheck;
-      }
-    }
-  };
-
-  queryAll = async (options: QueryOptions & { kind: "all" }) => {
+  queryAll = async (options: QueryOptions<"all">) => {
     const data = await Promise.all([
       this.queryScenicSpot({ ...options, kind: "attraction" }),
       this.queryRestaurant({ ...options, kind: "food" }),
@@ -80,104 +75,56 @@ export class TDXService {
     };
   };
 
-  queryID = (kind: Kind, id: string) => {
-    const tdxPathname = getTDXPathName(kind);
-
-    const urlFragments = [
+  private getPathname(kind: Kind, city?: CityName) {
+    const segments = [
       this.BASE_API_URL,
       this.BASE_TOURISM_ROUTE,
-      tdxPathname,
+      getTDXPathName(kind),
     ];
 
-    const params: Params = {
-      format: "json",
-      filter: getFilterString(kind, { includedID: id }),
-    };
+    if (city) {
+      segments.push(getTDXCityName(city));
+    }
 
-    const url = this.getUrl(urlFragments, params);
+    return segments.join("/");
+  }
 
-    return fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new HTTPError(response.status);
-        }
+  private getQueryString(options: QueryOptions<Kind>) {
+    const { kind, limit, filter } = options;
 
-        return response.json();
-      })
-      .then((data: AnyTDXEntity[]) => {
-        switch (kind) {
-          case "attraction":
-            return parseScenicSpot(data as TDXScenicSpot[]);
-
-          case "food":
-            return parseRestaurant(data as TDXRestaurant[]);
-
-          case "hotel":
-            return parseHotel(data as TDXHotel[]);
-
-          case "activity":
-            return parseActivity(data as TDXActivity[]);
-
-          default:
-            throw new Error(`Invalid kind property ${kind}`);
-        }
-      });
-  };
-
-  private queryScenicSpot = async (
-    options: QueryOptions & { kind: "attraction" }
-  ) => {
-    const data = await this.queryBase<TDXScenicSpot[]>(options);
-
-    return parseScenicSpot(data);
-  };
-
-  private queryRestaurant = async (
-    options: QueryOptions & { kind: "food" }
-  ) => {
-    const data = await this.queryBase<TDXRestaurant[]>(options);
-
-    return parseRestaurant(data);
-  };
-
-  private queryHotel = async (options: QueryOptions & { kind: "hotel" }) => {
-    const data = await this.queryBase<TDXHotel[]>(options);
-
-    return parseHotel(data);
-  };
-
-  private queryActivity = async (
-    options: QueryOptions & { kind: "activity" }
-  ) => {
-    const data = await this.queryBase<TDXActivity[]>(options);
-
-    return parseActivity(data);
-  };
-
-  /**
-   * Handle each kind of tourism queries by dynamically constructing
-   * the url and query string.
-   */
-  private queryBase<T>(options: QueryOptions & { kind: Kind }): Promise<T> {
-    const { kind, city, filter, limit } = options;
-
-    const tdxPathname = getTDXPathName(kind);
-    const tdxCityName = getTDXCityName(city);
-
-    const urlFragments = [
-      this.BASE_API_URL,
-      this.BASE_TOURISM_ROUTE,
-      tdxPathname,
-      tdxCityName,
-    ];
-
-    const params: Params = {
+    const unstableParams: UnstableParams = {
       top: limit || this.DEFAULT_LIMIT,
       format: "JSON",
       filter: getFilterString(kind, filter),
     };
 
-    const url = this.getUrl(urlFragments, params);
+    const stableParams = new URLSearchParams();
+
+    Object.entries(unstableParams)
+      .filter<[string, string | number]>(
+        (pair): pair is [string, string | number] => Boolean(pair[1])
+      )
+      .forEach(([key, value]) =>
+        stableParams.append(`$${key}`, value.toString())
+      );
+
+    return stableParams.toString();
+  }
+
+  private getUrl = (pathname: string, queryString: string) =>
+    `${pathname}?${queryString}`;
+
+  /**
+   * Handle different kind of tourism queries by dynamically constructing urls.
+   */
+  private primitiveQuery<T extends AnyTDXEntity>(
+    options: QueryOptions<Kind>
+  ): Promise<T[]> {
+    const { kind, city } = options;
+
+    const pathname = this.getPathname(kind, city);
+    const queryString = this.getQueryString(options);
+    const url = this.getUrl(pathname, queryString);
 
     return fetch(url).then((response) => {
       if (!response.ok) {
@@ -188,18 +135,47 @@ export class TDXService {
     });
   }
 
-  private getUrl(urlFragments: string[], params: Params) {
-    const url = new URL(urlFragments.join("/"));
+  private queryScenicSpot = async (options: QueryOptions<"attraction">) => {
+    const data = await this.primitiveQuery<TDXScenicSpot>(options);
 
-    Object.entries(params)
-      .filter<[string, string | number]>(
-        (pair): pair is [string, string | number] => pair[1] !== undefined
-      )
-      .forEach(([key, value]) =>
-        // The key is prefixed with '$' following the OData syntax.
-        url.searchParams.append(`$${key}`, value.toString())
-      );
+    return parseScenicSpot(data);
+  };
 
-    return url;
+  private queryRestaurant = async (options: QueryOptions<"food">) => {
+    const data = await this.primitiveQuery<TDXRestaurant>(options);
+
+    return parseRestaurant(data);
+  };
+
+  private queryHotel = async (options: QueryOptions<"hotel">) => {
+    const data = await this.primitiveQuery<TDXHotel>(options);
+
+    return parseHotel(data);
+  };
+
+  private queryActivity = async (options: QueryOptions<"activity">) => {
+    const data = await this.primitiveQuery<TDXActivity>(options);
+
+    return parseActivity(data);
+  };
+
+  private switchQuery(options: QueryOptions) {
+    if (isAttractionOptions(options)) {
+      return this.queryScenicSpot(options);
+    }
+
+    if (isFoodOptions(options)) {
+      return this.queryRestaurant(options);
+    }
+
+    if (isHotelOptions(options)) {
+      return this.queryHotel(options);
+    }
+
+    if (isActivityOptions(options)) {
+      return this.queryActivity(options);
+    }
+
+    throw new Error(`Invalid kind property ${options.kind}`);
   }
 }
