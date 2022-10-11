@@ -5,6 +5,7 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/go-taiwan/",
   plugins: [svgr(), react()],
   resolve: {
     alias: [{ find: "#", replacement: path.resolve(__dirname, "src") }],
