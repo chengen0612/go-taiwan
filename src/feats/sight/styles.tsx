@@ -15,6 +15,10 @@ export const Header = styled("header")({
   boxShadow:
     "0px 0px 2px rgba(40, 41, 61, 0.04), 0px 4px 8px rgba(96, 97, 112, 0.16)",
   overflow: "hidden",
+  // Fix the inconsistent border radius between animations on safari.
+  // Below is a different solution to similar issues.
+  // https://gist.github.com/ayamflow/b602ab436ac9f05660d9c15190f4fd7b
+  isolation: "isolate",
 });
 
 export const Heading = styled("section")({
