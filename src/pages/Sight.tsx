@@ -9,7 +9,7 @@ import {
   loadSight,
   resetSight,
 } from "#/store/slices/sight";
-import { selectLoaded, setError } from "#/store/slices/status";
+import { selectStatus, setError } from "#/store/slices/status";
 import { useSightPathInfo } from "#/utils/hooks/pathname";
 import { getCityValue } from "#/utils/constants/city";
 import { getKindValue } from "#/utils/constants/kind";
@@ -19,10 +19,11 @@ import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
 import LoadingFallback from "#/components/LoadingFallback";
+import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 function Sight() {
   const mounted = useMounted();
-  const loaded = useAppSelector(selectLoaded);
+  const { loaded, isError, error } = useAppSelector(selectStatus);
   const appDispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ function Sight() {
   }, [mounted, sightPathInfo, appDispatch, navigate]);
 
   if (!loaded) return <LoadingFallback />;
-
+  if (isError && error) return <PageErrorFallback error={error} />;
   if (!entity) return null;
 
   const { kind, id, city, title, description, pictures } = entity;

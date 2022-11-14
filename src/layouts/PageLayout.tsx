@@ -4,7 +4,6 @@ import Box from "@mui/system/Box";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import FloatingBar from "./FloatingBar";
-import PageBoundary from "./PageBoundary";
 
 import { NAVBAR_HEIGHT } from "#/layouts/Navbar";
 
@@ -20,9 +19,7 @@ function PageLayout() {
     >
       <Navbar />
       <Box component="main" sx={{ flex: 1, mt: NAVBAR_HEIGHT }}>
-        <PageBoundary>
-          <Outlet />
-        </PageBoundary>
+        <Outlet />
       </Box>
       <Footer />
       <FloatingBar />

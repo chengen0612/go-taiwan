@@ -12,3 +12,5 @@ export interface Position {
 export interface AnonymousError extends Error {
   code?: number;
 }
+
+export type ErrorBody = Pick<AnonymousError, "code" | "message">;

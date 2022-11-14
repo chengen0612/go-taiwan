@@ -2,23 +2,18 @@
 import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "#/store";
+import { ErrorBody } from "#/utils/models/base";
 
 /* Main */
 interface StatusState {
   loaded: boolean;
   isError: boolean;
-  errorCode?: number;
-  errorMessage?: string;
+  error?: ErrorBody;
 }
 
 const initialState: StatusState = {
   loaded: false,
   isError: false,
-};
-
-type SetErrorPayload = {
-  code?: number;
-  message: string;
 };
 
 const statusSlice = createSlice({
@@ -29,12 +24,11 @@ const statusSlice = createSlice({
       state.loaded = action.payload;
     },
 
-    setError(state, action: PayloadAction<SetErrorPayload>) {
-      const { code, message } = action.payload;
+    setError(state, action: PayloadAction<ErrorBody>) {
+      const error = action.payload;
 
       state.isError = true;
-      state.errorCode = code;
-      state.errorMessage = message;
+      state.error = error;
     },
 
     reset() {

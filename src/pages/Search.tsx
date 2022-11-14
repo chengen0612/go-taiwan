@@ -5,11 +5,12 @@ import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
 import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { resetEntities } from "#/store/slices/entities";
-import { selectLoaded } from "#/store/slices/status";
+import { selectStatus } from "#/store/slices/status";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
 import LoadingFallback from "#/components/LoadingFallback";
+import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 import { KIND } from "#/utils/constants/kind";
 import { SearchKind } from "#/store/slices/search";
@@ -22,7 +23,7 @@ function Search() {
   const mounted = useMounted();
   const onSearchEnd = useOnSearchEnd();
   const appDispatch = useAppDispatch();
-  const loaded = useAppSelector(selectLoaded);
+  const { loaded, isError, error } = useAppSelector(selectStatus);
 
   useEffect(() => {
     if (!mounted) return undefined;
@@ -37,6 +38,7 @@ function Search() {
   }, [mounted, onSearchEnd, appDispatch]);
 
   if (!loaded) return <LoadingFallback />;
+  if (isError && error) return <PageErrorFallback error={error} />;
 
   return (
     <ContentBoundary>

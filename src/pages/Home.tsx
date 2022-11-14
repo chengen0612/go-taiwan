@@ -2,19 +2,20 @@ import { useEffect } from "react";
 
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
-import { selectLoaded } from "#/store/slices/status";
+import { selectStatus } from "#/store/slices/status";
 import { loadEntities, resetEntities } from "#/store/slices/entities";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
 import LoadingFallback from "#/components/LoadingFallback";
+import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 import { KIND } from "#/utils/constants/kind";
 
 function Home() {
   const mounted = useMounted();
   const appDispatch = useAppDispatch();
-  const loaded = useAppSelector(selectLoaded);
+  const { loaded, isError, error } = useAppSelector(selectStatus);
 
   useEffect(() => {
     if (!mounted) return undefined;
@@ -28,6 +29,7 @@ function Home() {
   }, [mounted, appDispatch]);
 
   if (!loaded) return <LoadingFallback />;
+  if (isError && error) return <PageErrorFallback error={error} />;
 
   return (
     <ContentBoundary>
