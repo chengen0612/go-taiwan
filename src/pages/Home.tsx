@@ -7,7 +7,7 @@ import { loadEntities, resetEntities } from "#/store/slices/entities";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
-import LoadingFallback from "#/components/LoadingFallback";
+import PageLoadingFallback from "#/layouts/PageLoadingFallback";
 import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 import { KIND } from "#/utils/constants/kind";
@@ -29,7 +29,7 @@ function Home() {
     };
   }, [mounted, appDispatch]);
 
-  if (!loaded) return <LoadingFallback />;
+  if (!loaded) return <PageLoadingFallback />;
   if (isError && error) return <PageErrorFallback error={error} />;
 
   return (

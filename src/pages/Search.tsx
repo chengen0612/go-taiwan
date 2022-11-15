@@ -9,7 +9,7 @@ import { selectStatus, resetStatus } from "#/store/slices/status";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
-import LoadingFallback from "#/components/LoadingFallback";
+import PageLoadingFallback from "#/layouts/PageLoadingFallback";
 import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 import { KIND } from "#/utils/constants/kind";
@@ -38,7 +38,7 @@ function Search() {
     };
   }, [mounted, onSearchEnd, appDispatch]);
 
-  if (!loaded) return <LoadingFallback />;
+  if (!loaded) return <PageLoadingFallback />;
   if (isError && error) return <PageErrorFallback error={error} />;
 
   return (

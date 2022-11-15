@@ -18,7 +18,7 @@ import HTTPError from "#/utils/helpers/http-error";
 import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
-import LoadingFallback from "#/components/LoadingFallback";
+import PageLoadingFallback from "#/layouts/PageLoadingFallback";
 import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 function Sight() {
@@ -51,7 +51,7 @@ function Sight() {
     };
   }, [mounted, sightPathInfo, appDispatch, navigate]);
 
-  if (!loaded) return <LoadingFallback />;
+  if (!loaded) return <PageLoadingFallback />;
   if (isError && error) return <PageErrorFallback error={error} />;
   if (!entity) return null;
 
