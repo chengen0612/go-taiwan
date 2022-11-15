@@ -6,11 +6,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { useAppSelector } from "#/utils/hooks/store";
 import { selectFavoriteCount } from "#/store/slices/favorite";
+import { useOnHomepageNavigate } from "#/utils/hooks/navigate";
 
 import { ReactComponent as Taiwan } from "#/assets/icons/taiwan.svg";
 
 function FloatingBar() {
   const count = useAppSelector(selectFavoriteCount);
+  const onHomepageNavigate = useOnHomepageNavigate();
 
   return (
     <Stack
@@ -29,6 +31,7 @@ function FloatingBar() {
       <Fab
         component={Link}
         to="/"
+        onClick={onHomepageNavigate}
         size="large"
         aria-label="首頁"
         sx={{ bgcolor: "white" }}

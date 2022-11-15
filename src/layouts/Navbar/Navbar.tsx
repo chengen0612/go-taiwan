@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ThemeProvider, createTheme, Theme } from "@mui/material/styles";
 import ButtonBase from "@mui/material/ButtonBase";
 
+import { useOnHomepageNavigate } from "#/utils/hooks/navigate";
+
 import * as S from "./styles";
 import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import {
@@ -25,6 +27,8 @@ const getNavbarTheme = (outerTheme: Theme) =>
   });
 
 function Navbar() {
+  const onHomepageNavigate = useOnHomepageNavigate();
+
   return (
     <ThemeProvider theme={getNavbarTheme}>
       <S.Root>
@@ -34,6 +38,7 @@ function Navbar() {
             <ButtonBase
               component={Link}
               to="/"
+              onClick={onHomepageNavigate}
               disableRipple
               disableTouchRipple
               sx={{
