@@ -64,8 +64,6 @@ export const selectSightRecommendations = createSelector(
 export const loadSight =
   (kind: Kind, id: string): AppThunk<Promise<void>> =>
   async (dispatch) => {
-    dispatch(setLoaded(false));
-
     try {
       const [entity] = await TDX.queryID(kind, id);
 

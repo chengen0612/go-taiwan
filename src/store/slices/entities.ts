@@ -86,8 +86,6 @@ export const loadEntities =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
     const { kind, city, keyword } = selectSearch(getState());
 
-    dispatch(setLoaded(false));
-
     try {
       if (kind !== "all") {
         const data = await TDX.query({ kind, city, filter: { keyword } });

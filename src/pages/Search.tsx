@@ -5,7 +5,7 @@ import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useOnSearchEnd } from "#/utils/hooks/search";
 import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { resetEntities } from "#/store/slices/entities";
-import { selectStatus } from "#/store/slices/status";
+import { selectStatus, resetStatus } from "#/store/slices/status";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
 import { EntityList } from "#/feats/entity";
@@ -31,9 +31,10 @@ function Search() {
     // query data
     onSearchEnd();
 
-    // Cleanup on querystring change or unmount.
+    // Reset on querystring change or unmount.
     return () => {
       appDispatch(resetEntities());
+      appDispatch(resetStatus());
     };
   }, [mounted, onSearchEnd, appDispatch]);
 

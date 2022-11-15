@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useMounted } from "#/utils/hooks/lifeCycle";
 import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
-import { selectStatus } from "#/store/slices/status";
+import { selectStatus, resetStatus } from "#/store/slices/status";
 import { loadEntities, resetEntities } from "#/store/slices/entities";
 
 import ContentBoundary from "#/layouts/ContentBoundary";
@@ -25,6 +25,7 @@ function Home() {
     // cleanup
     return () => {
       appDispatch(resetEntities());
+      appDispatch(resetStatus());
     };
   }, [mounted, appDispatch]);
 

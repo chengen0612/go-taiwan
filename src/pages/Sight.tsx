@@ -9,7 +9,7 @@ import {
   loadSight,
   resetSight,
 } from "#/store/slices/sight";
-import { selectStatus, setError } from "#/store/slices/status";
+import { selectStatus, setError, resetStatus } from "#/store/slices/status";
 import { useSightPathInfo } from "#/utils/hooks/pathname";
 import { getCityValue } from "#/utils/constants/city";
 import { getKindValue } from "#/utils/constants/kind";
@@ -44,9 +44,10 @@ function Sight() {
       appDispatch(loadSight(kind, id));
     }
 
-    // Cleanup on sight change or unmount.
+    // Reset on sight change or unmount.
     return () => {
       appDispatch(resetSight());
+      appDispatch(resetStatus());
     };
   }, [mounted, sightPathInfo, appDispatch, navigate]);
 
