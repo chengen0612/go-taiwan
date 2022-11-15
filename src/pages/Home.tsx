@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { selectStatus, resetStatus } from "#/store/slices/status";
 import { loadEntities, resetEntities } from "#/store/slices/entities";
 
-import ContentBoundary from "#/layouts/ContentBoundary";
+import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import { EntityList } from "#/feats/entity";
 import PageLoadingFallback from "#/layouts/PageLoadingFallback";
 import PageErrorFallback from "#/layouts/PageErrorFallback";
@@ -33,11 +33,11 @@ function Home() {
   if (isError && error) return <PageErrorFallback error={error} />;
 
   return (
-    <ContentBoundary>
+    <ResponsiveWrapper>
       {KIND.allKinds.map((kind) => (
         <EntityList key={kind} kind={kind} />
       ))}
-    </ContentBoundary>
+    </ResponsiveWrapper>
   );
 }
 

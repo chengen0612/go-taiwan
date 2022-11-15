@@ -1,7 +1,6 @@
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import ContentBoundary from "#/layouts/ContentBoundary";
+import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import Graphic from "#/components/Graphic";
 
 import { Picture, ErrorBody } from "#/utils/models/base";
@@ -29,24 +28,21 @@ function PageErrorFallback({ error }: PageErrorFallbackProps) {
   const { url, description } = getFallbackPicture(code);
 
   return (
-    <ContentBoundary component="main">
-      <Box
-        sx={{
-          mt: "1.5rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+    <ResponsiveWrapper
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Graphic src={url} alt={description} sx={{ maxWidth: "37.5rem" }} />
+      <Typography
+        component="span"
+        sx={{ mt: "0.5rem", fontSize: { xs: "0.875rem", sm: "1.125rem" } }}
       >
-        <Graphic src={url} alt={description} sx={{ maxWidth: "37.5rem" }} />
-        <Typography
-          component="span"
-          sx={{ mt: "0.5rem", fontSize: { xs: "0.875rem", sm: "1.125rem" } }}
-        >
-          {message ?? DEFAULT_ERROR_MESSAGE}
-        </Typography>
-      </Box>
-    </ContentBoundary>
+        {message ?? DEFAULT_ERROR_MESSAGE}
+      </Typography>
+    </ResponsiveWrapper>
   );
 }
 

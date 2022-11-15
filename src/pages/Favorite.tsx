@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import { useAppSelector } from "#/utils/hooks/store";
 import { selectFavoritesIDsByKind } from "#/store/slices/favorite";
 
+import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import { S, FavoriteCard } from "#/feats/favorite";
 
 import { getKindValue, KIND, Kind } from "#/utils/constants/kind";
@@ -21,7 +22,7 @@ function Favorite() {
   }, []);
 
   return (
-    <S.Root>
+    <ResponsiveWrapper maxWidth="md">
       {/* Tabs */}
       <Tabs value={kind} aria-label="選擇最愛類型" onChange={onTabClick}>
         {KIND.all.map(({ key, value }) => (
@@ -37,7 +38,7 @@ function Favorite() {
               <FavoriteCard key={id} id={id} kind={kind} />
             ))}
       </S.CardList>
-    </S.Root>
+    </ResponsiveWrapper>
   );
 }
 

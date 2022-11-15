@@ -15,6 +15,7 @@ import { getCityValue } from "#/utils/constants/city";
 import { getKindValue } from "#/utils/constants/kind";
 import HTTPError from "#/utils/helpers/http-error";
 
+import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import { S, FavoriteButton, switchSightDetails } from "#/feats/sight";
 import Carousel from "#/components/Carousel";
 import { Entity } from "#/feats/entity";
@@ -58,7 +59,10 @@ function Sight() {
   const { kind, id, city, title, description, pictures } = entity;
 
   return (
-    <S.Main>
+    <ResponsiveWrapper
+      maxWidth="md"
+      sx={{ display: "grid", rowGap: "1.75rem" }}
+    >
       <S.Header>
         <Carousel key={id} pictures={pictures} />
       </S.Header>
@@ -86,7 +90,7 @@ function Sight() {
                 )))}
         </S.Recommendations>
       </S.Section>
-    </S.Main>
+    </ResponsiveWrapper>
   );
 }
 

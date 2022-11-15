@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme, Theme } from "@mui/material/styles";
 import ButtonBase from "@mui/material/ButtonBase";
 
 import * as S from "./styles";
-import ContentBoundary from "#/layouts/ContentBoundary";
+import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import {
   SelectKind,
   SearchInput,
@@ -28,7 +28,7 @@ function Navbar() {
   return (
     <ThemeProvider theme={getNavbarTheme}>
       <S.Root>
-        <ContentBoundary>
+        <ResponsiveWrapper sx={{ mt: "unset" }}>
           <S.UpperHalf>
             {/* Logo */}
             <ButtonBase
@@ -59,7 +59,7 @@ function Navbar() {
             <SlideCity />
             <SearchButton />
           </S.LowerHalf>
-        </ContentBoundary>
+        </ResponsiveWrapper>
       </S.Root>
     </ThemeProvider>
   );

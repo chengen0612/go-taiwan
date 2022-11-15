@@ -1,12 +1,12 @@
 import CircularProgress from "@mui/material/CircularProgress";
 
-import ContentBoundary from "#/layouts/ContentBoundary";
+import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 
 function PageLoadingFallback() {
   return (
-    <ContentBoundary sx={{ mt: "1.5rem", textAlign: "center" }}>
+    <ResponsiveWrapper sx={{ textAlign: "center" }}>
       <CircularProgress />
-    </ContentBoundary>
+    </ResponsiveWrapper>
   );
 }
 

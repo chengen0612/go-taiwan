@@ -1,15 +1,8 @@
 import { memo } from "react";
 import { styled } from "@mui/system";
-import Container from "@mui/material/Container";
 import Tab, { TabProps } from "@mui/material/Tab";
 
 import { Kind } from "#/utils/constants/kind";
-
-const Root = styled(Container)({
-  marginTop: "2.5rem",
-  width: "calc(100% - 3rem)",
-  maxWidth: "48rem",
-});
 
 interface StyledTabProps extends TabProps {
   value: Kind;
@@ -29,4 +22,4 @@ const CardList = styled("div")({
   rowGap: "1rem",
 });
 
-export { Root, CardList, StyledTab as Tab };
+export { CardList, StyledTab as Tab };

@@ -1,13 +1,4 @@
 import { styled } from "@mui/system";
-import Container from "@mui/material/Container";
-
-export const Main = styled(Container)({
-  marginTop: "2.5rem",
-  width: "calc(100% - 3rem)",
-  maxWidth: "48rem",
-  display: "grid",
-  rowGap: "1.75rem",
-});
 
 export const Header = styled("header")({
   aspectRatio: "3 / 2",
