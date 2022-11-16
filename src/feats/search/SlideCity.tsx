@@ -2,12 +2,9 @@ import { memo, useCallback, MouseEventHandler } from "react";
 import { styled } from "@mui/material/styles";
 import ButtonBase, { ButtonBaseProps } from "@mui/material/ButtonBase";
 
-import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
-import {
-  selectSearchCity,
-  setSearch,
-  SetSearchPayload,
-} from "#/store/slices/search";
+import { useAppSelector } from "#/utils/hooks/store";
+import { selectSearchCity, SetSearchPayload } from "#/store/slices/search";
+import { useOnSearchStart } from "#/utils/hooks/search";
 
 import { CITY } from "#/utils/constants/city";
 import { SearchProperty } from "#/utils/models/search";
@@ -42,22 +39,22 @@ const CityButton = memo(
 
 function SlideCity() {
   const selectedCity = useAppSelector(selectSearchCity);
-  const appDispatch = useAppDispatch();
+  const onSearchStart = useOnSearchStart();
 
   const handleClick = useCallback<MouseEventHandler<HTMLElement>>(
     (event) => {
       if (event.target instanceof HTMLElement) {
-        const cityKey = event.target.dataset!.key;
+        const cityKey = event.target.dataset.key;
 
         const payload = {
           searchProperty: SearchProperty.City,
           value: cityKey,
         } as SetSearchPayload;
 
-        appDispatch(setSearch(payload));
+        onSearchStart(payload);
       }
     },
-    [appDispatch]
+    [onSearchStart]
   );
 
   return (

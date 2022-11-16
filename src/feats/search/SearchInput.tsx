@@ -1,4 +1,4 @@
-import { useCallback, ChangeEventHandler } from "react";
+import { useCallback, ChangeEventHandler, KeyboardEventHandler } from "react";
 import InputBase from "@mui/material/InputBase";
 
 import {
@@ -8,19 +8,34 @@ import {
 } from "#/store/slices/search";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { SearchProperty } from "#/utils/models/search";
+import { useOnSearchStart } from "#/utils/hooks/search";
 
 function SearchInput() {
   const keyword = useAppSelector(selectSearchKeyword);
   const appDispatch = useAppDispatch();
+  const onSearchStart = useOnSearchStart();
+
+  const getPayloadFromTarget = useCallback((element: HTMLInputElement) => {
+    const { name: searchProperty, value } = element;
+    return { searchProperty, value } as SetSearchPayload;
+  }, []);
 
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
-      const { name: searchProperty, value } = event.target;
-      const payload = { searchProperty, value } as SetSearchPayload;
-
+      const payload = getPayloadFromTarget(event.target);
       appDispatch(setSearch(payload));
     },
-    [appDispatch]
+    [appDispatch, getPayloadFromTarget]
+  );
+
+  const handleKeyDown = useCallback<KeyboardEventHandler<HTMLInputElement>>(
+    (event) => {
+      if (event.key === "Enter") {
+        const payload = getPayloadFromTarget(event.target as HTMLInputElement);
+        onSearchStart(payload);
+      }
+    },
+    [onSearchStart, getPayloadFromTarget]
   );
 
   return (
@@ -31,6 +46,7 @@ function SearchInput() {
       placeholder="輸入關鍵字..."
       autoComplete="off"
       onChange={handleChange}
+      onKeyDown={handleKeyDown}
       fullWidth
       sx={{
         borderRadius: "2rem",

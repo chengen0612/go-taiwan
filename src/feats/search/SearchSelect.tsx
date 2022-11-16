@@ -3,8 +3,9 @@ import Select, { SelectProps } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
-import { setSearch, SetSearchPayload } from "#/store/slices/search";
+import { useAppSelector } from "#/utils/hooks/store";
+import { SetSearchPayload } from "#/store/slices/search";
+import { useOnSearchStart } from "#/utils/hooks/search";
 
 import { SearchProperty } from "#/utils/models/search";
 
@@ -26,16 +27,16 @@ function SearchSelect(props: SearchSelectProps) {
   const { name, options, selector, sx } = props;
 
   const state = useAppSelector(selector);
-  const appDispatch = useAppDispatch();
+  const onSearchStart = useOnSearchStart();
 
   const handleChange = useCallback<NonNullable<SelectProps["onChange"]>>(
     (event) => {
       const { name: searchProperty, value } = event.target;
       const payload = { searchProperty, value } as SetSearchPayload;
 
-      appDispatch(setSearch(payload));
+      onSearchStart(payload);
     },
-    [appDispatch]
+    [onSearchStart]
   );
 
   return (

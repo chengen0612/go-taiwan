@@ -2,7 +2,12 @@ import { useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "./store";
-import { selectSearch, replaceSearch, SearchKind } from "#/store/slices/search";
+import {
+  selectSearch,
+  replaceSearch,
+  SearchKind,
+  SetSearchPayload,
+} from "#/store/slices/search";
 import { loadEntities } from "#/store/slices/entities";
 
 import { CityName } from "#/utils/constants/city";
@@ -11,11 +16,20 @@ const useOnSearchStart = () => {
   const navigate = useNavigate();
   const search = useAppSelector(selectSearch);
 
-  const handler = useCallback(() => {
-    const { kind, city, keyword } = search;
+  const handler = useCallback(
+    (payload?: SetSearchPayload) => {
+      let nextOptions = search;
 
-    navigate(`/search?kind=${kind}&city=${city}&keyword=${keyword}`);
-  }, [navigate, search]);
+      if (payload) {
+        const { searchProperty, value } = payload;
+        nextOptions = { ...nextOptions, [searchProperty]: value };
+      }
+
+      const { kind, city, keyword } = nextOptions;
+      navigate(`/search?kind=${kind}&city=${city}&keyword=${keyword}`);
+    },
+    [navigate, search]
+  );
 
   return handler;
 };

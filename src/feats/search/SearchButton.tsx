@@ -12,7 +12,7 @@ function SearchButton() {
       type="submit"
       size="large"
       aria-label="search"
-      onClick={onSearchStart}
+      onClick={() => onSearchStart()}
       sx={{ alignSelf: "center", p: "unset" }}
     >
       <Avatar
