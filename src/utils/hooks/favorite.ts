@@ -1,11 +1,10 @@
 import { useCallback, MouseEventHandler } from "react";
 
-import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { selectIsFavorite, toggleFavorite } from "#/store/slices/favorite";
+import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
+import type { AnyEntity } from "#/utils/models/entity";
 
-import { AnyEntity } from "#/utils/models/entity";
-
-const useIsFavorite = (entity: AnyEntity) => {
+export const useIsFavorite = (entity: AnyEntity) => {
   const { kind, id } = entity;
 
   const isFavorite = useAppSelector((store) =>
@@ -15,7 +14,7 @@ const useIsFavorite = (entity: AnyEntity) => {
   return isFavorite;
 };
 
-const useOnFavorite = (entity: AnyEntity) => {
+export const useOnFavorite = (entity: AnyEntity) => {
   const appDispatch = useAppDispatch();
 
   const handler = useCallback<MouseEventHandler>(
@@ -28,5 +27,3 @@ const useOnFavorite = (entity: AnyEntity) => {
 
   return handler;
 };
-
-export { useIsFavorite, useOnFavorite };
