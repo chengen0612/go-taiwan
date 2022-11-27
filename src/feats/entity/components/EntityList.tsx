@@ -1,22 +1,21 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import { useAppSelector } from "#/utils/hooks/store";
 import {
   selectEntitiesIDsByKind,
   selectEntityByKindAndID,
 } from "#/store/slices/entities";
-
-import Entity from "./Entity";
-
+import { useAppSelector } from "#/utils/hooks/store";
 import { KIND, Kind } from "#/utils/constants/kind";
 
-interface MemoizedEntityProps {
+import { Entity } from "./Entity";
+
+interface ConnectedEntityProps {
   kind: Kind;
   entityID: string;
 }
 
-function MemoizedEntity({ kind, entityID }: MemoizedEntityProps) {
+function ConnectedEntity({ kind, entityID }: ConnectedEntityProps) {
   const entity = useAppSelector(selectEntityByKindAndID(kind, entityID));
 
   if (!entity) return null;
@@ -28,7 +27,7 @@ interface EntityListProps {
   kind: Kind;
 }
 
-function EntityList({ kind }: EntityListProps) {
+export function EntityList({ kind }: EntityListProps) {
   const entitiesIDs = useAppSelector(selectEntitiesIDsByKind(kind));
   const { value: kindValue } = KIND.byKind[kind];
 
@@ -48,7 +47,7 @@ function EntityList({ kind }: EntityListProps) {
         {kindValue}
       </Typography>
 
-      {/* Cards */}
+      {/* Cards Grid */}
       <Box
         sx={(theme) => ({
           mt: "1.25rem",
@@ -71,11 +70,9 @@ function EntityList({ kind }: EntityListProps) {
         {entitiesIDs.length === 0
           ? "無符合結果"
           : entitiesIDs.map((id) => (
-              <MemoizedEntity key={id} kind={kind} entityID={id} />
+              <ConnectedEntity key={id} kind={kind} entityID={id} />
             ))}
       </Box>
     </section>
   );
 }
-
-export default EntityList;

@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 
-import { useMounted } from "#/utils/hooks/lifeCycle";
-import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { selectStatus, resetStatus } from "#/store/slices/status";
 import { loadEntities, resetEntities } from "#/store/slices/entities";
-
+import { useMounted } from "#/utils/hooks/lifeCycle";
+import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
+import { KIND } from "#/utils/constants/kind";
 import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
-import { EntityList } from "#/feats/entity";
 import PageLoadingFallback from "#/layouts/PageLoadingFallback";
 import PageErrorFallback from "#/layouts/PageErrorFallback";
-
-import { KIND } from "#/utils/constants/kind";
+import { EntityList } from "#/feats/entity";
 
 function Home() {
-  const mounted = useMounted();
   const appDispatch = useAppDispatch();
+  const mounted = useMounted();
+
   const { loaded, isError, error } = useAppSelector(selectStatus);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ function Home() {
 
     appDispatch(loadEntities());
 
-    // cleanup
+    // Reset on unmount.
     return () => {
       appDispatch(resetEntities());
       appDispatch(resetStatus());

@@ -3,20 +3,18 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import { useSightPath } from "#/utils/hooks/pathname";
-
+import type { AnyEntity } from "#/utils/models/entity";
 import Graphic from "#/components/Graphic";
-import FavoriteButton from "./FavoriteButton";
-import switchEntityInfo from "./switchEntityInfo";
-
-import { AnyEntity } from "#/utils/models/entity";
-
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
+
+import { FavoriteButton } from "./FavoriteButton";
+import { switchEntityInfo } from "../utils/switchEntityInfo";
 
 interface EntityProps {
   entity: AnyEntity;
 }
 
-function Entity({ entity }: EntityProps) {
+export function Entity({ entity }: EntityProps) {
   const { kind, id, title, pictures } = entity;
   const [firstPicture] = pictures;
 
@@ -25,8 +23,8 @@ function Entity({ entity }: EntityProps) {
   return (
     <article>
       <Link to={sightPath}>
+        {/* Media */}
         <Box sx={{ position: "relative", aspectRatio: "4 / 3" }}>
-          {/* Image */}
           <Graphic
             src={firstPicture ? firstPicture.url : NO_IMAGE_PATH}
             alt={firstPicture ? firstPicture.description : "未提供圖片"}
@@ -39,8 +37,6 @@ function Entity({ entity }: EntityProps) {
               overflow: "hidden",
             }}
           />
-
-          {/* Favorite button */}
           <FavoriteButton entity={entity} />
         </Box>
 
@@ -49,12 +45,9 @@ function Entity({ entity }: EntityProps) {
           <Typography component="h4" sx={{ ml: 0.5, fontWeight: 500 }}>
             {title}
           </Typography>
-
           {switchEntityInfo(entity)}
         </Box>
       </Link>
     </article>
   );
 }
-
-export default Entity;

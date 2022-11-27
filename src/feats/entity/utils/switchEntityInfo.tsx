@@ -1,13 +1,11 @@
+import { getPeriod } from "#/services/tdx";
 import { getCityValue } from "#/utils/constants/city";
-import { getPeriod } from "#/services/tdx/helper";
-
+import type { AnyEntity } from "#/utils/models/entity";
 import IconPrefixText, {
   IconPrefixTextProps,
 } from "#/components/IconPrefixText";
 
-import { AnyEntity } from "#/utils/models/entity";
-
-const switchEntityInfo = (entity: AnyEntity) => {
+export const switchEntityInfo = (entity: AnyEntity) => {
   let info: [IconPrefixTextProps["type"], string | undefined][] = [];
   const cityValue = getCityValue(entity.city);
 
@@ -18,7 +16,6 @@ const switchEntityInfo = (entity: AnyEntity) => {
         ["city", cityValue],
         ["date", entity.openTime],
       ];
-
       break;
     }
 
@@ -27,7 +24,6 @@ const switchEntityInfo = (entity: AnyEntity) => {
         ["city", cityValue],
         ["address", entity.address],
       ];
-
       break;
     }
 
@@ -39,14 +35,12 @@ const switchEntityInfo = (entity: AnyEntity) => {
         ["city", cityValue],
         ["date", period],
       ];
-
       break;
     }
 
     default: {
       // eslint-disable-next-line no-underscore-dangle
       const _exhaustedCheck: never = entity;
-
       return _exhaustedCheck;
     }
   }
@@ -59,5 +53,3 @@ const switchEntityInfo = (entity: AnyEntity) => {
     </>
   );
 };
-
-export default switchEntityInfo;

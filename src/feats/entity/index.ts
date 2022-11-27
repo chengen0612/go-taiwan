@@ -1,2 +1,2 @@
-export { default as Entity } from "./Entity";
-export { default as EntityList } from "./EntityList";
+export { Entity } from "./components/Entity";
+export { EntityList } from "./components/EntityList";
