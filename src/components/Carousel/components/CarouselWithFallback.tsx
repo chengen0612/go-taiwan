@@ -1,21 +1,19 @@
 import Box from "@mui/material/Box";
 
-import Root from "./Root";
-import Graphic from "#/components/Graphic";
-
 import type { Picture } from "#/utils/models/base";
-
+import Graphic from "#/components/Graphic";
 import NO_IMAGE_PATH from "#/assets/images/no-image.png";
 
-interface CarouselProps {
+import { Carousel } from "./Carousel";
+
+interface CarouselWithFallbackProps {
   pictures: Picture[];
 }
 
-function Carousel({ pictures }: CarouselProps) {
+export function CarouselWithFallback({ pictures }: CarouselWithFallbackProps) {
   if (pictures.length === 0) {
     return (
       <Box
-        component="figure"
         sx={{
           height: "100%",
           display: "flex",
@@ -40,7 +38,5 @@ function Carousel({ pictures }: CarouselProps) {
     return <Graphic src={url} alt={description} height="100%" width="100%" />;
   }
 
-  return <Root pictures={pictures} />;
+  return <Carousel pictures={pictures} />;
 }
-
-export default Carousel;

@@ -25,7 +25,7 @@ interface ControllersProps {
   onNext: () => void;
 }
 
-function Controllers({ onPrev, onNext }: ControllersProps) {
+export function Controllers({ onPrev, onNext }: ControllersProps) {
   return (
     <>
       <Controller horizontal="left" onClick={onPrev}>
@@ -37,5 +37,3 @@ function Controllers({ onPrev, onNext }: ControllersProps) {
     </>
   );
 }
-
-export default Controllers;

@@ -1,17 +1,16 @@
 import Box from "@mui/material/Box";
 
-import { slideLeft, slideRight, SlideEffect } from "./keyframes";
-
+import type { Picture } from "#/utils/models/base";
 import Graphic from "#/components/Graphic";
 
-import { Picture } from "#/utils/models/base";
+import { slideLeft, slideRight, SlideEffect } from "../utils/keyframes";
 
-interface SlidesProps {
+export interface SlidesProps {
   effect: SlideEffect | "stable";
   pictures: Picture[];
 }
 
-function Slides({ effect, pictures }: SlidesProps) {
+export function Slides({ effect, pictures }: SlidesProps) {
   /**
    * Define content during renders to enforce triggering
    * animation on every change.
@@ -47,6 +46,3 @@ function Slides({ effect, pictures }: SlidesProps) {
     </Box>
   );
 }
-
-export default Slides;
-export type { SlidesProps };

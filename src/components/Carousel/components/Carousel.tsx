@@ -1,17 +1,17 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 
-import Slides, { SlidesProps } from "./Slides";
-import Controllers from "./Controllers";
-import Indicators from "./Indicators";
-
 import type { Picture } from "#/utils/models/base";
 
-interface RootProps {
+import { Slides, SlidesProps } from "./Slides";
+import { Controllers } from "./Controllers";
+import { Indicators } from "./Indicators";
+
+interface CarouselProps {
   pictures: Picture[];
 }
 
-function Root({ pictures: initialPictures }: RootProps) {
+export function Carousel({ pictures: initialPictures }: CarouselProps) {
   const [pictures, setPictures] = useState(initialPictures);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [effect, setEffect] = useState<SlidesProps["effect"]>("stable");
@@ -53,5 +53,3 @@ function Root({ pictures: initialPictures }: RootProps) {
     </Box>
   );
 }
-
-export default Root;

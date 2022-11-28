@@ -21,7 +21,7 @@ interface IndicatorsProps {
   currentIndex: number;
 }
 
-function Indicators({ length, currentIndex }: IndicatorsProps) {
+export function Indicators({ length, currentIndex }: IndicatorsProps) {
   return (
     <Stack
       direction="row"
@@ -41,5 +41,3 @@ function Indicators({ length, currentIndex }: IndicatorsProps) {
     </Stack>
   );
 }
-
-export default Indicators;

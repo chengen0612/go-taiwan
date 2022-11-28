@@ -11,7 +11,6 @@ export const slideLeft = keyframes`
    from {
      transform: translate(0);
    }
- 
    to {
      transform: translate(-100%);
    }
@@ -21,7 +20,6 @@ export const slideRight = keyframes`
    from {
      transform: translate(-100%);
    }
- 
    to {
      transform: translate(0);
    }
