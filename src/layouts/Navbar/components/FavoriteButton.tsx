@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Badge from "@mui/material/Badge";
 
-import { useAppSelector } from "#/utils/hooks/store";
 import { selectFavoriteCount } from "#/store/slices/favorite";
+import { useAppSelector } from "#/utils/hooks/store";
 
-function FavoriteButton() {
+export function FavoriteButton() {
   const count = useAppSelector(selectFavoriteCount);
 
   return (
@@ -23,5 +22,3 @@ function FavoriteButton() {
     </IconButton>
   );
 }
-
-export default FavoriteButton;

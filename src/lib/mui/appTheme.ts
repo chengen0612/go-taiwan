@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
+import { PALETTE } from "#/utils/constants/theme";
+
 const appTheme = createTheme({
   breakpoints: {
     values: {
@@ -18,14 +20,14 @@ const appTheme = createTheme({
   },
   palette: {
     primary: {
-      main: "#3a822c",
+      main: PALETTE.primary,
     },
     secondary: {
-      main: "#65aebd",
+      main: PALETTE.secondary,
       contrastText: "#fff",
     },
     favorite: {
-      main: "#EB5757",
+      main: PALETTE.favorite,
       contrastText: "#fff",
     },
   },

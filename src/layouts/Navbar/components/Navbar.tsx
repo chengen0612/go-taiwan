@@ -3,8 +3,7 @@ import { ThemeProvider, createTheme, Theme } from "@mui/material/styles";
 import ButtonBase from "@mui/material/ButtonBase";
 
 import { useOnHomepageNavigate } from "#/utils/hooks/navigate";
-
-import * as S from "./styles";
+import { PALETTE } from "#/utils/constants/theme";
 import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import {
   SelectKind,
@@ -12,10 +11,10 @@ import {
   SlideCity,
   SearchButton,
 } from "#/feats/search";
-import FavoriteButton from "./FavoriteButton";
 import { ReactComponent as Logo } from "#/assets/images/logo.svg";
 
-const PRIMARY_COLOR = "#3a822c";
+import * as S from "./styles";
+import { FavoriteButton } from "./FavoriteButton";
 
 /* Use provider to target list component and other descendants. */
 const getNavbarTheme = (outerTheme: Theme) =>
@@ -26,7 +25,7 @@ const getNavbarTheme = (outerTheme: Theme) =>
     },
   });
 
-function Navbar() {
+export function Navbar() {
   const onHomepageNavigate = useOnHomepageNavigate();
 
   return (
@@ -47,16 +46,14 @@ function Navbar() {
                 display: { xs: "none", md: "block" },
               }}
             >
-              <Logo height="100%" width="100%" fill={PRIMARY_COLOR} />
+              <Logo height="100%" width="100%" fill={PALETTE.primary} />
             </ButtonBase>
-
-            {/* Search bar */}
+            {/* Search Bar */}
             <S.SearchBar>
               <SelectKind />
               <SearchInput />
             </S.SearchBar>
-
-            {/* Favorite button */}
+            {/* Favorite Button */}
             <FavoriteButton />
           </S.UpperHalf>
 
@@ -69,5 +66,3 @@ function Navbar() {
     </ThemeProvider>
   );
 }
-
-export default Navbar;

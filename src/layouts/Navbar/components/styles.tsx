@@ -1,9 +1,9 @@
 import { styled } from "@mui/material";
 import Container, { ContainerProps } from "@mui/material/Container";
 
-const NAVBAR_HEIGHT = "8.25rem";
+export const NAVBAR_HEIGHT = "8.25rem";
 
-const Root = styled((props: ContainerProps) => (
+export const Root = styled((props: ContainerProps) => (
   <Container {...props} component="nav" />
 ))(({ theme }) => ({
   position: "fixed",
@@ -14,7 +14,7 @@ const Root = styled((props: ContainerProps) => (
     "0px 0px 2px rgba(40, 41, 61, 0.04), 0px 4px 8px rgba(96, 97, 112, 0.16)",
 }));
 
-const UpperHalf = styled("div")({
+export const UpperHalf = styled("div")({
   height: "3.25rem",
   display: "flex",
   justifyContent: "space-between",
@@ -22,7 +22,7 @@ const UpperHalf = styled("div")({
   columnGap: "1.5rem",
 });
 
-const SearchBar = styled("div")({
+export const SearchBar = styled("div")({
   flex: "1",
   display: "grid",
   gridAutoFlow: "column",
@@ -30,10 +30,8 @@ const SearchBar = styled("div")({
   columnGap: "0.5rem",
 });
 
-const LowerHalf = styled("div")({
+export const LowerHalf = styled("div")({
   height: "4rem",
   display: "flex",
   columnGap: "0.75rem",
 });
-
-export { Root, UpperHalf, SearchBar, LowerHalf, NAVBAR_HEIGHT };
