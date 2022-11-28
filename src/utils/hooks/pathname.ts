@@ -7,7 +7,7 @@ import { Kind } from "#/utils/constants/kind";
  * Return the relative path of sight page.
  * The path will content the kind and the id of the entity.
  */
-const useSightPath = (kind: Kind, id: string) => {
+export const useSightPath = (kind: Kind, id: string) => {
   const sightPath = useMemo(() => `/sight/${kind}-${id}`, [kind, id]);
 
   return sightPath;
@@ -25,25 +25,18 @@ const destructSightPath = (pathname: string): SightPathInfo => {
   const sightPathInfoString = pathname.split("/").pop();
 
   if (sightPathInfoString) {
-    const splitted = sightPathInfoString.split("-");
-
-    kind = splitted[0] as SightPathInfo["kind"];
-    id = splitted[1] as SightPathInfo["id"];
+    [kind, id] = sightPathInfoString.split("-");
   }
 
-  return { kind, id };
+  return { kind, id } as SightPathInfo;
 };
 
 /**
  * Return the kind and the id representing current sight page.
  */
-const useSightPathInfo = (): SightPathInfo => {
-  const location = useLocation();
-  const { pathname } = location;
-
+export const useSightPathInfo = (): SightPathInfo => {
+  const { pathname } = useLocation();
   const sightPathInfo = useMemo(() => destructSightPath(pathname), [pathname]);
 
   return sightPathInfo;
 };
-
-export { useSightPath, useSightPathInfo };

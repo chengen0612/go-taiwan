@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
-import { useAppDispatch } from "#/utils/hooks/store";
 import { resetSearch } from "#/store/slices/search";
+import { useAppDispatch } from "#/utils/hooks/store";
 
-const useOnHomepageNavigate = () => {
+export const useOnHomepageNavigate = () => {
   const appDispatch = useAppDispatch();
 
   const handler = useCallback(() => {
@@ -12,5 +12,3 @@ const useOnHomepageNavigate = () => {
 
   return handler;
 };
-
-export { useOnHomepageNavigate };
