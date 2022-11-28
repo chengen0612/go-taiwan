@@ -2,12 +2,12 @@ import { memo, useCallback, MouseEventHandler } from "react";
 import { styled } from "@mui/material/styles";
 import ButtonBase, { ButtonBaseProps } from "@mui/material/ButtonBase";
 
-import { useAppSelector } from "#/utils/hooks/store";
 import { selectSearchCity, SetSearchPayload } from "#/store/slices/search";
-import { useOnSearchStart } from "#/utils/hooks/search";
-
+import { useAppSelector } from "#/utils/hooks/store";
 import { CITY } from "#/utils/constants/city";
 import { SearchProperty } from "#/utils/models/search";
+
+import { useOnSearchStart } from "../hooks";
 
 const Wrapper = styled("div")({
   display: "flex",
@@ -28,7 +28,7 @@ const CityButton = memo(
     shouldForwardProp: (prop) => prop !== "selected",
   })<CityButtonProps>(({ selected, theme }) => ({
     height: "3rem",
-    aspectRatio: "1/1",
+    aspectRatio: "1 / 1",
     borderRadius: "50%",
     fontColor: theme.palette.grey[800],
     ...(selected && {
@@ -37,15 +37,14 @@ const CityButton = memo(
   }))
 );
 
-function SlideCity() {
-  const selectedCity = useAppSelector(selectSearchCity);
+export function SlideCity() {
   const onSearchStart = useOnSearchStart();
+  const selectedCity = useAppSelector(selectSearchCity);
 
   const handleClick = useCallback<MouseEventHandler<HTMLElement>>(
     (event) => {
       if (event.target instanceof HTMLElement) {
         const cityKey = event.target.dataset.key;
-
         const payload = {
           searchProperty: SearchProperty.City,
           value: cityKey,
@@ -72,5 +71,3 @@ function SlideCity() {
     </Wrapper>
   );
 }
-
-export default SlideCity;

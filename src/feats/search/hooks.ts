@@ -1,18 +1,32 @@
-import { useCallback } from "react";
+import { useMemo, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { useAppSelector, useAppDispatch } from "./store";
 import {
   selectSearch,
   replaceSearch,
-  SearchKind,
+  SearchState,
   SetSearchPayload,
 } from "#/store/slices/search";
 import { loadEntities } from "#/store/slices/entities";
+import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 
-import { CityName } from "#/utils/constants/city";
+/**
+ *  Return the search parameters in object shape.
+ */
+export const useSearchPath = () => {
+  const [searchParams] = useSearchParams();
+  const searchParamsObject = useMemo(
+    () => Object.fromEntries(searchParams) as unknown as SearchState,
+    [searchParams]
+  );
 
-const useOnSearchStart = () => {
+  return searchParamsObject;
+};
+
+/**
+ * Navigate to the search page using the options provided.
+ */
+export const useOnSearchStart = () => {
   const navigate = useNavigate();
   const search = useAppSelector(selectSearch);
 
@@ -37,20 +51,14 @@ const useOnSearchStart = () => {
 /**
  * Synchronize search state with query string, query data with result search options.
  */
-const useOnSearchEnd = () => {
-  const [searchParams] = useSearchParams();
+export const useOnSearchEnd = () => {
   const appDispatch = useAppDispatch();
+  const searchParams = useSearchPath();
 
   const handler = useCallback(() => {
-    const kind = searchParams.get("kind") as SearchKind;
-    const city = searchParams.get("city") as CityName;
-    const keyword = searchParams.get("keyword");
-
-    appDispatch(replaceSearch({ kind, city, keyword }));
+    appDispatch(replaceSearch(searchParams));
     appDispatch(loadEntities());
-  }, [searchParams, appDispatch]);
+  }, [appDispatch, searchParams]);
 
   return handler;
 };
-
-export { useOnSearchStart, useOnSearchEnd };

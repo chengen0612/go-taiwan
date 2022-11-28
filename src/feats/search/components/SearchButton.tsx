@@ -2,9 +2,9 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { useOnSearchStart } from "#/utils/hooks/search";
+import { useOnSearchStart } from "../hooks";
 
-function SearchButton() {
+export function SearchButton() {
   const onSearchStart = useOnSearchStart();
 
   return (
@@ -27,5 +27,3 @@ function SearchButton() {
     </IconButton>
   );
 }
-
-export default SearchButton;

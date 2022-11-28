@@ -1,26 +1,21 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import { resetEntities } from "#/store/slices/entities";
 import { selectStatus, resetStatus } from "#/store/slices/status";
-import type { SearchKind } from "#/store/slices/search";
 import { useAppDispatch, useAppSelector } from "#/utils/hooks/store";
 import { useMounted } from "#/utils/hooks/lifeCycle";
-import { useOnSearchEnd } from "#/utils/hooks/search";
 import { KIND } from "#/utils/constants/kind";
 import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import PageLoadingFallback from "#/layouts/PageLoadingFallback";
 import PageErrorFallback from "#/layouts/PageErrorFallback";
 import { EntityList } from "#/feats/entity";
+import { useSearchPath, useOnSearchEnd } from "#/feats/search";
 
 function Search() {
   const appDispatch = useAppDispatch();
   const mounted = useMounted();
-
-  const [searchParams] = useSearchParams();
-  // Use query string to decide which kind of data to display.
-  const searchKind = searchParams.get("kind") as SearchKind;
-
+  // Display data based on the kind parameter set in the query string.
+  const { kind: searchKind } = useSearchPath();
   const onSearchEnd = useOnSearchEnd();
   const { loaded, isError, error } = useAppSelector(selectStatus);
 

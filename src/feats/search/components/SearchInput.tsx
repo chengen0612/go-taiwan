@@ -8,12 +8,13 @@ import {
 } from "#/store/slices/search";
 import { useAppSelector, useAppDispatch } from "#/utils/hooks/store";
 import { SearchProperty } from "#/utils/models/search";
-import { useOnSearchStart } from "#/utils/hooks/search";
 
-function SearchInput() {
-  const keyword = useAppSelector(selectSearchKeyword);
+import { useOnSearchStart } from "../hooks";
+
+export function SearchInput() {
   const appDispatch = useAppDispatch();
   const onSearchStart = useOnSearchStart();
+  const keyword = useAppSelector(selectSearchKeyword);
 
   const getPayloadFromTarget = useCallback((element: HTMLInputElement) => {
     const { name: searchProperty, value } = element;
@@ -56,5 +57,3 @@ function SearchInput() {
     />
   );
 }
-
-export default SearchInput;
