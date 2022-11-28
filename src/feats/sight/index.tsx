@@ -1,3 +1,3 @@
-export * as S from "./styles";
-export { default as FavoriteButton } from "./FavoriteButton";
-export { default as switchSightDetails } from "./switchSightDetails";
+export { Header } from "./components/Header";
+export { Introduction } from "./components/Introduction";
+export { Recommendations } from "./components/Recommendations";

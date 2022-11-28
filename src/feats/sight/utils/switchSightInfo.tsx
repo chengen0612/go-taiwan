@@ -1,12 +1,10 @@
 import { getPeriod } from "#/services/tdx";
-
+import type { AnyEntity } from "#/utils/models/entity";
 import IconPrefixText, {
   IconPrefixTextProps,
 } from "#/components/IconPrefixText";
 
-import { AnyEntity } from "#/utils/models/entity";
-
-const switchSightDetails = (entity: AnyEntity) => {
+export const switchSightInfo = (entity: AnyEntity) => {
   let info: [IconPrefixTextProps["type"], string | undefined][] = [];
 
   switch (entity.kind) {
@@ -17,7 +15,6 @@ const switchSightDetails = (entity: AnyEntity) => {
         ["time", entity.openTime],
         ["phone", entity.phone],
       ];
-
       break;
     }
 
@@ -26,7 +23,6 @@ const switchSightDetails = (entity: AnyEntity) => {
         ["address", entity.address],
         ["phone", entity.phone],
       ];
-
       break;
     }
 
@@ -39,7 +35,6 @@ const switchSightDetails = (entity: AnyEntity) => {
         ["time", period],
         ["phone", entity.phone],
       ];
-
       break;
     }
 
@@ -59,5 +54,3 @@ const switchSightDetails = (entity: AnyEntity) => {
     </>
   );
 };
-
-export default switchSightDetails;

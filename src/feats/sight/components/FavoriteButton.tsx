@@ -3,14 +3,13 @@ import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { useIsFavorite, useOnFavorite } from "#/utils/hooks/favorite";
-
-import { AnyEntity } from "#/utils/models/entity";
+import type { AnyEntity } from "#/utils/models/entity";
 
 interface FavoriteButtonProps {
   entity: AnyEntity;
 }
 
-function FavoriteButton({ entity }: FavoriteButtonProps) {
+export const FavoriteButton = memo(({ entity }: FavoriteButtonProps) => {
   const isFavorite = useIsFavorite(entity);
   const onFavorite = useOnFavorite(entity);
 
@@ -19,6 +18,4 @@ function FavoriteButton({ entity }: FavoriteButtonProps) {
       <FavoriteIcon sx={{ color: isFavorite ? "favorite.main" : "grey" }} />
     </IconButton>
   );
-}
-
-export default memo(FavoriteButton);
+});
