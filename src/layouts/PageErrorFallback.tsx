@@ -1,10 +1,8 @@
 import Typography from "@mui/material/Typography";
 
+import type { Picture, ErrorBody } from "#/utils/models/base";
 import ResponsiveWrapper from "#/layouts/ResponsiveWrapper";
 import Graphic from "#/components/Graphic";
-
-import { Picture, ErrorBody } from "#/utils/models/base";
-
 import NOT_FOUND_PATH from "#/assets/images/not-found.png";
 import SAD_PATH from "#/assets/images/sad.png";
 

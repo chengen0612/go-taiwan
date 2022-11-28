@@ -1,6 +1,5 @@
-import PageErrorFallback from "#/layouts/PageErrorFallback";
-
 import { getErrorMessage } from "#/utils/helpers/http-error";
+import PageErrorFallback from "#/layouts/PageErrorFallback";
 
 function NotFound() {
   return (

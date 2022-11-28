@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Box from "@mui/system/Box";
 
+import { NAVBAR_HEIGHT } from "#/layouts/Navbar";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import FloatingBar from "./FloatingBar";
-
-import { NAVBAR_HEIGHT } from "#/layouts/Navbar";
 
 function PageLayout() {
   return (

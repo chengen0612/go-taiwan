@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import SvgIcon from "@mui/material/SvgIcon";
 import PlaceIcon from "@mui/icons-material/Place";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -9,21 +8,22 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 type PrefixIconType = "city" | "date" | "time" | "address" | "phone";
 
-const typeIconMap: Record<PrefixIconType, typeof SvgIcon> = {
-  city: PlaceIcon,
-  date: DateRangeIcon,
-  time: AccessTimeIcon,
-  address: DirectionsCarIcon,
-  phone: PhoneIcon,
-};
-
-interface IconPrefixTextProps {
+export interface IconPrefixTextProps {
   type: PrefixIconType;
   value: string;
 }
 
+const getPrefixIcon = (type: PrefixIconType) =>
+  ({
+    city: PlaceIcon,
+    date: DateRangeIcon,
+    time: AccessTimeIcon,
+    address: DirectionsCarIcon,
+    phone: PhoneIcon,
+  }[type]);
+
 function IconPrefixText({ type, value }: IconPrefixTextProps) {
-  const Icon = typeIconMap[type];
+  const PrefixIcon = getPrefixIcon(type);
 
   return (
     <Box
@@ -36,7 +36,7 @@ function IconPrefixText({ type, value }: IconPrefixTextProps) {
         color: "grey.500",
       }}
     >
-      <Icon />
+      <PrefixIcon />
       <Typography
         component="p"
         sx={{
@@ -52,4 +52,3 @@ function IconPrefixText({ type, value }: IconPrefixTextProps) {
 }
 
 export default IconPrefixText;
-export type { IconPrefixTextProps };

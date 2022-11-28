@@ -4,10 +4,9 @@ import Fab from "@mui/material/Fab";
 import Badge from "@mui/material/Badge";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-import { useAppSelector } from "#/utils/hooks/store";
 import { selectFavoriteCount } from "#/store/slices/favorite";
+import { useAppSelector } from "#/utils/hooks/store";
 import { useOnHomepageNavigate } from "#/utils/hooks/navigate";
-
 import { ReactComponent as Taiwan } from "#/assets/icons/taiwan.svg";
 
 function FloatingBar() {
