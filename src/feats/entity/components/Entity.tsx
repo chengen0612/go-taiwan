@@ -17,6 +17,7 @@ interface EntityProps {
 export function Entity({ entity }: EntityProps) {
   const { kind, id, title, pictures } = entity;
   const [firstPicture] = pictures;
+  const hasPicture = !!firstPicture;
 
   const sightPath = useSightPath(kind, id);
 
@@ -26,14 +27,16 @@ export function Entity({ entity }: EntityProps) {
         {/* Media */}
         <Box sx={{ position: "relative", aspectRatio: "4 / 3" }}>
           <Graphic
-            src={firstPicture ? firstPicture.url : NO_IMAGE_PATH}
-            alt={firstPicture ? firstPicture.description : "未提供圖片"}
-            height="100%"
-            width="100%"
-            objectFit={firstPicture ? "cover" : "contain"}
-            sx={{
+            src={hasPicture ? firstPicture.url : NO_IMAGE_PATH}
+            alt={hasPicture ? firstPicture.description : "未提供圖片"}
+            figureSx={{
+              height: "100%",
+              width: "100%",
+            }}
+            imageSx={{
               borderRadius: 4,
-              bgcolor: firstPicture ? "unset" : "common.white",
+              objectFit: hasPicture ? "cover" : "contain",
+              bgcolor: hasPicture ? "unset" : "common.white",
               overflow: "hidden",
             }}
           />

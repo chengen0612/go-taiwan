@@ -69,17 +69,19 @@ export function FavoriteCard({ kind, id }: FavoriteCardProps) {
           <Graphic
             src={hasPicture ? firstPicture.url : NO_IMAGE_PATH}
             alt={hasPicture ? firstPicture.description : "未提供圖片"}
-            height="100%"
-            aspectRatio="1 / 1"
-            objectFit={hasPicture ? "cover" : "contain"}
-            sx={{
+            figureSx={{
               alignSelf: "center",
+              aspectRatio: "1 / 1",
+              height: "100%",
               width: "24%",
               minWidth: "6rem",
               maxWidth: "8rem",
               borderRadius: "0.5rem",
               bgcolor: hasPicture ? "unset" : "common.white",
               overflow: "hidden",
+            }}
+            imageSx={{
+              objectFit: hasPicture ? "unset" : "common.white",
             }}
           />
 

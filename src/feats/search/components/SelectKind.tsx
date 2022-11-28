@@ -8,7 +8,8 @@ import { SearchSelect, SearchSelectProps } from "./SearchSelect";
 type Option = MemberOf<SearchSelectProps["options"]>;
 type SelectKindOptions = (Option & { key: SearchKind })[];
 
-const options: SelectKindOptions = [...KIND.all, { key: "all", value: "全部" }];
+// The order of the options is relative to the view.
+const options: SelectKindOptions = [{ key: "all", value: "全部" }, ...KIND.all];
 
 export function SelectKind() {
   return (

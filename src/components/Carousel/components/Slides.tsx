@@ -24,8 +24,8 @@ export function Slides({ effect, pictures }: SlidesProps) {
             key={url}
             src={url}
             alt={description}
-            width="100%"
-            sx={{
+            figureSx={{
+              width: "100%",
               flexShrink: 0,
               ...(effect === "slide-left" && {
                 animation: `${slideLeft} ease 1500ms both`,
