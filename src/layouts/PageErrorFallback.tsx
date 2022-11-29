@@ -33,7 +33,7 @@ function PageErrorFallback({ error }: PageErrorFallbackProps) {
         alignItems: "center",
       }}
     >
-      <Graphic src={url} alt={description} sx={{ maxWidth: "37.5rem" }} />
+      <Graphic src={url} alt={description} figureSx={{ maxWidth: "37.5rem" }} />
       <Typography
         component="span"
         sx={{ mt: "0.5rem", fontSize: { xs: "0.875rem", sm: "1.125rem" } }}
