@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ScrollToTop from "#/utils/helpers/ScrollToTop";
 import PageLayout from "#/layouts/PageLayout";
+
 import * as Pages from "./pages";
 
 function App() {

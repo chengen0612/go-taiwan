@@ -2,14 +2,13 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 
 import TDX from "#/services/tdx";
-
-import { Kind } from "#/utils/constants/kind";
-import { AnyEntity } from "#/utils/models/entity";
-import { RootState, AppThunk } from "#/store";
-import { setLoaded, setError } from "#/store/slices/status";
 import HTTPError from "#/utils/helpers/http-error";
+import type { Kind } from "#/utils/constants/kind";
+import type { AnonymousError } from "#/utils/models/base";
+import type { AnyEntity } from "#/utils/models/entity";
 
-import { AnonymousError } from "#/utils/models/base";
+import { setLoaded, setError } from "./status";
+import type { RootState, AppThunk } from "..";
 
 interface SightState {
   entity?: AnyEntity;

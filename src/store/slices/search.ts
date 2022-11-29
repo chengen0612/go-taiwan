@@ -1,11 +1,11 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { SearchProperty } from "#/utils/models/search";
-import { CITY, CityName } from "#/utils/constants/city";
-
 import type { Kind } from "#/utils/constants/kind";
-import type { RootState } from "#/store";
+import { CITY, CityName } from "#/utils/constants/city";
+import { SearchProperty } from "#/utils/models/search";
+
+import type { RootState } from "..";
 
 /* Main */
 export interface SearchState {

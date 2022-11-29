@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
-import { normalize, Normalized } from "#/utils/helpers/normalize";
 import TDX from "#/services/tdx";
-import { Kind } from "#/utils/constants/kind";
+import { normalize, Normalized } from "#/utils/helpers/normalize";
+import type { Kind } from "#/utils/constants/kind";
+import type { KindEntityMap, AnyEntity } from "#/utils/models/entity";
+import type { AnonymousError } from "#/utils/models/base";
+
 import { selectSearch } from "./search";
 import { setLoaded, setError } from "./status";
-
-import type { RootState, AppDispatch } from "#/store";
-import type { KindEntityMap, AnyEntity } from "#/utils/models/entity";
-import { AnonymousError } from "#/utils/models/base";
+import type { RootState, AppDispatch } from "..";
 
 /* Main */
 type EntitiesState = {

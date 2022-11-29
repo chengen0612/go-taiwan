@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
-import { Normalized } from "#/utils/helpers/normalize";
+import type { Normalized } from "#/utils/helpers/normalize";
+import type { Kind } from "#/utils/constants/kind";
+import type { KindEntityMap, AnyEntity } from "#/utils/models/entity";
 
-import { Kind } from "#/utils/constants/kind";
-import { KindEntityMap, AnyEntity } from "#/utils/models/entity";
-import { RootState } from "#/store";
+import type { RootState } from "..";
 
 /* Main */
 type Entities = {

@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 
-import { RootState } from "#/store";
-import { ErrorBody } from "#/utils/models/base";
+import type { ErrorBody } from "#/utils/models/base";
+
+import type { RootState } from "..";
 
 /* Main */
 interface StatusState {
