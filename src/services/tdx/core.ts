@@ -1,23 +1,24 @@
 /* eslint-disable class-methods-use-this */
+
+import type { SearchKind } from "#/store/slices/search";
+import HTTPError from "#/utils/helpers/http-error";
 import { getTDXPathName, Kind } from "#/utils/constants/kind";
 import { getTDXCityName, CityName } from "#/utils/constants/city";
-import { getFilterString, Filter } from "./helper";
+
+import { getFilterString, Filter } from "./utils/construct";
 import {
   parseScenicSpot,
   parseRestaurant,
   parseHotel,
   parseActivity,
-} from "./parser";
-import HTTPError from "#/utils/helpers/http-error";
-
+} from "./utils/parse";
 import type {
   TDXScenicSpot,
   TDXRestaurant,
   TDXHotel,
   TDXActivity,
   AnyTDXEntity,
-} from "#/utils/models/tdx";
-import type { SearchKind } from "#/store/slices/search";
+} from "./models";
 
 interface UnstableParams {
   [key: string]: string | number | undefined;

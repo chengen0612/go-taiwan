@@ -1,4 +1,4 @@
 import { TDXService } from "./core";
 
 export default new TDXService();
-export { getPeriod } from "./helper";
+export { getPeriod } from "./utils/construct";

@@ -1,4 +1,11 @@
 import { getCityNameByValue, CityValue } from "#/utils/constants/city";
+import type { Picture, Position } from "#/utils/models/base";
+import type {
+  ScenicSpotEntity,
+  RestaurantEntity,
+  HotelEntity,
+  ActivityEntity,
+} from "#/utils/models/entity";
 
 import type {
   TDXPicture,
@@ -7,14 +14,7 @@ import type {
   TDXRestaurant,
   TDXHotel,
   TDXActivity,
-} from "#/utils/models/tdx";
-import type {
-  ScenicSpotEntity,
-  RestaurantEntity,
-  HotelEntity,
-  ActivityEntity,
-} from "#/utils/models/entity";
-import type { Picture, Position } from "#/utils/models/base";
+} from "../models";
 
 const createPicture = (url: string, description: string): Picture => ({
   url,

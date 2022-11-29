@@ -1,3 +1,5 @@
+/* These types represent the response data from the TDX tourism api. */
+
 /* URLs and descriptions are not always provided in pairs. */
 export interface TDXPicture {
   PictureUrl1?: string;
