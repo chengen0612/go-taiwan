@@ -23,7 +23,19 @@ export function Entity({ entity }: EntityProps) {
 
   return (
     <article>
-      <Link to={sightPath}>
+      <Box
+        component={Link}
+        to={sightPath}
+        sx={(theme) => ({
+          display: "block",
+          height: "100%",
+          borderRadius: 4,
+          p: 2.5,
+          "&:hover": {
+            backgroundColor: theme.palette.grey[200],
+          },
+        })}
+      >
         {/* Media */}
         <Box sx={{ position: "relative", aspectRatio: "4 / 3" }}>
           <Graphic
@@ -50,7 +62,7 @@ export function Entity({ entity }: EntityProps) {
           </Typography>
           {switchEntityInfo(entity)}
         </Box>
-      </Link>
+      </Box>
     </article>
   );
 }

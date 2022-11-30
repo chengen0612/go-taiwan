@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -11,6 +12,7 @@ type PrefixIconType = "city" | "date" | "time" | "address" | "phone";
 export interface IconPrefixTextProps {
   type: PrefixIconType;
   value: string;
+  clamp?: number; // line
 }
 
 const getPrefixIcon = (type: PrefixIconType) =>
@@ -22,7 +24,14 @@ const getPrefixIcon = (type: PrefixIconType) =>
     phone: PhoneIcon,
   }[type]);
 
-function IconPrefixText({ type, value }: IconPrefixTextProps) {
+const getClampStyles = (clamp: number) => ({
+  display: "-webkit-box",
+  WebkitLineClamp: clamp,
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+});
+
+function IconPrefixText({ type, value, clamp }: IconPrefixTextProps) {
   const PrefixIcon = getPrefixIcon(type);
 
   return (
@@ -43,6 +52,7 @@ function IconPrefixText({ type, value }: IconPrefixTextProps) {
           pt: 0.25,
           fontSize: "inherit",
           overflowWrap: "anywhere",
+          ...(clamp && getClampStyles(clamp)),
         }}
       >
         {value}

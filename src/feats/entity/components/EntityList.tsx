@@ -52,7 +52,6 @@ export function EntityList({ kind }: EntityListProps) {
         sx={(theme) => ({
           mt: "1.25rem",
           display: "grid",
-          gap: "1.5rem",
           [theme.breakpoints.up("sm")]: {
             gridTemplateColumns: "repeat(2, 1fr)",
           },

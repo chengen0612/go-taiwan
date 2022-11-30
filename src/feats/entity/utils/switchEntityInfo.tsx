@@ -48,7 +48,12 @@ export const switchEntityInfo = (entity: AnyEntity) => {
   return (
     <>
       {info.map(([type, value]) => (
-        <IconPrefixText key={type} type={type} value={value || "無資訊"} />
+        <IconPrefixText
+          key={type}
+          type={type}
+          value={value || "無資訊"}
+          clamp={2}
+        />
       ))}
     </>
   );
