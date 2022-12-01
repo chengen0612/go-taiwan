@@ -1,10 +1,30 @@
 import { configureStore } from "@reduxjs/toolkit";
 import type { AnyAction, ThunkAction } from "@reduxjs/toolkit";
-import { persistStore } from "redux-persist";
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
 import rootReducer from "./rootReducer";
 
-export const store = configureStore({ reducer: rootReducer });
+export const store = configureStore({
+  reducer: rootReducer,
+  /**
+   * Add workaround to resolve non-serializable value warnings when using redux-persist.
+   * @see https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
+   */
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
