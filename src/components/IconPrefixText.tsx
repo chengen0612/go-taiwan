@@ -1,4 +1,3 @@
-import { CSSProperties } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PlaceIcon from "@mui/icons-material/Place";

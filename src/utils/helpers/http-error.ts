@@ -10,7 +10,7 @@ const DEFAULT_ERROR_MESSAGE =
   "Oops，似乎發生了一點問題，請嘗試其他搜尋或稍後再回來";
 const SERVER_ERROR_MESSAGE = "目前無法取得資料，請稍後再試";
 
-const getErrorMessage = (code: RecordedErrorCode) =>
+export const getErrorMessage = (code: RecordedErrorCode) =>
   ({
     403: "很抱歉，您沒有權限訪問此資料",
     404: "您所訪問的頁面不存在，請嘗試其他搜尋",
@@ -29,4 +29,3 @@ class HTTPError extends Error {
 }
 
 export default HTTPError;
-export { getErrorMessage };

@@ -50,7 +50,7 @@ const parsePosition = (position: TDXPosition): Position => ({
 const parseClasses = (...args: (string | undefined)[]) =>
   args.filter<string>((value): value is string => !!value);
 
-const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
+export const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
   items.map((item) => ({
     kind: "attraction",
     id: item.ScenicSpotID,
@@ -66,7 +66,7 @@ const parseScenicSpot = (items: TDXScenicSpot[]): ScenicSpotEntity[] =>
     openTime: item.OpenTime,
   }));
 
-const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
+export const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
   items.map((item) => ({
     kind: "food",
     id: item.RestaurantID,
@@ -82,7 +82,7 @@ const parseRestaurant = (items: TDXRestaurant[]): RestaurantEntity[] =>
     openTime: item.OpenTime,
   }));
 
-const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
+export const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
   items.map((item) => ({
     kind: "hotel",
     id: item.HotelID,
@@ -98,7 +98,7 @@ const parseHotel = (items: TDXHotel[]): HotelEntity[] =>
     parkingInfo: item.ParkingInfo,
   }));
 
-const parseActivity = (items: TDXActivity[]): ActivityEntity[] =>
+export const parseActivity = (items: TDXActivity[]): ActivityEntity[] =>
   items.map((item) => ({
     kind: "activity",
     id: item.ActivityID,
@@ -120,5 +120,3 @@ const parseActivity = (items: TDXActivity[]): ActivityEntity[] =>
     charge: item.Charge,
     remarks: item.Remarks,
   }));
-
-export { parseScenicSpot, parseRestaurant, parseHotel, parseActivity };
